@@ -1,0 +1,62 @@
+[
+  {
+    "id": "pilar-1",
+    "nomor": 1,
+    "judul": "Kewirausahaan & Manajemen",
+    "ikon": "TrendingUp",
+    "warna": "blue",
+    "ringkasan": "Membangun fondasi usaha yang kuat: dari modal awal, menghitung harga pokok produksi (HPP), menetapkan harga jual, hingga menghitung titik impas (BEP).",
+    "materi": [
+      { "judul": "Mengenal Kewirausahaan Dasar", "deskripsi": "Mindset pelaku usaha, identifikasi potensi diri dan lingkungan." },
+      { "judul": "Perhitungan Modal & HPP", "deskripsi": "Cara menghitung biaya produksi abon, kerupuk, dan tepung tulang ikan secara akurat." },
+      { "judul": "Strategi Penetapan Harga", "deskripsi": "Menentukan harga jual yang kompetitif dan menguntungkan berdasarkan HPP + margin." },
+      { "judul": "Break Even Point (BEP)", "deskripsi": "Kapan usaha mulai balik modal dan bagaimana meningkatkan volume penjualan." },
+      { "judul": "Pencatatan Keuangan Sederhana", "deskripsi": "Buku kas, nota penjualan, dan laporan laba/rugi harian untuk UMKM." }
+    ]
+  },
+  {
+    "id": "pilar-2",
+    "nomor": 2,
+    "judul": "Produksi Berkelanjutan",
+    "ikon": "Leaf",
+    "warna": "green",
+    "ringkasan": "SOP produksi higienis, checklist kebersihan fasilitas dan peralatan, cara mempertahankan kualitas produk dari hulu ke hilir.",
+    "materi": [
+      { "judul": "SOP Produksi Abon Ikan", "deskripsi": "Langkah-langkah produksi abon ikan tongkol dari pemilihan bahan baku hingga pengemasan." },
+      { "judul": "SOP Produksi Kerupuk Kulit Ikan", "deskripsi": "Proses pengolahan kulit ikan menjadi kerupuk renyah berkualitas." },
+      { "judul": "SOP Tepung Tulang Ikan", "deskripsi": "Pengolahan limbah tulang ikan menjadi tepung bernilai gizi tinggi." },
+      { "judul": "Checklist Higienitas Produksi", "deskripsi": "Standar kebersihan dapur, peralatan, dan personal hygiene pelaku usaha." },
+      { "judul": "Manajemen Kualitas Produk", "deskripsi": "Tips menjaga konsistensi rasa, tekstur, dan daya tahan produk." }
+    ]
+  },
+  {
+    "id": "pilar-3",
+    "nomor": 3,
+    "judul": "Digitalisasi & Branding",
+    "ikon": "Smartphone",
+    "warna": "purple",
+    "ringkasan": "Membuat identitas merek yang kuat: logo, kemasan menarik, foto produk profesional, hingga strategi pemasaran di Instagram, TikTok, dan Shopee.",
+    "materi": [
+      { "judul": "Pembuatan Logo & Identitas Merek", "deskripsi": "Cara membuat logo sederhana menggunakan Canva, pemilihan warna dan tipografi." },
+      { "judul": "Desain Kemasan Produk", "deskripsi": "Kriteria kemasan yang menarik: label, informasi produk, dan daya tarik visual." },
+      { "judul": "Fotografi Produk dengan HP", "deskripsi": "Tips foto katalog profesional menggunakan smartphone: pencahayaan, background, dan komposisi." },
+      { "judul": "Membuat Akun Marketplace", "deskripsi": "Panduan membuka toko di Shopee, Instagram Shop, dan TikTok Shop." },
+      { "judul": "Strategi Konten & Promosi", "deskripsi": "Cara membuat konten yang menarik, caption, hashtag, dan strategi live selling." }
+    ]
+  },
+  {
+    "id": "pilar-4",
+    "nomor": 4,
+    "judul": "Legalitas & Keberlanjutan",
+    "ikon": "Shield",
+    "warna": "orange",
+    "ringkasan": "Memastikan usaha legal dan berkelanjutan: pendaftaran NIB, sertifikasi halal, izin PIRT, identifikasi saluran distribusi, dan rencana usaha jangka panjang.",
+    "materi": [
+      { "judul": "Nomor Induk Berusaha (NIB)", "deskripsi": "Cara mendaftar NIB secara online melalui OSS (Online Single Submission) — gratis dan mudah." },
+      { "judul": "Sertifikasi Halal MUI", "deskripsi": "Prosedur pengajuan sertifikasi halal untuk UMKM, persyaratan, dan timeline proses." },
+      { "judul": "Izin Usaha PIRT", "deskripsi": "Pentingnya izin PIRT dari Dinas Kesehatan untuk produk pangan olahan rumahan." },
+      { "judul": "Saluran Distribusi & Penjualan", "deskripsi": "Identifikasi toko, pasar, dan mitra offline potensial di Bangkalan dan sekitarnya." },
+      { "judul": "Rencana Bisnis Berkelanjutan", "deskripsi": "Membuat rencana usaha sederhana untuk keberlanjutan kelompok usaha jangka panjang." }
+    ]
+  }
+]

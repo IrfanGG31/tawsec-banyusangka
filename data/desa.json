@@ -1,0 +1,65 @@
+{
+  "nama": "Desa Banyusangka",
+  "kecamatan": "Tanjung Bumi",
+  "kabupaten": "Bangkalan",
+  "provinsi": "Jawa Timur",
+  "pulau": "Madura",
+  "luas_km2": 1.2,
+  "koordinat": {
+    "lintang": "6°53'5.70\" LS",
+    "bujur": "113°1'44.50\" BT",
+    "lat": -6.884917,
+    "lng": 113.029028
+  },
+  "batas_wilayah": {
+    "utara": "Laut Jawa",
+    "selatan": "Desa Banyusangka Tengah",
+    "timur": "Desa Telaga Biru",
+    "barat": "Desa Banyusangka Barat"
+  },
+  "catatan_data": "Data kependudukan merujuk tahun 2010. Disarankan verifikasi ke kantor Desa Banyusangka untuk data terkini.",
+  "jumlah_penduduk_tetap": 2628,
+  "jumlah_dusun": 4,
+  "dusun": [
+    { "nama": "Karang Laok", "laki": 240, "perempuan": 246, "total": 486 },
+    { "nama": "Timur", "laki": 748, "perempuan": 769, "total": 1517 },
+    { "nama": "Tengah", "laki": 310, "perempuan": 315, "total": 625 },
+    { "nama": "Barat Sungai", "laki": 362, "perempuan": 373, "total": 735 }
+  ],
+  "pendidikan": [
+    { "tingkat": "Tidak/Belum Sekolah", "jumlah": 312 },
+    { "tingkat": "SD/Sederajat", "jumlah": 1124 },
+    { "tingkat": "SMP/Sederajat", "jumlah": 587 },
+    { "tingkat": "SMA/Sederajat", "jumlah": 423 },
+    { "tingkat": "Diploma/S1+", "jumlah": 182 }
+  ],
+  "mata_pencaharian": [
+    { "pekerjaan": "Nelayan Tetap", "jumlah": 621, "persen": 90 },
+    { "pekerjaan": "Petani", "jumlah": 35, "persen": 5 },
+    { "pekerjaan": "PNS/TNI/Polri", "jumlah": 14, "persen": 2 },
+    { "pekerjaan": "Pedagang/Wiraswasta", "jumlah": 20, "persen": 2 },
+    { "pekerjaan": "Lain-lain", "jumlah": 7, "persen": 1 }
+  ],
+  "agama": {
+    "dominan": "Islam",
+    "persen": 100,
+    "sarana_ibadah": [
+      { "jenis": "Masjid", "jumlah": 1 },
+      { "jenis": "Langgar/Surau", "jumlah": 4 }
+    ]
+  },
+  "perikanan": {
+    "jenis_ikan_utama": ["Ikan Layang", "Ikan Tongkol"],
+    "volume_tangkapan_harian_kg": "100–300 kg",
+    "volume_musim_puncak_kg": "> 1.000 kg",
+    "penjualan_mentah_persen": 85,
+    "food_loss_persen": "20–35",
+    "fasilitas": {
+      "nama": "Pangkalan Pendaratan Ikan (PPI) Banyusangka",
+      "tipe": "D",
+      "tahun_berdiri": 1978,
+      "pengelola": "Koperasi Tani Nelayan (Koptanel)"
+    }
+  },
+  "kelembagaan_desa": ["PKK", "Kelompok Nelayan", "Karang Taruna", "LPMD", "BUMDes Wijaya Kusuma", "Pemerintah Desa"]
+}

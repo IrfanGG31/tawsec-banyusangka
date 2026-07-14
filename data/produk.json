@@ -1,0 +1,65 @@
+[
+  {
+    "id": "abon-ikan-tongkol",
+    "nama": "Abon Ikan Tongkol",
+    "kategori": "Abon",
+    "tagline": "Gurih, kaya protein, khas nelayan Banyusangka",
+    "deskripsi": "Abon ikan tongkol olahan higienis khas Banyusangka, dibuat dari ikan tongkol segar hasil tangkapan nelayan lokal di PPI Banyusangka. Diproses menggunakan metode tradisional yang telah disempurnakan melalui pelatihan program TAWSEC, menghasilkan abon dengan cita rasa gurih dan tekstur lembut yang khas.",
+    "varian": [
+      { "ukuran": "100g", "harga": 25000 },
+      { "ukuran": "250g", "harga": 55000 },
+      { "ukuran": "500g", "harga": 100000 }
+    ],
+    "komposisi": ["Ikan tongkol segar", "Bawang merah", "Bawang putih", "Ketumbar", "Gula merah", "Garam", "Rempah pilihan"],
+    "cara_penyimpanan": "Simpan di tempat kering dan sejuk. Hindari paparan sinar matahari langsung. Tahan hingga 3 bulan dalam kondisi tersegel.",
+    "produsen": "KUB Perempuan Banyusangka",
+    "status_halal": "Dalam proses sertifikasi",
+    "berat_bersih": "Sesuai varian",
+    "foto": ["/images/produk/abon-ikan-1.png", "/images/produk/abon-ikan-2.png"],
+    "kontak_wa": "6281234567890",
+    "pesan_wa": "Halo, saya ingin memesan Abon Ikan Tongkol dari TAWSEC Banyusangka.",
+    "tersedia": true
+  },
+  {
+    "id": "kerupuk-kulit-ikan",
+    "nama": "Kerupuk Kulit Ikan",
+    "kategori": "Kerupuk",
+    "tagline": "Renyah, krispy, dari laut langsung ke meja makan",
+    "deskripsi": "Kerupuk berbahan dasar kulit ikan layang dan tongkol segar dari perairan Banyusangka. Diproses secara higienis tanpa pengawet buatan, menghasilkan kerupuk dengan tekstur renyah dan rasa gurih alami khas hasil laut Madura. Cocok sebagai camilan atau pelengkap makan.",
+    "varian": [
+      { "ukuran": "100g", "harga": 15000 },
+      { "ukuran": "250g", "harga": 35000 },
+      { "ukuran": "500g", "harga": 65000 }
+    ],
+    "komposisi": ["Kulit ikan layang/tongkol", "Tepung tapioka", "Bawang putih", "Garam", "Bumbu alami"],
+    "cara_penyimpanan": "Simpan di wadah kedap udara. Hindari kelembapan. Tahan hingga 2 bulan dalam kondisi kering.",
+    "produsen": "KUB Perempuan Banyusangka",
+    "status_halal": "Dalam proses sertifikasi",
+    "berat_bersih": "Sesuai varian",
+    "foto": ["/images/produk/kerupuk-ikan-1.png", "/images/produk/kerupuk-ikan-2.png"],
+    "kontak_wa": "6281234567890",
+    "pesan_wa": "Halo, saya ingin memesan Kerupuk Kulit Ikan dari TAWSEC Banyusangka.",
+    "tersedia": true
+  },
+  {
+    "id": "tepung-tulang-ikan",
+    "nama": "Tepung Tulang Ikan",
+    "kategori": "Tepung",
+    "tagline": "Kaya kalsium, zero waste, inovasi dari laut",
+    "deskripsi": "Tepung berbahan dasar tulang ikan layang dan tongkol yang diolah melalui proses pengeringan dan penggilingan higienis. Kaya kalsium dan mineral alami, cocok digunakan sebagai bahan campuran makanan bergizi, pakan ternak, maupun pupuk organik. Produk inovatif yang mengubah limbah menjadi nilai ekonomi tinggi.",
+    "varian": [
+      { "ukuran": "250g", "harga": 20000 },
+      { "ukuran": "500g", "harga": 35000 },
+      { "ukuran": "1kg", "harga": 65000 }
+    ],
+    "komposisi": ["Tulang ikan layang/tongkol", "Diproses tanpa bahan kimia tambahan"],
+    "cara_penyimpanan": "Simpan di tempat kering dan sejuk dalam kemasan tersegel. Tahan hingga 6 bulan.",
+    "produsen": "KUB Perempuan Banyusangka",
+    "status_halal": "Dalam proses sertifikasi",
+    "berat_bersih": "Sesuai varian",
+    "foto": ["/images/produk/tepung-tulang-1.png", "/images/produk/tepung-tulang-2.png"],
+    "kontak_wa": "6281234567890",
+    "pesan_wa": "Halo, saya ingin memesan Tepung Tulang Ikan dari TAWSEC Banyusangka.",
+    "tersedia": true
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "g1",
+    "judul": "Pelatihan Kewirausahaan",
+    "deskripsi": "Sesi pelatihan kewirausahaan dan manajemen usaha bersama ibu-ibu peserta program TAWSEC.",
+    "kategori": "Pelatihan",
+    "foto": "/images/galeri/pelatihan-1.png",
+    "tanggal": "Juli 2026"
+  },
+  {
+    "id": "g2",
+    "judul": "Praktek Produksi Abon Ikan",
+    "deskripsi": "Peserta program mempraktekkan pembuatan abon ikan tongkol sesuai SOP produksi higienis.",
+    "kategori": "Produksi",
+    "foto": "/images/galeri/produksi-1.png",
+    "tanggal": "Juli 2026"
+  },
+  {
+    "id": "g3",
+    "judul": "Aktivitas Nelayan Banyusangka",
+    "deskripsi": "Nelayan Desa Banyusangka mendarat dengan hasil tangkapan ikan layang dan tongkol segar.",
+    "kategori": "Desa",
+    "foto": "/images/galeri/nelayan-1.png",
+    "tanggal": "Juli 2026"
+  },
+  {
+    "id": "g4",
+    "judul": "Pameran Produk UMKM",
+    "deskripsi": "Display produk-produk UMKM olahan laut hasil program TAWSEC: abon, kerupuk, dan tepung tulang ikan.",
+    "kategori": "Produk",
+    "foto": "/images/galeri/display-1.png",
+    "tanggal": "Juli 2026"
+  }
+]

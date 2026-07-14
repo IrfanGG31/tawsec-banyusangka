@@ -1,0 +1,20 @@
+{
+  "mahasiswa_kkn": [
+    { "nama": "Nama Mahasiswa 1", "fakultas": "Ekonomi & Bisnis", "peran": "Koordinator Program & Pemasaran Digital", "foto": "/images/tim/placeholder.png" },
+    { "nama": "Nama Mahasiswa 2", "fakultas": "Kesehatan Masyarakat", "peran": "Pengolahan Pangan & Higienitas Produksi", "foto": "/images/tim/placeholder.png" },
+    { "nama": "Nama Mahasiswa 3", "fakultas": "Hukum", "peran": "Legalitas Usaha & Sertifikasi", "foto": "/images/tim/placeholder.png" },
+    { "nama": "Nama Mahasiswa 4", "fakultas": "Ilmu Sosial & Ilmu Politik", "peran": "Pemberdayaan Komunitas", "foto": "/images/tim/placeholder.png" },
+    { "nama": "Nama Mahasiswa 5", "fakultas": "Sains & Teknologi", "peran": "Dokumentasi & Desain Branding", "foto": "/images/tim/placeholder.png" }
+  ],
+  "dosen_pembimbing": [
+    { "nama": "Nama Dosen Pembimbing", "jabatan": "Dosen Pembimbing KKN TAWSEC", "institusi": "LPMB Universitas Airlangga", "foto": "/images/tim/placeholder.png" }
+  ],
+  "mitra_desa": [
+    { "nama": "PKK Desa Banyusangka", "peran": "Mitra Penggerak Perempuan", "icon": "users" },
+    { "nama": "Kelompok Nelayan", "peran": "Penyuplai Bahan Baku Ikan", "icon": "anchor" },
+    { "nama": "Karang Taruna", "peran": "Dukungan Pemuda & Digitalisasi", "icon": "star" },
+    { "nama": "LPMD", "peran": "Lembaga Pemberdayaan Masyarakat", "icon": "building" },
+    { "nama": "BUMDes Wijaya Kusuma", "peran": "Mitra Bisnis & Distribusi", "icon": "briefcase" },
+    { "nama": "Pemerintah Desa Banyusangka", "peran": "Fasilitator & Dukungan Kelembagaan", "icon": "landmark" }
+  ]
+}
