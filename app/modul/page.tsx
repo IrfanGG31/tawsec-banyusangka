@@ -36,10 +36,20 @@ export default function ModulPage() {
               Pusat Referensi Materi
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">Modul &amp; Pelatihan</h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
+            <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
               Materi lengkap 4 pilar program TAWSEC — dapat diakses ulang oleh peserta kapan
               saja sebagai referensi dalam menjalankan usaha.
             </p>
+            <div className="flex justify-center">
+              <a
+                href="/modul/Modul-Lengkap-TAWSEC.pdf"
+                download
+                className="inline-flex items-center gap-2.5 bg-sunset-500 hover:bg-sunset-600 text-white font-bold px-8 py-4 rounded-2xl text-base shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <Download className="w-5 h-5" />
+                Unduh Buku Modul Lengkap (PDF)
+              </a>
+            </div>
           </FadeIn>
         </div>
       </div>
@@ -99,27 +109,6 @@ export default function ModulPage() {
                     ))}
                   </div>
 
-                  <div className="mt-4 flex gap-3">
-                    {pilar.file_pdf ? (
-                      <a
-                        href={pilar.file_pdf}
-                        download
-                        className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all hover:shadow-md"
-                      >
-                        <Download className="w-4 h-4" />
-                        Unduh Modul PDF
-                      </a>
-                    ) : (
-                      <button
-                        disabled
-                        className="flex items-center gap-2 bg-gray-100 text-gray-400 text-sm px-4 py-2.5 rounded-xl cursor-not-allowed"
-                        title="PDF modul akan tersedia segera"
-                      >
-                        <Download className="w-4 h-4" />
-                        Unduh Modul PDF (Segera)
-                      </button>
-                    )}
-                  </div>
                 </section>
               </FadeIn>
             );
