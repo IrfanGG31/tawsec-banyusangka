@@ -130,11 +130,13 @@ export default function Footer() {
                   key={sdg.num}
                   className="flex items-center gap-2 p-2 bg-navy-800 rounded-lg"
                 >
-                  <div
-                    className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 text-white font-bold text-xs"
-                    style={{ backgroundColor: sdg.color }}
-                  >
-                    {sdg.num}
+                  <div className="relative w-8 h-8 rounded-md overflow-hidden shadow-md flex-shrink-0">
+                    <Image
+                      src={`/images/sdgs/sdg-${sdg.num}.svg`}
+                      alt={`SDG ${sdg.num} Icon`}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <span className="text-navy-400 text-xs leading-tight">{sdg.label}</span>
                 </div>
