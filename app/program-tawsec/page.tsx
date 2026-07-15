@@ -97,11 +97,13 @@ function SdgCard({ sdg }: { sdg: typeof sdgsData[0] }) {
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-4">
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md flex-shrink-0"
-            style={{ backgroundColor: sdg.color }}
-          >
-            {sdg.num}
+          <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-md flex-shrink-0">
+            <Image
+              src={`/images/sdgs/sdg-${sdg.num}.svg`}
+              alt={`SDG ${sdg.num} Icon`}
+              fill
+              className="object-cover"
+            />
           </div>
           <div>
             <h3 className="font-serif font-bold text-navy-950 text-base leading-snug">

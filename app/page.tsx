@@ -230,8 +230,13 @@ export default function HomePage() {
                   <StaggerItem key={sdg.num}>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors group">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-8 h-8 ${sdg.color} text-white font-bold rounded-lg flex items-center justify-center text-sm shadow-md`}>
-                          {sdg.num}
+                        <div className="relative w-8 h-8 rounded-lg overflow-hidden shadow-md flex-shrink-0">
+                          <Image
+                            src={`/images/sdgs/sdg-${sdg.num}.svg`}
+                            alt={`SDG ${sdg.num} Icon`}
+                            fill
+                            className="object-cover"
+                          />
                         </div>
                         <span className="font-bold text-xs sm:text-sm tracking-tight text-white/90">
                           {sdg.judul}
