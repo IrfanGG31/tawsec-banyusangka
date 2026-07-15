@@ -1,4 +1,5 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
+import Image from "next/image";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import timData from "@/data/tim.json";
 import { Users, Anchor, Star, Building, Briefcase, Landmark, GraduationCap } from "lucide-react";
@@ -45,8 +46,13 @@ export default function TimMitraPage() {
             <div className="flex flex-wrap gap-6 justify-center">
               {timData.dosen_pembimbing.map((d, i) => (
                 <div key={i} className="bg-white border border-gray-200 rounded-3xl p-8 shadow-md text-center max-w-xs w-full">
-                  <div className="w-24 h-24 bg-gradient-ocean rounded-2xl flex items-center justify-center mx-auto mb-4 text-5xl shadow-lg">
-                    👨🏫
+                  <div className="relative w-24 h-24 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 p-4 shadow-inner">
+                    <Image
+                      src="/images/logos/logo-unair-biru.png"
+                      alt="Logo UNAIR"
+                      fill
+                      className="object-contain p-2"
+                    />
                   </div>
                   <h3 className="font-serif font-bold text-navy-900 text-xl mb-1">{d.nama}</h3>
                   <p className="text-primary-600 font-semibold text-sm mb-1">{d.jabatan}</p>
@@ -71,7 +77,7 @@ export default function TimMitraPage() {
               <StaggerItem key={i}>
                 <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow text-center">
                   <div className="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl">
-                    👩🎓
+                    👩‍🎓
                   </div>
                   <h3 className="font-serif font-bold text-navy-900 text-lg mb-1">{m.nama}</h3>
                   <p className="text-primary-600 text-xs font-semibold uppercase tracking-wider mb-2">{m.fakultas}</p>
@@ -110,14 +116,36 @@ export default function TimMitraPage() {
 
         {/* Institusi */}
         <FadeIn>
-          <div className="bg-gradient-ocean rounded-3xl p-8 text-white text-center">
-            <div className="text-5xl mb-4">🎓</div>
-            <h3 className="font-serif font-bold text-2xl mb-2">LPMB Universitas Airlangga</h3>
-            <p className="text-white/70 max-w-xl mx-auto text-sm leading-relaxed">
-              Program TAWSEC diselenggarakan oleh Lembaga Penelitian dan Pengabdian kepada Masyarakat Bersama (LPMB)
-              Universitas Airlangga sebagai bentuk nyata tri dharma perguruan tinggi dalam memajukan
-              kesejahteraan masyarakat pesisir Indonesia.
-            </p>
+          <div className="bg-gradient-ocean rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl">
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            <div className="relative z-10 flex flex-col items-center gap-6">
+              <div className="flex gap-6 items-center">
+                <div className="relative w-20 h-20 bg-white p-2.5 rounded-2xl shadow-md">
+                  <Image
+                    src="/images/logos/logo-unair-biru.png"
+                    alt="Logo UNAIR"
+                    fill
+                    className="object-contain p-1"
+                  />
+                </div>
+                <div className="relative w-20 h-20 bg-white p-2 rounded-2xl shadow-md">
+                  <Image
+                    src="/images/logos/logo-acses.png"
+                    alt="Logo ACSES"
+                    fill
+                    className="object-contain p-1"
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-2xl mb-2">LPMB Universitas Airlangga &amp; ACSES</h3>
+                <p className="text-white/80 max-w-xl mx-auto text-sm leading-relaxed">
+                  Program TAWSEC diselenggarakan oleh Lembaga Pengabdian Masyarakat Berkelanjutan (LPMB) Universitas Airlangga berkolaborasi dengan ACSES (Association of Certified Sustainability Practitioners) sebagai aksi nyata pemecahan kemiskinan dan keberlanjutan wilayah pesisir.
+                </p>
+              </div>
+            </div>
           </div>
         </FadeIn>
       </div>

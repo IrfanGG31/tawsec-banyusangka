@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import modulData from "@/data/modul.json";
@@ -8,7 +9,6 @@ import {
   TrendingUp, Leaf, Smartphone, Shield,
   ChevronDown, ChevronUp, ExternalLink
 } from "lucide-react";
-import type { Metadata } from "next";
 
 const iconMap: Record<string, React.ReactNode> = {
   TrendingUp: <TrendingUp className="w-7 h-7" />,
@@ -48,32 +48,100 @@ const colorMap: Record<string, { bg: string; border: string; badge: string; pill
   },
 };
 
-const sdgs = [
+const sdgsData = [
   {
     num: 1,
     judul: "Tanpa Kemiskinan",
-    desc: "Meningkatkan pendapatan perempuan nelayan melalui nilai tambah produk olahan laut.",
-    color: "#e5243b",
+    fokusGlobal: "Mengakhiri kemiskinan dalam segala bentuk",
+    pemetaanLokal: "Meningkatkan pendapatan ibu-ibu ngojur lewat produk olahan bernilai tambah (abon, kerupuk, tepung tulang ikan) — dari harga ikan mentah Rp1.000–3.000/kg jadi produk Rp25.000–50.000",
+    color: "#E5243B",
+    badge: "UNAIR Peringkat 1 Nasional (SDG 1)",
   },
   {
     num: 5,
     judul: "Kesetaraan Gender",
-    desc: "Memberdayakan perempuan pelaku ngojur agar memiliki akses ekonomi dan kemandirian usaha.",
-    color: "#ef402d",
+    fokusGlobal: "Kesetaraan gender & pemberdayaan perempuan",
+    pemetaanLokal: "Sasaran utama program adalah perempuan pelaku ngojur — pelatihan kewirausahaan, manajemen usaha, dan akses digital agar perempuan pesisir naik kelas jadi pelaku UMKM mandiri",
+    color: "#FF3A21",
+    badge: "UNAIR Top-36 Dunia (SDG 5)",
   },
   {
     num: 8,
     judul: "Pekerjaan Layak & Pertumbuhan Ekonomi",
-    desc: "Menciptakan lapangan kerja produktif berbasis pengolahan hasil laut di desa pesisir.",
-    color: "#a21942",
+    fokusGlobal: "Pekerjaan layak & pertumbuhan ekonomi inklusif",
+    pemetaanLokal: "Transformasi kerja informal (jual sisa tangkapan) menjadi usaha formal dengan legalitas (NIB, sertifikasi halal) dan manajemen usaha yang layak",
+    color: "#A21942",
+    badge: null,
   },
   {
     num: 14,
     judul: "Ekosistem Laut",
-    desc: "Mendorong pemanfaatan ikan secara bijak dan mengurangi food loss melalui pengolahan total.",
-    color: "#0a97d9",
+    fokusGlobal: "Konservasi & pemanfaatan berkelanjutan sumberdaya laut",
+    pemetaanLokal: "Mengurangi food loss 20–35% saat panen raya lewat pengolahan, sehingga hasil laut termanfaatkan optimal, bukan terbuang",
+    color: "#0A97D9",
+    badge: null,
   },
 ];
+
+function SdgCard({ sdg }: { sdg: typeof sdgsData[0] }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div
+      onClick={() => setIsOpen(!isOpen)}
+      className={`rounded-2xl border border-gray-100 p-5 bg-white shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 ${
+        isOpen ? "ring-2 ring-primary-500" : ""
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-4">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md flex-shrink-0"
+            style={{ backgroundColor: sdg.color }}
+          >
+            {sdg.num}
+          </div>
+          <div>
+            <h3 className="font-serif font-bold text-navy-950 text-base leading-snug">
+              {sdg.judul}
+            </h3>
+            {sdg.badge && (
+              <span className="inline-block bg-primary-50 text-primary-700 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1.5 border border-primary-100">
+                🏆 {sdg.badge}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="text-navy-400 mt-1 flex-shrink-0">
+          {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+        </div>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="mt-4 pt-4 border-t border-gray-100 space-y-3 text-xs sm:text-sm">
+              <div>
+                <p className="font-semibold text-navy-400 uppercase tracking-wider text-[10px]">Fokus Global</p>
+                <p className="text-navy-600 mt-0.5">{sdg.fokusGlobal}</p>
+              </div>
+              <div>
+                <p className="font-semibold text-primary-600 uppercase tracking-wider text-[10px]">Relevansi di Banyusangka</p>
+                <p className="text-navy-800 font-medium mt-0.5 leading-relaxed">{sdg.pemetaanLokal}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function PilarCard({ pilar }: { pilar: (typeof modulData)[0] }) {
   const [open, setOpen] = useState(false);
@@ -214,36 +282,97 @@ export default function ProgramTawsecPage() {
         </section>
 
         {/* SDGs */}
-        <FadeIn>
-          <section>
+        <section>
+          <FadeIn>
             <div className="text-center mb-10">
               <span className="text-emerald-600 font-semibold text-sm uppercase tracking-widest">Kontribusi Global</span>
-              <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2 mb-3">Kaitan dengan SDGs</h2>
+              <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2 mb-3">Kaitan dengan SDGs &amp; Komitmen UNAIR</h2>
               <p className="text-navy-500 max-w-xl mx-auto">
-                Program TAWSEC berkontribusi pada 4 Tujuan Pembangunan Berkelanjutan PBB.
+                Program TAWSEC berkontribusi nyata pada 4 Tujuan Pembangunan Berkelanjutan PBB (SDGs) yang sejalan dengan kompetensi global Universitas Airlangga.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {sdgs.map((s) => (
-                <div
-                  key={s.num}
-                  className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-shadow"
-                >
-                  <div
-                    className="text-white p-4 text-center"
-                    style={{ backgroundColor: s.color }}
-                  >
-                    <div className="font-bold text-4xl mb-1">{s.num}</div>
-                    <div className="text-sm font-semibold leading-tight">{s.judul}</div>
+          </FadeIn>
+
+          {/* Banner Capaian UNAIR */}
+          <FadeIn>
+            <div className="bg-gradient-to-r from-primary-900 to-navy-900 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl mb-8">
+              <div className="absolute top-0 right-0 opacity-10 translate-x-10 -translate-y-10 pointer-events-none">
+                <div className="w-80 h-80 bg-white rounded-full blur-2xl" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+                <div className="md:col-span-8 space-y-4">
+                  <span className="inline-block bg-white/10 border border-white/20 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                    THE Sustainability Impact Rankings 2026
+                  </span>
+                  <h3 className="font-serif font-bold text-2xl sm:text-3xl">
+                    Universitas Airlangga: Rekor Dunia untuk Keberlanjutan
+                  </h3>
+                  <p className="text-white/80 text-sm leading-relaxed">
+                    Berdasarkan pemeringkatan Times Higher Education (THE) 2026, UNAIR menempati peringkat <strong>#15 dunia</strong> dan <strong>#1 di Indonesia</strong>. Kontribusi ini diimplementasikan nyata di Banyusangka, khususnya pada SDG 1 (No Poverty - Peringkat 1 Nasional) dan SDG 5 (Gender Equality - Top 36 Dunia).
+                  </p>
+                </div>
+                <div className="md:col-span-4 grid grid-cols-3 gap-2 text-center border-t md:border-t-0 md:border-l border-white/20 pt-4 md:pt-0 md:pl-6">
+                  <div className="space-y-1">
+                    <p className="text-2xl sm:text-3xl font-extrabold text-primary-300 font-serif">#15</p>
+                    <p className="text-[9px] text-white/60 font-semibold uppercase">Dunia</p>
                   </div>
-                  <div className="p-4 bg-white">
-                    <p className="text-navy-600 text-xs leading-relaxed">{s.desc}</p>
+                  <div className="space-y-1">
+                    <p className="text-2xl sm:text-3xl font-extrabold text-emerald-300 font-serif">#1</p>
+                    <p className="text-[9px] text-white/60 font-semibold uppercase">Indonesia</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-2xl sm:text-3xl font-extrabold text-yellow-300 font-serif">95.7</p>
+                    <p className="text-[9px] text-white/60 font-semibold uppercase">Skor THE</p>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </section>
-        </FadeIn>
+          </FadeIn>
+
+          {/* Grid 4 Kartu SDG */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {sdgsData.map((s) => (
+              <FadeIn key={s.num}>
+                <SdgCard sdg={s} />
+              </FadeIn>
+            ))}
+          </div>
+
+          {/* Footer Section: LPMB/UNAIR Logo */}
+          <FadeIn>
+            <div className="mt-8 bg-gray-50 border border-gray-100 rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-6">
+                <div className="relative w-12 h-12 flex-shrink-0">
+                  <Image
+                    src="/images/logos/logo-unair-biru.png"
+                    alt="Logo UNAIR"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="relative w-36 h-12 flex-shrink-0">
+                  <Image
+                    src="/images/logos/logo-sdgs-unair.png"
+                    alt="Logo SDGs UNAIR"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="text-center sm:text-right">
+                <p className="text-xs text-navy-500 font-medium leading-relaxed">
+                  Program pengabdian masyarakat berkelanjutan TAWSEC di bawah naungan
+                </p>
+                <p className="text-xs font-bold text-navy-950">
+                  LPMB (Lembaga Pengabdian Masyarakat Berkelanjutan) Universitas Airlangga
+                </p>
+                <p className="text-[9px] text-navy-400 mt-1 italic">
+                  * Sumber data pemeringkatan resmi Times Higher Education (THE) rilis 24 Juni 2026.
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+        </section>
 
         {/* Progress */}
         <FadeIn>

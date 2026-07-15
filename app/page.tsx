@@ -88,11 +88,19 @@ export default function HomePage() {
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-20">
           <FadeIn delay={0.1}>
+            <div className="flex justify-center mb-6">
+              <div className="relative w-24 h-24 bg-white/95 backdrop-blur-md p-3 rounded-3xl shadow-2xl border border-white/20 hover:scale-105 transition-transform duration-300">
+                <Image
+                  src="/images/logos/logo-tawsec.png"
+                  alt="Logo TAWSEC"
+                  fill
+                  className="object-contain p-2.5"
+                />
+              </div>
+            </div>
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
-              <Fish className="w-4 h-4 text-primary-300" />
-              Program KKN LPMB Universitas Airlangga
               <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              Aktif 2026
+              Program KKN LPMB Universitas Airlangga 2026
             </div>
           </FadeIn>
 
@@ -161,6 +169,124 @@ export default function HomePage() {
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ===== KOMITMEN SDGs & UNAIR ===== */}
+      <section className="bg-gradient-to-br from-primary-900 to-navy-950 text-white py-16 overflow-hidden relative">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-primary-400 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Column: Text Content */}
+            <div className="lg:col-span-7 space-y-6">
+              <FadeIn>
+                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-primary-200 text-xs font-semibold uppercase tracking-wider px-4 py-2 rounded-full">
+                  🌍 Tri Dharma &amp; Global Goals
+                </div>
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-3 leading-tight">
+                  Bagian dari Komitmen SDGs Universitas Airlangga
+                </h2>
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed mt-4">
+                  Program TAWSEC merupakan wujud nyata kontribusi UNAIR — peringkat <strong>#15 dunia</strong> &amp; <strong>nomor 1 Indonesia</strong> dalam <em>THE Sustainability Impact Rankings 2026</em> — untuk pemberdayaan ekonomi pesisir berkelanjutan di Desa Banyusangka.
+                </p>
+              </FadeIn>
+
+              {/* Grid 4 SDG Cards */}
+              <StaggerContainer className="grid grid-cols-2 gap-4">
+                {[
+                  {
+                    num: 1,
+                    judul: "Tanpa Kemiskinan",
+                    color: "bg-[#E5243B]",
+                    textColor: "text-[#E5243B]",
+                    desc: "Peningkatan pendapatan perempuan nelayan lewat produk olahan laut bernilai tinggi.",
+                  },
+                  {
+                    num: 5,
+                    judul: "Kesetaraan Gender",
+                    color: "bg-[#FF3A21]",
+                    textColor: "text-[#FF3A21]",
+                    desc: "Pemberdayaan ekonomi perempuan pelaku ngojur menjadi wirausaha mandiri.",
+                  },
+                  {
+                    num: 8,
+                    judul: "Pekerjaan Layak",
+                    color: "bg-[#A21942]",
+                    textColor: "text-[#A21942]",
+                    desc: "Formalisasi kerja informal menjadi usaha berlegalitas (NIB & Halal).",
+                  },
+                  {
+                    num: 14,
+                    judul: "Ekosistem Laut",
+                    color: "bg-[#0A97D9]",
+                    textColor: "text-[#0A97D9]",
+                    desc: "Mengurangi food loss hasil tangkapan ikan layang & tongkol sebesar 20-35%.",
+                  },
+                ].map((sdg) => (
+                  <StaggerItem key={sdg.num}>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors group">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={`w-8 h-8 ${sdg.color} text-white font-bold rounded-lg flex items-center justify-center text-sm shadow-md`}>
+                          {sdg.num}
+                        </div>
+                        <span className="font-bold text-xs sm:text-sm tracking-tight text-white/90">
+                          {sdg.judul}
+                        </span>
+                      </div>
+                      <p className="text-white/60 text-xs leading-relaxed group-hover:text-white/80 transition-colors">
+                        {sdg.desc}
+                      </p>
+                    </div>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+
+              <FadeIn>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <Link
+                    href="/program-tawsec"
+                    id="sdgs-pelajari-lebih-lanjut"
+                    className="inline-flex items-center gap-2 bg-white text-navy-900 font-bold px-6 py-3 rounded-xl hover:shadow-xl hover:scale-105 transition-all text-sm"
+                  >
+                    Pelajari Selengkapnya
+                    <ArrowRight className="w-4 h-4 text-primary-600" />
+                  </Link>
+                  <span className="text-[10px] text-white/40 italic">
+                    * Sumber: THE Sustainability Impact Rankings 2026
+                  </span>
+                </div>
+              </FadeIn>
+            </div>
+
+            {/* Right Column: Visual Supporting Image */}
+            <div className="lg:col-span-5 flex justify-center items-center">
+              <FadeIn direction="right" className="relative w-full max-w-[340px] aspect-square">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/20 to-emerald-500/20 rounded-full blur-2xl animate-pulse" />
+                <div className="relative w-full h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-center gap-6 shadow-2xl hover:border-white/20 transition-all">
+                  <div className="relative w-full aspect-[1.914] max-w-[260px]">
+                    <Image
+                      src="/images/logos/logo-sdgs-color-wheel-unair-branding.png"
+                      alt="SDGs UNAIR Colour Wheel"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-semibold text-primary-200 tracking-widest uppercase">
+                      Sustainable Development Goals
+                    </p>
+                    <p className="text-[10px] text-white/50 mt-1 leading-relaxed">
+                      Universitas Airlangga berkomitmen penuh mendukung pencapaian SDGs global melalui pengabdian masyarakat pesisir.
+                    </p>
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
         </div>
       </section>
 

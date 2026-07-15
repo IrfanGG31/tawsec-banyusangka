@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Fish, MapPin, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { MapPin, ExternalLink } from "lucide-react";
 
 const quickLinks = [
   { href: "/tentang-desa", label: "Tentang Desa" },
@@ -40,8 +41,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-ocean rounded-xl flex items-center justify-center">
-                <Fish className="w-6 h-6 text-white" />
+              <div className="relative w-10 h-10 bg-white/10 rounded-xl p-0.5">
+                <Image
+                  src="/images/logos/logo-tawsec.png"
+                  alt="Logo TAWSEC"
+                  fill
+                  className="object-contain p-0.5"
+                />
               </div>
               <div>
                 <span className="font-serif font-bold text-lg block leading-none">TAWSEC</span>
@@ -143,9 +149,17 @@ export default function Footer() {
             © {currentYear} TAWSEC Banyusangka — Program KKN LPMB Universitas Airlangga.
             <br className="sm:hidden" /> Dibangun dengan ❤️ untuk kemajuan UMKM pesisir Madura.
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="text-navy-500 text-xs">Didukung oleh:</span>
-            <span className="text-primary-400 font-semibold text-xs">LPMB Unair</span>
+            <div className="relative w-6 h-6">
+              <Image
+                src="/images/logos/logo-unair-biru.png"
+                alt="UNAIR"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <span className="text-primary-400 font-semibold text-xs">LPMB UNAIR</span>
           </div>
         </div>
       </div>

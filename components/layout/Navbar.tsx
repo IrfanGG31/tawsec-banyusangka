@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Fish, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Beranda" },
   { href: "/tentang-desa", label: "Tentang Desa" },
   { href: "/program-tawsec", label: "Program TAWSEC" },
-  { href: "/katalog", label: "Katalog Produk" },
-  { href: "/modul", label: "Modul & Pelatihan" },
+  { href: "/katalog", label: "Katalog" },
+  { href: "/modul", label: "Modul" },
   { href: "/galeri", label: "Galeri" },
   { href: "/tim-mitra", label: "Tim & Mitra" },
   { href: "/kontak", label: "Kontak" },
@@ -37,8 +38,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-gradient-ocean rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <Fish className="w-5 h-5 text-white" />
+            <div className="relative w-9 h-9 group-hover:scale-105 transition-transform bg-white/10 rounded-lg p-0.5">
+              <Image
+                src="/images/logos/logo-tawsec.png"
+                alt="Logo TAWSEC"
+                fill
+                className="object-contain p-0.5"
+              />
             </div>
             <div className="leading-tight">
               <span
