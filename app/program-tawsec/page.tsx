@@ -5,9 +5,11 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import modulData from "@/data/modul.json";
+import visiMisiData from "@/data/visi-misi.json";
+import { ProgressTracker } from "@/components/ProgressTracker";
 import {
   TrendingUp, Leaf, Smartphone, Shield,
-  ChevronDown, ChevronUp, ExternalLink
+  ChevronDown, ChevronUp, Target, Eye
 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -209,7 +211,8 @@ export default function ProgramTawsecPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <FadeIn>
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-sm px-4 py-2 rounded-full mb-6">
-              Program KKN LPMB Universitas Airlangga • Desa Banyusangka 2026
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              ACSES & UNAIR Sustainability Program • Desa Banyusangka 2026
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">
               Program TAWSEC
@@ -226,6 +229,48 @@ export default function ProgramTawsecPage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 space-y-20">
+        {/* Visi & Misi */}
+        <FadeIn>
+          <section>
+            <div className="text-center mb-10">
+              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Fondasi Program</span>
+              <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2">Visi &amp; Misi TAWSEC</h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Visi */}
+              <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
+                  <div className="w-48 h-48 bg-white rounded-full -translate-y-12 translate-x-12" />
+                </div>
+                <div className="relative z-10">
+                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-5">
+                    <Eye className="w-6 h-6 text-white" />
+                  </div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-primary-200 mb-3">Visi</p>
+                  <p className="font-serif font-bold text-xl leading-relaxed">{visiMisiData.visi}</p>
+                </div>
+              </div>
+              {/* Misi */}
+              <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-lg">
+                <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mb-5">
+                  <Target className="w-6 h-6 text-emerald-600" />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-4">Misi</p>
+                <ol className="space-y-3">
+                  {visiMisiData.misi.map((m, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="w-6 h-6 bg-emerald-500 text-white rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                        {i + 1}
+                      </span>
+                      <p className="text-navy-700 text-sm leading-relaxed">{m}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+
         {/* Latar Belakang */}
         <FadeIn>
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -374,54 +419,15 @@ export default function ProgramTawsecPage() {
           </FadeIn>
         </section>
 
-        {/* Progress */}
+        {/* Progress Tracker Live */}
         <FadeIn>
           <section>
             <div className="text-center mb-10">
               <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Tahapan Program</span>
               <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2">Progress TAWSEC 2026</h2>
             </div>
-            <div className="space-y-3">
-              {[
-                { label: "Identifikasi kebutuhan & pemetaan potensi desa", done: true },
-                { label: "Pembentukan Kelompok Usaha Bersama (KUB)", done: true },
-                { label: "Pelatihan Pilar 1: Kewirausahaan & Manajemen", done: true },
-                { label: "Pelatihan Pilar 2: Produksi Berkelanjutan (SOP Abon, Kerupuk, Tepung Tulang)", done: true },
-                { label: "Pelatihan Pilar 3: Digitalisasi & Branding", done: false },
-                { label: "Pendampingan pembuatan akun marketplace", done: false },
-                { label: "Pelatihan Pilar 4: Legalitas Usaha & Sertifikasi Halal/NIB", done: false },
-                { label: "Peluncuran website & katalog digital UMKM", done: false },
-              ].map((step, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center gap-4 p-4 rounded-xl border ${
-                    step.done
-                      ? "bg-emerald-50 border-emerald-200"
-                      : "bg-gray-50 border-gray-200"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${
-                      step.done ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-500"
-                    }`}
-                  >
-                    {step.done ? "✓" : i + 1}
-                  </div>
-                  <span className={`text-sm font-medium ${step.done ? "text-emerald-800" : "text-gray-600"}`}>
-                    {step.label}
-                  </span>
-                  {step.done && (
-                    <span className="ml-auto text-xs bg-emerald-200 text-emerald-700 px-2 py-0.5 rounded-full font-semibold flex-shrink-0">
-                      Selesai
-                    </span>
-                  )}
-                  {!step.done && (
-                    <span className="ml-auto text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-semibold flex-shrink-0">
-                      Dalam proses
-                    </span>
-                  )}
-                </div>
-              ))}
+            <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
+              <ProgressTracker />
             </div>
           </section>
         </FadeIn>

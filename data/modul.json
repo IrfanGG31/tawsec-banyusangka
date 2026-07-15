@@ -6,6 +6,7 @@
     "ikon": "TrendingUp",
     "warna": "blue",
     "ringkasan": "Membangun fondasi usaha yang kuat: dari modal awal, menghitung harga pokok produksi (HPP), menetapkan harga jual, hingga menghitung titik impas (BEP).",
+    "file_pdf": "/modul/Modul-TAWSEC-Pilar-1.pdf",
     "materi": [
       { "judul": "Mengenal Kewirausahaan Dasar", "deskripsi": "Mindset pelaku usaha, identifikasi potensi diri dan lingkungan." },
       { "judul": "Perhitungan Modal & HPP", "deskripsi": "Cara menghitung biaya produksi abon, kerupuk, dan tepung tulang ikan secara akurat." },
@@ -21,6 +22,7 @@
     "ikon": "Leaf",
     "warna": "green",
     "ringkasan": "SOP produksi higienis, checklist kebersihan fasilitas dan peralatan, cara mempertahankan kualitas produk dari hulu ke hilir.",
+    "file_pdf": "/modul/Modul-TAWSEC-Pilar-2.pdf",
     "materi": [
       { "judul": "SOP Produksi Abon Ikan", "deskripsi": "Langkah-langkah produksi abon ikan tongkol dari pemilihan bahan baku hingga pengemasan." },
       { "judul": "SOP Produksi Kerupuk Kulit Ikan", "deskripsi": "Proses pengolahan kulit ikan menjadi kerupuk renyah berkualitas." },
@@ -36,6 +38,7 @@
     "ikon": "Smartphone",
     "warna": "purple",
     "ringkasan": "Membuat identitas merek yang kuat: logo, kemasan menarik, foto produk profesional, hingga strategi pemasaran di Instagram, TikTok, dan Shopee.",
+    "file_pdf": "/modul/Modul-TAWSEC-Pilar-3.pdf",
     "materi": [
       { "judul": "Pembuatan Logo & Identitas Merek", "deskripsi": "Cara membuat logo sederhana menggunakan Canva, pemilihan warna dan tipografi." },
       { "judul": "Desain Kemasan Produk", "deskripsi": "Kriteria kemasan yang menarik: label, informasi produk, dan daya tarik visual." },
@@ -51,6 +54,7 @@
     "ikon": "Shield",
     "warna": "orange",
     "ringkasan": "Memastikan usaha legal dan berkelanjutan: pendaftaran NIB, sertifikasi halal, izin PIRT, identifikasi saluran distribusi, dan rencana usaha jangka panjang.",
+    "file_pdf": "/modul/Modul-TAWSEC-Pilar-4.pdf",
     "materi": [
       { "judul": "Nomor Induk Berusaha (NIB)", "deskripsi": "Cara mendaftar NIB secara online melalui OSS (Online Single Submission) — gratis dan mudah." },
       { "judul": "Sertifikasi Halal MUI", "deskripsi": "Prosedur pengajuan sertifikasi halal untuk UMKM, persyaratan, dan timeline proses." },

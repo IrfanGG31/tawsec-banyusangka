@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import modulData from "@/data/modul.json";
 import { TrendingUp, Leaf, Smartphone, Shield, BookOpen, Download, ChevronRight } from "lucide-react";
@@ -100,14 +100,25 @@ export default function ModulPage() {
                   </div>
 
                   <div className="mt-4 flex gap-3">
-                    <button
-                      disabled
-                      className="flex items-center gap-2 bg-gray-100 text-gray-400 text-sm px-4 py-2.5 rounded-xl cursor-not-allowed"
-                      title="PDF modul akan tersedia segera"
-                    >
-                      <Download className="w-4 h-4" />
-                      Unduh Modul PDF (Segera)
-                    </button>
+                    {pilar.file_pdf ? (
+                      <a
+                        href={pilar.file_pdf}
+                        download
+                        className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all hover:shadow-md"
+                      >
+                        <Download className="w-4 h-4" />
+                        Unduh Modul PDF
+                      </a>
+                    ) : (
+                      <button
+                        disabled
+                        className="flex items-center gap-2 bg-gray-100 text-gray-400 text-sm px-4 py-2.5 rounded-xl cursor-not-allowed"
+                        title="PDF modul akan tersedia segera"
+                      >
+                        <Download className="w-4 h-4" />
+                        Unduh Modul PDF (Segera)
+                      </button>
+                    )}
                   </div>
                 </section>
               </FadeIn>

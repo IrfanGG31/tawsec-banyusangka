@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "kategori": "Persiapan",
+    "nama_kegiatan": "Identifikasi kebutuhan & pemetaan potensi desa",
+    "status": "Selesai",
+    "persentase": 100,
+    "tanggal_update": "2026-06-01",
+    "catatan": ""
+  },
+  {
+    "id": "2",
+    "kategori": "Persiapan",
+    "nama_kegiatan": "Pembentukan Kelompok Usaha Bersama (KUB)",
+    "status": "Selesai",
+    "persentase": 100,
+    "tanggal_update": "2026-06-10",
+    "catatan": ""
+  },
+  {
+    "id": "3",
+    "kategori": "Pilar",
+    "nama_kegiatan": "Pelatihan Pilar 1: Kewirausahaan & Manajemen",
+    "status": "Selesai",
+    "persentase": 100,
+    "tanggal_update": "2026-06-24",
+    "catatan": ""
+  },
+  {
+    "id": "4",
+    "kategori": "Pilar",
+    "nama_kegiatan": "Pelatihan Pilar 2: Produksi Berkelanjutan (SOP Abon, Kerupuk, Tepung Tulang)",
+    "status": "Selesai",
+    "persentase": 100,
+    "tanggal_update": "2026-07-05",
+    "catatan": ""
+  },
+  {
+    "id": "5",
+    "kategori": "Pilar",
+    "nama_kegiatan": "Pelatihan Pilar 3: Digitalisasi & Branding",
+    "status": "Dalam Proses",
+    "persentase": 60,
+    "tanggal_update": "2026-07-10",
+    "catatan": ""
+  },
+  {
+    "id": "6",
+    "kategori": "Pendampingan",
+    "nama_kegiatan": "Pendampingan pembuatan akun marketplace",
+    "status": "Dalam Proses",
+    "persentase": 40,
+    "tanggal_update": "2026-07-10",
+    "catatan": ""
+  },
+  {
+    "id": "7",
+    "kategori": "Pilar",
+    "nama_kegiatan": "Pelatihan Pilar 4: Legalitas Usaha & Sertifikasi Halal/NIB",
+    "status": "Dalam Proses",
+    "persentase": 20,
+    "tanggal_update": "2026-07-05",
+    "catatan": ""
+  },
+  {
+    "id": "8",
+    "kategori": "Peluncuran",
+    "nama_kegiatan": "Peluncuran website & katalog digital UMKM",
+    "status": "Dalam Proses",
+    "persentase": 80,
+    "tanggal_update": "2026-07-15",
+    "catatan": ""
+  }
+]

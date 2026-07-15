@@ -100,7 +100,7 @@ export default function HomePage() {
             </div>
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
               <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              Program KKN LPMB Universitas Airlangga 2026
+              ACSES &amp; UNAIR Sustainability Program · Desa Banyusangka 2026
             </div>
           </FadeIn>
 

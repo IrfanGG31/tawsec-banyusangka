@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import timData from "@/data/tim.json";
-import { Users, Anchor, Star, Building, Briefcase, Landmark, GraduationCap } from "lucide-react";
+import anggotaData from "@/data/anggota.json";
+import { Users, Anchor, Star, Building, Briefcase, Landmark, Camera, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Tim & Mitra",
   description:
-    "Tim pelaksana program TAWSEC Banyusangka: mahasiswa KKN Universitas Airlangga, dosen pembimbing, dan kelembagaan mitra desa.",
+    "Tim pelaksana program TAWSEC Banyusangka: mahasiswa Universitas Airlangga, dosen pembimbing, dan kelembagaan mitra desa.",
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -26,16 +27,125 @@ export default function TimMitraPage() {
       <div className="bg-gradient-to-br from-navy-900 to-primary-900 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <FadeIn>
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-sm px-4 py-2 rounded-full mb-6">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              ACSES &amp; UNAIR Sustainability Program
+            </div>
             <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">Tim &amp; Mitra</h1>
             <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Program TAWSEC dijalankan oleh tim mahasiswa KKN Universitas Airlangga
-              bersama kelembagaan desa Banyusangka.
+              15 mahasiswa Universitas Airlangga yang turun langsung ke lapangan bersama
+              mitra kelembagaan Desa Banyusangka.
             </p>
           </FadeIn>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 space-y-20">
+
+        {/* === FOTO GRUP TEAM === */}
+        <FadeIn>
+          <section>
+            <div className="text-center mb-8">
+              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Foto Tim</span>
+              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">Bersama di Lapangan</h2>
+              <p className="text-navy-500 mt-2">Tim TAWSEC yang terjun langsung ke Desa Banyusangka</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Foto 1 - TAWSEC Company shoot */}
+              <div className="relative group overflow-hidden rounded-3xl shadow-xl">
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src="/images/anggota/tim-group-1.jpg"
+                    alt="Tim TAWSEC — Sesi foto tim bersama sign TAWSEC Company"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Camera className="w-4 h-4 text-white/70" />
+                      <span className="text-white/70 text-xs">TAWSEC Company</span>
+                    </div>
+                    <p className="text-white font-serif font-bold text-lg leading-tight">
+                      Tim TAWSEC — Building Ideas, Creating Impact
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Foto 2 - Pasar Ikan Banyusangka */}
+              <div className="relative group overflow-hidden rounded-3xl shadow-xl">
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src="/images/anggota/tim-group-2.jpg"
+                    alt="Tim TAWSEC di Pasar Ikan Desa Banyusangka Bangkalan"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <MapPin className="w-4 h-4 text-white/70" />
+                      <span className="text-white/70 text-xs">Pasar Ikan Desa Banyusangka, Bangkalan</span>
+                    </div>
+                    <p className="text-white font-serif font-bold text-lg leading-tight">
+                      Terjun Langsung ke Pasar Ikan Banyusangka
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+
+        {/* === GRID 15 ANGGOTA === */}
+        <section>
+          <FadeIn>
+            <div className="mb-8">
+              <span className="text-sunset-500 font-semibold text-sm uppercase tracking-widest">Pelaksana</span>
+              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">15 Anggota Tim</h2>
+              <p className="text-navy-500 mt-2">Mahasiswa lintas fakultas Universitas Airlangga yang menjalankan program di lapangan.</p>
+            </div>
+          </FadeIn>
+          <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {anggotaData.map((a, i) => (
+              <StaggerItem key={i}>
+                <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all text-center group">
+                  <div className="relative w-16 h-16 mx-auto mb-3">
+                    {a.foto && a.foto !== "/images/anggota/placeholder-member.png" ? (
+                      <Image
+                        src={a.foto}
+                        alt={a.nama}
+                        fill
+                        className="object-cover rounded-2xl"
+                        sizes="64px"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                        {i % 2 === 0 ? "👩‍🎓" : "👨‍🎓"}
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-serif font-bold text-navy-900 text-xs leading-snug mb-1">{a.nama}</h3>
+                  <p className="text-primary-600 text-[10px] font-semibold leading-tight">{a.peran}</p>
+                  {a.instagram && (
+                    <a
+                      href={`https://instagram.com/${a.instagram.replace("@", "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-gray-400 hover:text-primary-500 transition-colors mt-1 inline-block"
+                    >
+                      {a.instagram}
+                    </a>
+                  )}
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </section>
+
         {/* Dosen Pembimbing */}
         <FadeIn>
           <section>
@@ -45,7 +155,7 @@ export default function TimMitraPage() {
             </div>
             <div className="flex flex-wrap gap-6 justify-center">
               {timData.dosen_pembimbing.map((d, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-3xl p-8 shadow-md text-center max-w-xs w-full">
+                <div key={i} className="bg-white border border-gray-200 rounded-3xl p-8 shadow-md text-center max-w-xs w-full hover:shadow-xl transition-shadow">
                   <div className="relative w-24 h-24 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 p-4 shadow-inner">
                     <Image
                       src="/images/logos/logo-unair-biru.png"
@@ -62,33 +172,6 @@ export default function TimMitraPage() {
             </div>
           </section>
         </FadeIn>
-
-        {/* Mahasiswa KKN */}
-        <section>
-          <FadeIn>
-            <div className="mb-8">
-              <span className="text-sunset-500 font-semibold text-sm uppercase tracking-widest">Pelaksana</span>
-              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">Mahasiswa KKN</h2>
-              <p className="text-navy-500 mt-2">Tim lintas fakultas Universitas Airlangga yang menjalankan program di lapangan.</p>
-            </div>
-          </FadeIn>
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {timData.mahasiswa_kkn.map((m, i) => (
-              <StaggerItem key={i}>
-                <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl">
-                    👩‍🎓
-                  </div>
-                  <h3 className="font-serif font-bold text-navy-900 text-lg mb-1">{m.nama}</h3>
-                  <p className="text-primary-600 text-xs font-semibold uppercase tracking-wider mb-2">{m.fakultas}</p>
-                  <div className="bg-primary-50 rounded-xl px-3 py-2">
-                    <p className="text-navy-700 text-sm">{m.peran}</p>
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </section>
 
         {/* Mitra Desa */}
         <FadeIn>
@@ -114,7 +197,7 @@ export default function TimMitraPage() {
           </section>
         </FadeIn>
 
-        {/* Institusi */}
+        {/* Institusi Banner */}
         <FadeIn>
           <div className="bg-gradient-ocean rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
