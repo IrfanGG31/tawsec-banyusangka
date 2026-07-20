@@ -1,74 +1,92 @@
 [
   {
-    "id": "1",
-    "kategori": "Persiapan",
-    "nama_kegiatan": "Identifikasi kebutuhan & pemetaan potensi desa",
+    "id": "kpi-1",
+    "kategori": "Kapasitas",
+    "nama_kegiatan": "Kapasitas Ormawa & Mahasiswa",
+    "target": "Peningkatan skor soft/hard skills 100%",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "2026-06-01",
-    "catatan": ""
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Evaluasi kuesioner awal & akhir selesai."
   },
   {
-    "id": "2",
-    "kategori": "Persiapan",
-    "nama_kegiatan": "Pembentukan Kelompok Usaha Bersama (KUB)",
+    "id": "kpi-2",
+    "kategori": "Kewirausahaan",
+    "nama_kegiatan": "Pelaku Usaha Terbentuk",
+    "target": "10 Usaha Individu + 1 Kelompok (KUB)",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "2026-06-10",
-    "catatan": ""
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "KUB Perempuan Banyusangka resmi terbentuk."
   },
   {
-    "id": "3",
-    "kategori": "Pilar",
-    "nama_kegiatan": "Pelatihan Pilar 1: Kewirausahaan & Manajemen",
+    "id": "kpi-3",
+    "kategori": "Pelatihan",
+    "nama_kegiatan": "Intervensi Peningkatan Kapasitas",
+    "target": "3 Jenis (Pelatihan, Branding, Promosi)",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "2026-06-24",
-    "catatan": ""
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Pelatihan 4 pilar telah terlaksana."
   },
   {
-    "id": "4",
-    "kategori": "Pilar",
-    "nama_kegiatan": "Pelatihan Pilar 2: Produksi Berkelanjutan (SOP Abon, Kerupuk, Tepung Tulang)",
-    "status": "Selesai",
-    "persentase": 100,
-    "tanggal_update": "2026-07-05",
-    "catatan": ""
+    "id": "kpi-4",
+    "kategori": "Kelembagaan",
+    "nama_kegiatan": "Aktivitas Lembaga Ekonomi Desa",
+    "target": "SK Unit Usaha BUMDes / MoU Mitra",
+    "status": "Dalam Proses",
+    "persentase": 85,
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Proses penerbitan SK Unit Usaha di bawah BUMDes Wijaya Kusuma."
   },
   {
-    "id": "5",
-    "kategori": "Pilar",
-    "nama_kegiatan": "Pelatihan Pilar 3: Digitalisasi & Branding",
+    "id": "kpi-5",
+    "kategori": "Ekonomi",
+    "nama_kegiatan": "Kenaikan Omzet Usaha",
+    "target": "Naik 20–30% dari pendapatan awal",
     "status": "Dalam Proses",
     "persentase": 60,
-    "tanggal_update": "2026-07-10",
-    "catatan": ""
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Pendampingan penjualan awal produk olahan."
   },
   {
-    "id": "6",
-    "kategori": "Pendampingan",
-    "nama_kegiatan": "Pendampingan pembuatan akun marketplace",
+    "id": "kpi-6",
+    "kategori": "Pemasaran",
+    "nama_kegiatan": "Jangkauan Pasar",
+    "target": "Masuk min. 3 Gerai Ritel / Toko Oleh-oleh",
     "status": "Dalam Proses",
-    "persentase": 40,
-    "tanggal_update": "2026-07-10",
-    "catatan": ""
+    "persentase": 50,
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Penjajakan kerja sama dengan toko oleh-oleh Bangkalan & Madura."
   },
   {
-    "id": "7",
-    "kategori": "Pilar",
-    "nama_kegiatan": "Pelatihan Pilar 4: Legalitas Usaha & Sertifikasi Halal/NIB",
+    "id": "kpi-7",
+    "kategori": "Teknologi",
+    "nama_kegiatan": "Pemanfaatan Teknologi & Digital",
+    "target": "Alat TTG + Transaksi E-Commerce",
     "status": "Dalam Proses",
-    "persentase": 20,
-    "tanggal_update": "2026-07-05",
-    "catatan": ""
+    "persentase": 75,
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Website live, onboarding toko Shopee & WhatsApp Business."
   },
   {
-    "id": "8",
-    "kategori": "Peluncuran",
-    "nama_kegiatan": "Peluncuran website & katalog digital UMKM",
+    "id": "kpi-8",
+    "kategori": "Legalitas",
+    "nama_kegiatan": "Legalitas Usaha (NIB & Halal)",
+    "target": "80% Unit Usaha Punya NIB & Sertifikat Halal",
     "status": "Dalam Proses",
-    "persentase": 80,
-    "tanggal_update": "2026-07-15",
-    "catatan": ""
+    "persentase": 70,
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Pendaftaran NIB via OSS selesai, berkas Halal diajukan ke BPJPH."
+  },
+  {
+    "id": "kpi-9",
+    "kategori": "Sertifikasi",
+    "nama_kegiatan": "Produk Tersertifikasi",
+    "target": "3 Varian Produk (Uji Lab Organoleptik)",
+    "status": "Dalam Proses",
+    "persentase": 65,
+    "tanggal_update": "15 Juli 2026",
+    "catatan": "Uji kelayakan konsumsi Abon, Kerupuk, dan Tepung Tulang Ikan."
   }
 ]

@@ -147,7 +147,7 @@ export default function KontakPage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
                     <span className="text-primary-400 flex-shrink-0">🏛️</span>
-                    <span className="text-white/80">LPMB Universitas Airlangga</span>
+                    <span className="text-white/80">UKM-F Penalaran AcSES FEB Universitas Airlangga</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-primary-400 flex-shrink-0">📍</span>

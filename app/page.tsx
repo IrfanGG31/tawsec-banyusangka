@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import ProductCard from "@/components/katalog/ProductCard";
 import produkData from "@/data/produk.json";
+import dampakData from "@/data/dampak.json";
 import {
   ArrowRight,
   Fish,
@@ -13,6 +14,8 @@ import {
   AlertTriangle,
   Zap,
   ChevronDown,
+  Globe,
+  Award,
 } from "lucide-react";
 
 const stats = [
@@ -22,49 +25,67 @@ const stats = [
   { label: "Pilar Program", value: "4", icon: "🏛️", suffix: "" },
 ];
 
+const macroStats = [
+  {
+    value: "53,76%",
+    label: "Pelaku UMKM Perempuan",
+    sub: "Kontribusi Ekonomi 61% (Kemenkeu 2021)",
+  },
+  {
+    value: "10,37%",
+    label: "Perempuan Miskin Nasional",
+    sub: "Tantangan Kemiskinan (BPS 2021)",
+  },
+  {
+    value: "28.084 Ton",
+    label: "Perikanan Bangkalan",
+    sub: "Tangkapan Perikanan (BPS 2024)",
+  },
+];
+
 const whyItems = [
   {
     icon: <AlertTriangle className="w-7 h-7 text-red-400" />,
     label: "Masalah",
     color: "from-red-50 to-orange-50 border-red-200",
     title: "85% Dijual Mentah",
-    desc: "Ikan layang & tongkol hasil tangkapan dijual langsung tanpa diolah, sehingga nilai ekonominya sangat rendah.",
+    desc: "Ikan layang & tongkol segar dijual langsung tanpa diolah. Saat panen raya (>1 ton/hari), harga ANJLOK dari Rp30.000/kg jadi Rp1.000–3.000/kg.",
   },
   {
     icon: <AlertTriangle className="w-7 h-7 text-orange-400" />,
     label: "Masalah",
     color: "from-orange-50 to-yellow-50 border-orange-200",
     title: "Food Loss 20–35%",
-    desc: "Saat panen raya, ikan melimpah tapi tidak bisa diserap pasar — banyak terbuang sia-sia saat bisa jadi produk bernilai.",
+    desc: "Saat musim puncak panen raya, hasil tangkapan melimpah tidak terserap pasar — banyak terbuang sia-sia karena belum ada pabrik pengolahan.",
   },
   {
     icon: <Zap className="w-7 h-7 text-emerald-500" />,
     label: "Solusi TAWSEC",
     color: "from-emerald-50 to-teal-50 border-emerald-200",
     title: "Nilai Naik 10–50x",
-    desc: "Ikan Rp 1.000–3.000/kg → Abon kemasan 250g Rp 55.000. Olahan mengubah sisa tangkapan jadi produk bernilai tinggi.",
+    desc: "Mengolah daging ikan jadi abon (Rp55.000/250g), kulit jadi kerupuk, dan tulang jadi tepung pakan. Mengubah sisa tangkapan jadi produk bernilai tinggi.",
   },
   {
     icon: <TrendingUp className="w-7 h-7 text-primary-500" />,
     label: "Solusi TAWSEC",
     color: "from-primary-50 to-blue-50 border-primary-200",
-    title: "4 Pilar Pemberdayaan",
-    desc: "Kewirausahaan, Produksi Higienis, Digitalisasi & Branding, dan Legalitas Usaha — mendampingi perempuan pelaku ngojur.",
+    title: "4 Pilar & Zero Waste",
+    desc: "Kewirausahaan, Produksi Higienis, Digitalization, & Legalitas — mendampingi perempuan pelaku ngojur menjadi pelaku usaha mandiri.",
   },
 ];
 
 const testimonials = [
   {
-    nama: "Ibu [Peserta 1]",
-    peran: "Pelaku Ngojur, Dusun Timur",
-    isi: "Dulu saya cuma jual ikan segar, sekarang sudah bisa bikin abon dan jual online. Penghasilan lebih stabil.",
-    foto: "👩",
+    nama: "H. Abd. Syukur",
+    peran: "Kepala Desa Banyusangka (Surat Kesediaan Mitra Resmi)",
+    isi: "Saat musim panen raya tiba dan hasil tangkapan membludak tanpa ada pengolahan, masyarakat terpaksa menjual ikan segar hanya seharga Rp1.000–3.000 per kilogram. Program TAWSEC sangat dibutuhkan untuk memberi nilai tambah.",
+    foto: "🏛️",
   },
   {
-    nama: "Ibu [Peserta 2]",
-    peran: "Ketua KUB Perempuan Banyusangka",
-    isi: "Program TAWSEC benar-benar membuka mata kami tentang potensi hasil laut yang selama ini kami sia-siakan.",
-    foto: "👩‍🦳",
+    nama: "Kelompok Ibu-Ibu Ngojur",
+    peran: "Peserta Dampingan Program, Desa Banyusangka",
+    isi: "Kami antusias mengikuti pelatihan olahan abon, kerupuk, dan tepung tulang ikan. Dulu cuma angkut dan jual eceran, sekarang belajar punya produk dan usaha sendiri.",
+    foto: "👩‍💼",
   },
 ];
 
@@ -153,7 +174,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== STATS ===== */}
-      <section className="bg-white py-16 relative">
+      <section className="bg-white py-16 relative border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((s) => (
@@ -169,6 +190,31 @@ export default function HomePage() {
               </StaggerItem>
             ))}
           </StaggerContainer>
+
+          {/* ===== ANGKA DAMPAK PROGRAM ===== */}
+          <div className="mt-12 pt-12 border-t border-gray-100">
+            <div className="text-center mb-8">
+              <span className="inline-block text-emerald-600 font-semibold text-xs uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                🚀 Capaian &amp; Target Dampak
+              </span>
+              <h3 className="font-serif font-bold text-navy-900 text-2xl mt-2">
+                Angka Dampak Program TAWSEC
+              </h3>
+            </div>
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {dampakData.map((d) => (
+                <StaggerItem key={d.id}>
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white shadow-lg text-center relative overflow-hidden group hover:scale-[1.02] transition-all">
+                    <div className="text-3xl mb-2">{d.icon}</div>
+                    <div className="font-serif font-bold text-4xl text-white">
+                      {d.angka} <span className="text-sm font-sans font-normal text-emerald-200">{d.satuan}</span>
+                    </div>
+                    <div className="text-white/90 text-sm font-semibold mt-1">{d.label}</div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
         </div>
       </section>
 
@@ -191,7 +237,7 @@ export default function HomePage() {
                   Bagian dari Komitmen SDGs Universitas Airlangga
                 </h2>
                 <p className="text-white/80 text-sm sm:text-base leading-relaxed mt-4">
-                  Program TAWSEC merupakan wujud nyata kontribusi UNAIR — peringkat <strong>#15 dunia</strong> &amp; <strong>nomor 1 Indonesia</strong> dalam <em>THE Sustainability Impact Rankings 2026</em> — untuk pemberdayaan ekonomi pesisir berkelanjutan di Desa Banyusangka.
+                  Program TAWSEC merupakan wujud nyata kontribusi UNAIR — peringkat <strong>#15 dunia</strong> &amp; <strong>nomor 1 Indonesia</strong> dalam <em>THE Sustainability Impact Rankings 2026</em> — melalui hibah pengabdian <strong>UNAIR SUSTAINACTION 2026</strong> yang diselenggarakan oleh <strong>UKM-F Penalaran AcSES FEB Universitas Airlangga</strong> untuk pemberdayaan ekonomi pesisir di Desa Banyusangka.
                 </p>
               </FadeIn>
 

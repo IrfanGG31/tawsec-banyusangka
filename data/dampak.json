@@ -1,0 +1,23 @@
+[
+  {
+    "id": "d1",
+    "label": "Produk Terjual",
+    "angka": "500",
+    "satuan": "+ Kemasan",
+    "icon": "📦"
+  },
+  {
+    "id": "d2",
+    "label": "UMKM Aktif Dampingan",
+    "angka": "10",
+    "satuan": "Unit Usaha",
+    "icon": "🏪"
+  },
+  {
+    "id": "d3",
+    "label": "Anggota Komunitas Terlatih",
+    "angka": "45",
+    "satuan": "+ Orang",
+    "icon": "👩‍💼"
+  }
+]

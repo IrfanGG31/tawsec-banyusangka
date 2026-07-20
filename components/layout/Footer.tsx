@@ -56,7 +56,7 @@ export default function Footer() {
             </div>
             <p className="text-navy-300 text-sm leading-relaxed mb-4">
               Transformasi Ekonomi Pesisir melalui Sinergi Aksi Mandiri — Program
-              KKN LPMB Universitas Airlangga di Desa Banyusangka, Bangkalan, Madura.
+              UNAIR SUSTAINACTION 2026 oleh UKM-F Penalaran AcSES FEB Universitas Airlangga di Desa Banyusangka, Bangkalan, Madura.
             </p>
             <div className="flex items-start gap-2 text-navy-400 text-sm">
               <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary-400" />
@@ -148,20 +148,24 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-navy-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-navy-500 text-xs text-center sm:text-left">
-            © {currentYear} TAWSEC Banyusangka — Program KKN LPMB Universitas Airlangga.
+            © {currentYear} TAWSEC Banyusangka — Program UNAIR SUSTAINACTION 2026 oleh UKM-F Penalaran AcSES FEB Universitas Airlangga.
             <br className="sm:hidden" /> Dibangun dengan ❤️ untuk kemajuan UMKM pesisir Madura.
           </p>
           <div className="flex items-center gap-3">
-            <span className="text-navy-500 text-xs">Didukung oleh:</span>
-            <div className="relative w-6 h-6">
-              <Image
-                src="/images/logos/logo-unair-biru.png"
-                alt="UNAIR"
-                fill
-                className="object-contain"
-              />
+            <span className="text-navy-500 text-xs">Penyelenggara:</span>
+            <div className="flex items-center gap-2 bg-navy-800 px-3 py-1.5 rounded-lg border border-navy-700">
+              <div className="relative w-5 h-5">
+                <Image
+                  src="/images/logos/logo-unair-biru.png"
+                  alt="UNAIR"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-white font-bold text-xs">UNAIR</span>
+              <span className="text-navy-500 text-xs">×</span>
+              <span className="text-emerald-400 font-bold text-xs">AcSES FEB</span>
             </div>
-            <span className="text-primary-400 font-semibold text-xs">LPMB UNAIR</span>
           </div>
         </div>
       </div>

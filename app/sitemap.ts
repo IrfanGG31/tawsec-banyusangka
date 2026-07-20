@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/katalog`, lastModified: new Date() },
     { url: `${base}/modul`, lastModified: new Date() },
     { url: `${base}/galeri`, lastModified: new Date() },
+    { url: `${base}/update`, lastModified: new Date() },
     { url: `${base}/tim-mitra`, lastModified: new Date() },
     { url: `${base}/kontak`, lastModified: new Date() },
   ];

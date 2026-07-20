@@ -128,18 +128,9 @@ export default function TimMitraPage() {
                       </div>
                     )}
                   </div>
-                  <h3 className="font-serif font-bold text-navy-900 text-xs leading-snug mb-1">{a.nama}</h3>
+                  <h3 className="font-serif font-bold text-navy-900 text-xs leading-snug mb-0.5">{a.nama}</h3>
+                  <p className="text-navy-400 text-[9px] font-medium mb-1">{a.prodi}</p>
                   <p className="text-primary-600 text-[10px] font-semibold leading-tight">{a.peran}</p>
-                  {a.instagram && (
-                    <a
-                      href={`https://instagram.com/${a.instagram.replace("@", "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[10px] text-gray-400 hover:text-primary-500 transition-colors mt-1 inline-block"
-                    >
-                      {a.instagram}
-                    </a>
-                  )}
                 </div>
               </StaggerItem>
             ))}
@@ -149,13 +140,13 @@ export default function TimMitraPage() {
         {/* Dosen Pembimbing */}
         <FadeIn>
           <section>
-            <div className="mb-8">
-              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Supervisi</span>
+            <div className="mb-8 text-center">
+              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Supervisi Akademik</span>
               <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">Dosen Pembimbing</h2>
             </div>
             <div className="flex flex-wrap gap-6 justify-center">
               {timData.dosen_pembimbing.map((d, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-3xl p-8 shadow-md text-center max-w-xs w-full hover:shadow-xl transition-shadow">
+                <div key={i} className="bg-white border border-gray-200 rounded-3xl p-8 shadow-md text-center max-w-md w-full hover:shadow-xl transition-shadow">
                   <div className="relative w-24 h-24 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 p-4 shadow-inner">
                     <Image
                       src="/images/logos/logo-unair-biru.png"
@@ -173,36 +164,64 @@ export default function TimMitraPage() {
           </section>
         </FadeIn>
 
-        {/* Mitra Desa */}
-        <FadeIn>
-          <section>
-            <div className="mb-8">
-              <span className="text-emerald-600 font-semibold text-sm uppercase tracking-widest">Kolaborasi</span>
-              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">Kelembagaan Mitra Desa</h2>
-              <p className="text-navy-500 mt-2">TAWSEC berkolaborasi dengan berbagai kelembagaan lokal Desa Banyusangka.</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {timData.mitra_desa.map((m, i) => (
-                <div key={i} className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <div className="text-emerald-600">{iconMap[m.icon] ?? <Building className="w-6 h-6" />}</div>
+        {/* Mitra Program (2 Kategori) */}
+        <section className="space-y-12">
+          {/* Kategori 1: Sasaran Program */}
+          <FadeIn>
+            <div>
+              <div className="mb-6">
+                <span className="text-sunset-500 font-semibold text-xs uppercase tracking-widest bg-sunset-50 px-3 py-1 rounded-full border border-sunset-100">
+                  Kategori 1
+                </span>
+                <h2 className="font-serif font-bold text-navy-900 text-2xl mt-2">Mitra Sasaran Program</h2>
+                <p className="text-navy-500 text-sm">Kelompok masyarakat pesisir yang menjadi fokus utama penguatan kapasitas.</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {timData.mitra_sasaran.map((m, i) => (
+                  <div key={i} className="flex items-start gap-4 p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                    <div className="w-12 h-12 bg-gradient-to-br from-sunset-100 to-orange-100 rounded-xl flex items-center justify-center flex-shrink-0 text-sunset-600">
+                      {iconMap[m.icon] ?? <Users className="w-6 h-6" />}
+                    </div>
+                    <div>
+                      <p className="font-serif font-bold text-navy-900 text-base">{m.nama}</p>
+                      <p className="text-navy-500 text-xs mt-1">{m.peran}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-serif font-bold text-navy-800">{m.nama}</p>
-                    <p className="text-navy-500 text-sm mt-0.5">{m.peran}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </section>
-        </FadeIn>
+          </FadeIn>
+
+          {/* Kategori 2: Fasilitator & Mitra Eksternal */}
+          <FadeIn>
+            <div>
+              <div className="mb-6">
+                <span className="text-emerald-600 font-semibold text-xs uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                  Kategori 2
+                </span>
+                <h2 className="font-serif font-bold text-navy-900 text-2xl mt-2">Fasilitator &amp; Kemitraan Eksternal</h2>
+                <p className="text-navy-500 text-sm">Instansi pemerintah, akademisi, dan lembaga perbankan penunjang keberlanjutan usaha.</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {timData.mitra_fasilitator.map((m, i) => (
+                  <div key={i} className="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                      <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 mb-3">
+                        {iconMap[m.icon] ?? <Building className="w-5 h-5" />}
+                      </div>
+                      <p className="font-serif font-bold text-navy-900 text-sm leading-snug mb-1">{m.nama}</p>
+                      <p className="text-navy-500 text-xs leading-relaxed">{m.peran}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+        </section>
 
         {/* Institusi Banner */}
         <FadeIn>
-          <div className="bg-gradient-ocean rounded-3xl p-8 text-white text-center relative overflow-hidden shadow-xl">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-            </div>
+          <div className="bg-gradient-ocean rounded-3xl p-8 sm:p-10 text-white text-center relative overflow-hidden shadow-xl">
             <div className="relative z-10 flex flex-col items-center gap-6">
               <div className="flex gap-6 items-center">
                 <div className="relative w-20 h-20 bg-white p-2.5 rounded-2xl shadow-md">
@@ -223,9 +242,9 @@ export default function TimMitraPage() {
                 </div>
               </div>
               <div>
-                <h3 className="font-serif font-bold text-2xl mb-2">LPMB Universitas Airlangga &amp; ACSES</h3>
+                <h3 className="font-serif font-bold text-2xl mb-2">UKM-F Penalaran AcSES FEB Universitas Airlangga</h3>
                 <p className="text-white/80 max-w-xl mx-auto text-sm leading-relaxed">
-                  Program TAWSEC diselenggarakan oleh Lembaga Pengabdian Masyarakat Berkelanjutan (LPMB) Universitas Airlangga berkolaborasi dengan ACSES (Association of Certified Sustainability Practitioners) sebagai aksi nyata pemecahan kemiskinan dan keberlanjutan wilayah pesisir.
+                  Program TAWSEC diselenggarakan melalui skema hibah pengabdian <strong>UNAIR SUSTAINACTION 2026</strong> oleh UKM-F Penalaran AcSES FEB Universitas Airlangga sebagai aksi nyata pemberdayaan ekonomi pesisir di Desa Banyusangka.
                 </p>
               </div>
             </div>

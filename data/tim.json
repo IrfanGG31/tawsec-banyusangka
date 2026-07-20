@@ -1,20 +1,74 @@
 {
-  "mahasiswa_kkn": [
-    { "nama": "Nama Mahasiswa 1", "fakultas": "Ekonomi & Bisnis", "peran": "Koordinator Program & Pemasaran Digital", "foto": "/images/tim/placeholder.png" },
-    { "nama": "Nama Mahasiswa 2", "fakultas": "Kesehatan Masyarakat", "peran": "Pengolahan Pangan & Higienitas Produksi", "foto": "/images/tim/placeholder.png" },
-    { "nama": "Nama Mahasiswa 3", "fakultas": "Hukum", "peran": "Legalitas Usaha & Sertifikasi", "foto": "/images/tim/placeholder.png" },
-    { "nama": "Nama Mahasiswa 4", "fakultas": "Ilmu Sosial & Ilmu Politik", "peran": "Pemberdayaan Komunitas", "foto": "/images/tim/placeholder.png" },
-    { "nama": "Nama Mahasiswa 5", "fakultas": "Sains & Teknologi", "peran": "Dokumentasi & Desain Branding", "foto": "/images/tim/placeholder.png" }
-  ],
   "dosen_pembimbing": [
-    { "nama": "Nama Dosen Pembimbing", "jabatan": "Dosen Pembimbing KKN TAWSEC", "institusi": "LPMB Universitas Airlangga", "foto": "/images/tim/placeholder.png" }
+    {
+      "nama": "Muhammad Syaikh Rohman, S.E., M.Ec.",
+      "jabatan": "Dosen Pembimbing Program",
+      "institusi": "UKM-F Penalaran AcSES FEB Universitas Airlangga",
+      "foto": "/images/tim/placeholder.png"
+    }
   ],
-  "mitra_desa": [
-    { "nama": "PKK Desa Banyusangka", "peran": "Mitra Penggerak Perempuan", "icon": "users" },
-    { "nama": "Kelompok Nelayan", "peran": "Penyuplai Bahan Baku Ikan", "icon": "anchor" },
-    { "nama": "Karang Taruna", "peran": "Dukungan Pemuda & Digitalisasi", "icon": "star" },
-    { "nama": "LPMD", "peran": "Lembaga Pemberdayaan Masyarakat", "icon": "building" },
-    { "nama": "BUMDes Wijaya Kusuma", "peran": "Mitra Bisnis & Distribusi", "icon": "briefcase" },
-    { "nama": "Pemerintah Desa Banyusangka", "peran": "Fasilitator & Dukungan Kelembagaan", "icon": "landmark" }
+  "mitra_sasaran": [
+    {
+      "nama": "Kelompok Ibu-ibu Ngojur",
+      "peran": "Sasaran Utama Penguatan Kapasitas & KUB",
+      "icon": "users"
+    },
+    {
+      "nama": "Tim Penggerak PKK Desa Banyusangka",
+      "peran": "Mitra Penggerak Komunitas Perempuan",
+      "icon": "users"
+    },
+    {
+      "nama": "Kelompok Nelayan Pesisir",
+      "peran": "Penyuplai Utama Bahan Baku Ikan Segar",
+      "icon": "anchor"
+    },
+    {
+      "nama": "Karang Taruna Desa Banyusangka",
+      "peran": "Pendamping Pemuda & Digitalisasi Produk",
+      "icon": "star"
+    }
+  ],
+  "mitra_fasilitator": [
+    {
+      "nama": "Pemerintah Desa Banyusangka",
+      "peran": "Fasilitator Kelembagaan & Regulasi Desa",
+      "icon": "landmark"
+    },
+    {
+      "nama": "Dinas Koperasi Usaha Mikro & Perdagangan Bangkalan",
+      "peran": "Fasilitator Pendampingan UMKM & Perizinan",
+      "icon": "building"
+    },
+    {
+      "nama": "BUMDes Wijaya Kusuma",
+      "peran": "Mitra Bisnis, Distribusi & Unit Usaha Desa",
+      "icon": "briefcase"
+    },
+    {
+      "nama": "Pusat Halal Universitas Airlangga",
+      "peran": "Fasilitator Pendampingan Sertifikasi Halal",
+      "icon": "shield"
+    },
+    {
+      "nama": "Taman Budaya Sentra IKM Bangkalan",
+      "peran": "Mitra Promosi & Display Produk Daerah",
+      "icon": "building"
+    },
+    {
+      "nama": "Kadin Kabupaten Bangkalan",
+      "peran": "Jaringan Mitra Pemasaran & Dunia Usaha",
+      "icon": "briefcase"
+    },
+    {
+      "nama": "Bank UMKM Jatim Cabang Bangkalan",
+      "peran": "Mitra Literasi Keuangan & Perbankan",
+      "icon": "landmark"
+    },
+    {
+      "nama": "LPMD Desa Banyusangka",
+      "peran": "Lembaga Pemberdayaan Masyarakat Desa",
+      "icon": "building"
+    }
   ]
 }

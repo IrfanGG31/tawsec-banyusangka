@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -22,9 +23,11 @@ export const metadata: Metadata = {
     template: "%s | TAWSEC Banyusangka",
   },
   description:
-    "Website resmi Desa Banyusangka dan program TAWSEC (Transformasi Ekonomi Pesisir melalui Sinergi Aksi Mandiri) LPMB Universitas Airlangga. Temukan produk UMKM olahan laut berkualitas: abon ikan, kerupuk ikan, dan tepung tulang ikan.",
+    "Website resmi Desa Banyusangka dan program TAWSEC (Transformasi Ekonomi Pesisir melalui Sinergi Aksi Mandiri) UNAIR SUSTAINACTION 2026 oleh UKM-F Penalaran AcSES FEB Universitas Airlangga.",
   keywords: [
     "TAWSEC",
+    "AcSES FEB UNAIR",
+    "UNAIR SUSTAINACTION",
     "Desa Banyusangka",
     "Bangkalan",
     "Madura",
@@ -32,7 +35,6 @@ export const metadata: Metadata = {
     "abon ikan",
     "kerupuk ikan",
     "Universitas Airlangga",
-    "KKN Unair",
   ],
   openGraph: {
     type: "website",
@@ -52,6 +54,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

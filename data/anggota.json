@@ -1,17 +1,107 @@
 [
-  { "nama": "Anggota 1", "peran": "Koordinator Program", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 2", "peran": "PJ Kewirausahaan & Manajemen", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 3", "peran": "PJ Produksi & Higienitas", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 4", "peran": "PJ Digitalisasi & Branding", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 5", "peran": "PJ Legalitas & Sertifikasi", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 6", "peran": "Bendahara Program", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 7", "peran": "Sekretaris & Dokumentasi", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 8", "peran": "PJ Pemasaran Digital", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 9", "peran": "PJ Hubungan Masyarakat", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 10", "peran": "PJ Pengembangan Produk", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 11", "peran": "PJ Desain Visual", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 12", "peran": "PJ Pemberdayaan Komunitas", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 13", "peran": "PJ Monitoring & Evaluasi", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 14", "peran": "PJ Kemitraan & Distribusi", "foto": "/images/anggota/placeholder-member.png", "instagram": "" },
-  { "nama": "Anggota 15", "peran": "PJ Pengabdian Masyarakat", "foto": "/images/anggota/placeholder-member.png", "instagram": "" }
+  {
+    "id": 1,
+    "nama": "Puguh Muqoddam",
+    "prodi": "Ekonomi Islam",
+    "peran": "Project Manager",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 2,
+    "nama": "Mashayu Aulia Zahrina",
+    "prodi": "Ekonomi Islam",
+    "peran": "Administration",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 3,
+    "nama": "Faiza Aulia Afifah",
+    "prodi": "Ekonomi Islam",
+    "peran": "Finance & Budgeting",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 4,
+    "nama": "Aisyah Nur Fitriani",
+    "prodi": "Ekonomi Islam",
+    "peran": "Pilar Kewirausahaan & Manajemen",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 5,
+    "nama": "Rizqi Alfy Dzikria",
+    "prodi": "Ekonomi Islam",
+    "peran": "Pilar Kewirausahaan & Manajemen",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 6,
+    "nama": "Ririn Rismayanti",
+    "prodi": "Ekonomi Islam",
+    "peran": "Pilar Produksi Berkelanjutan",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 7,
+    "nama": "Cynthia Saphira Puteri",
+    "prodi": "Ekonomi Islam",
+    "peran": "Pilar Digitalisasi & Branding",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 8,
+    "nama": "Muhammad Izar Alfatih Rizqy",
+    "prodi": "Akuntansi",
+    "peran": "Pilar Legalitas & Keberlanjutan",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 9,
+    "nama": "Titan Nalendra Maulana Rahmadany",
+    "prodi": "Akuntansi",
+    "peran": "Field Operations — Kewirausahaan",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 10,
+    "nama": "M. Irfan Rafi Gunawan",
+    "prodi": "Ilmu Ekonomi",
+    "peran": "Field Operations — Produksi",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 11,
+    "nama": "Wahdatil Izzah",
+    "prodi": "Ekonomi Islam",
+    "peran": "Public Relations & Partnership",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 12,
+    "nama": "Hadiyan Izzatul Haq",
+    "prodi": "Ekonomi Islam",
+    "peran": "Public Relations & Partnership",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 13,
+    "nama": "Nadine Ramadhanty Malaka",
+    "prodi": "Ekonomi Islam",
+    "peran": "Media & Documentation",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 14,
+    "nama": "Cintya Diva Anjani",
+    "prodi": "Ekonomi Islam",
+    "peran": "Media & Documentation",
+    "foto": "/images/anggota/placeholder-member.png"
+  },
+  {
+    "id": 15,
+    "nama": "Fara Dini Nofasari",
+    "prodi": "Ekonomi Islam",
+    "peran": "Monitoring & Evaluation",
+    "foto": "/images/anggota/placeholder-member.png"
+  }
 ]

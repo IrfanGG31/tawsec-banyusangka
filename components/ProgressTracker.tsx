@@ -10,6 +10,7 @@ interface ProgressItem {
   id: string;
   kategori: string;
   nama_kegiatan: string;
+  target?: string;
   status: StatusType;
   persentase: number;
   tanggal_update: string;
@@ -170,8 +171,13 @@ export function ProgressTracker() {
                           {sc.label}
                         </span>
                       </div>
+                      {item.target && (
+                        <p className="text-primary-700 font-medium text-xs mt-1 bg-primary-50 px-2.5 py-1 rounded-lg border border-primary-100 inline-block">
+                          🎯 Target: {item.target}
+                        </p>
+                      )}
                       {item.catatan && (
-                        <p className="text-navy-500 text-xs mt-1">{item.catatan}</p>
+                        <p className="text-navy-500 text-xs mt-1.5">{item.catatan}</p>
                       )}
                       <div className="mt-2.5 flex items-center gap-2">
                         <div className="flex-1 bg-gray-100 rounded-full h-1.5">

@@ -7,9 +7,11 @@ import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animation
 import modulData from "@/data/modul.json";
 import visiMisiData from "@/data/visi-misi.json";
 import { ProgressTracker } from "@/components/ProgressTracker";
+import Timeline from "@/components/program/Timeline";
+import LuaranProgram from "@/components/program/LuaranProgram";
 import {
   TrendingUp, Leaf, Smartphone, Shield,
-  ChevronDown, ChevronUp, Target, Eye
+  ChevronDown, ChevronUp, Target, Eye, Recycle, Sparkles
 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -55,7 +57,7 @@ const sdgsData = [
     num: 1,
     judul: "Tanpa Kemiskinan",
     fokusGlobal: "Mengakhiri kemiskinan dalam segala bentuk",
-    pemetaanLokal: "Meningkatkan pendapatan ibu-ibu ngojur lewat produk olahan bernilai tambah (abon, kerupuk, tepung tulang ikan) — dari harga ikan mentah Rp1.000–3.000/kg jadi produk Rp25.000–50.000",
+    pemetaanLokal: "Meningkatkan pendapatan ibu-ibu ngojur lewat produk olahan bernilai tambah (abon, kerupuk, tepung tulang ikan) — dari harga anjlok Rp1.000–3.000/kg saat panen raya menjadi produk bernilai Rp25.000–55.000 per kemasan",
     color: "#E5243B",
     badge: "UNAIR Peringkat 1 Nasional (SDG 1)",
   },
@@ -408,27 +410,62 @@ export default function ProgramTawsecPage() {
               </div>
               <div className="text-center sm:text-right">
                 <p className="text-xs text-navy-500 font-medium leading-relaxed">
-                  Program pengabdian masyarakat berkelanjutan TAWSEC di bawah naungan
+                  Program pengabdian masyarakat unggulan TAWSEC di bawah naungan
                 </p>
                 <p className="text-xs font-bold text-navy-950">
-                  LPMB (Lembaga Pengabdian Masyarakat Berkelanjutan) Universitas Airlangga
+                  UKM-F Penalaran AcSES FEB Universitas Airlangga — Hibah UNAIR SUSTAINACTION 2026
                 </p>
                 <p className="text-[9px] text-navy-400 mt-1 italic">
-                  * Sumber data pemeringkatan resmi Times Higher Education (THE) rilis 24 Juni 2026.
+                  * Dosen Pembimbing: Muhammad Syaikh Rohman, S.E., M.Ec. | THE Impact Rankings 2026 #15 Dunia.
                 </p>
               </div>
             </div>
           </FadeIn>
         </section>
 
-        {/* Progress Tracker Live */}
+        {/* ===== ZERO WASTE & GREEN ENTREPRENEURSHIP ===== */}
         <FadeIn>
-          <section>
-            <div className="text-center mb-10">
-              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest">Tahapan Program</span>
-              <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2">Progress TAWSEC 2026</h2>
+          <section className="bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100/50 border border-emerald-200 rounded-3xl p-8 my-12">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-3xl shadow-lg flex-shrink-0">
+                ♻️
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <span className="inline-block bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                  Diferensiator Konsep Utama
+                </span>
+                <h3 className="font-serif font-bold text-navy-950 text-2xl mb-2">
+                  Green Entrepreneurship &amp; Zero Waste Processing
+                </h3>
+                <p className="text-navy-700 text-sm leading-relaxed">
+                  TAWSEC menerapkan konsep kewirausahaan hijau tanpa sampah. Seluruh bagian tangkapan ikan diproses menjadi produk bernilai ekonomi: <strong>Daging Ikan → Abon Ikan Tongkol</strong>, <strong>Kulit Ikan → Kerupuk Renyah</strong>, dan <strong>Tulang Ikan → Tepung Pakan Ternak Kaya Kalsium</strong>.
+                </p>
+              </div>
             </div>
-            <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
+          </section>
+        </FadeIn>
+
+        {/* Timeline Program Visual */}
+        <FadeIn>
+          <Timeline />
+        </FadeIn>
+
+        {/* Target Luaran Resmi */}
+        <FadeIn>
+          <LuaranProgram />
+        </FadeIn>
+
+        {/* Progress Tracker Live KPI Dashboard */}
+        <FadeIn>
+          <section className="my-12">
+            <div className="text-center mb-10">
+              <span className="text-primary-600 font-semibold text-sm uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full border border-primary-100">
+                📊 Monitoring Capaian Resmi
+              </span>
+              <h2 className="font-serif text-3xl font-bold text-navy-900 mt-2">Dashboard 9 KPI Indikator Keberhasilan</h2>
+              <p className="text-navy-500 text-sm mt-1">Status dan persentase capaian terukur program TAWSEC 2026</p>
+            </div>
+            <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm">
               <ProgressTracker />
             </div>
           </section>

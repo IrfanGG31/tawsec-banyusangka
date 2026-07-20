@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/katalog", label: "Katalog" },
   { href: "/modul", label: "Modul" },
   { href: "/galeri", label: "Galeri" },
+  { href: "/update", label: "Update" },
   { href: "/tim-mitra", label: "Tim & Mitra" },
   { href: "/kontak", label: "Kontak" },
 ];
