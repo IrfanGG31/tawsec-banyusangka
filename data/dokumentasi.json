@@ -1,97 +1,170 @@
 [
   {
-    "id": "doc-001",
-    "nama_kegiatan": "Pelatihan Pilar 1: Kewirausahaan & Manajemen Usaha",
+    "id": "doc-pilar-1",
+    "nama_kegiatan": "Pilar 1: Produksi Olahan Laut",
     "kategori": "Pilar 1",
-    "tanggal": "Juni 2026",
-    "deskripsi": "Dokumentasi pelatihan perhitungan HPP, modal usaha awal, penetapan harga jual, dan buku kas sederhana.",
-    "foto_cover": "/images/galeri/pelatihan-1.png",
-    "statistik": ["📸 35+ Foto", "📄 2 Modul PDF", "📊 1 Excel Kas"],
-    "isi_folder": [
-      "Modul 1 - Kewirausahaan & Manajemen (PDF)",
-      "Template Kalkulator HPP & BEP (XLSX)",
-      "Buku Kas Sederhana UMKM Banyusangka (XLSX)",
-      "Dokumentasi Foto & Absensi Sesi Pilar 1"
-    ],
-    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
-  },
-  {
-    "id": "doc-002",
-    "nama_kegiatan": "Pelatihan Pilar 2: Produksi Berkelanjutan & Zero Waste",
-    "kategori": "Pilar 2",
-    "tanggal": "Juni 2026",
-    "deskripsi": "Dokumentasi SOP pembuatan abon ikan tongkol, kerupuk kulit ikan, dan tepung tulang ikan.",
+    "tanggal": "16–20 Juli 2026",
+    "deskripsi": "Dokumentasi kegiatan produksi abon ikan tongkol, kerupuk kulit ikan, dan tepung tulang ikan.",
     "foto_cover": "/images/galeri/produksi-1.png",
-    "statistik": ["📸 40+ Foto", "📄 3 SOP PDF", "🎬 1 Video Sesi"],
+    "statistik": ["📸 40+ Foto", "📄 SOP Produksi", "🎬 Video Sesi"],
     "isi_folder": [
-      "SOP Produksi Abon Ikan Tongkol (PDF)",
-      "SOP Produksi Kerupuk & Tepung Tulang (PDF)",
-      "Checklist Kebersihan & Sanitasi Dapur",
-      "Dokumentasi Foto & Video Praktik Produksi"
+      "SOP Produksi Higienis & Keamanan Pangan",
+      "Dokumentasi Foto Sesi Olahan Daging & Kulit",
+      "Checklist Kebersihan Fasilitas Produksi",
+      "Video Sesi Praktik Pengolahan Tulang Ikan"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
+    "link_gdrive": "https://drive.google.com/drive/folders/1i7cikoMPJAmWgsLwxGObD3nK8htymA-p?usp=sharing"
   },
   {
-    "id": "doc-003",
-    "nama_kegiatan": "Pelatihan Pilar 3: Digitalisasi, Packaging & Branding",
-    "kategori": "Pilar 3",
-    "tanggal": "Juli 2026",
-    "deskripsi": "Dokumentasi pelatihan foto produk HP, desain Canva, serta pembuatan toko Shopee & TikTok.",
-    "foto_cover": "/images/galeri/display-1.png",
-    "statistik": ["📸 28+ Foto", "🎨 5 Desain Label", "📄 1 Panduan"],
-    "isi_folder": [
-      "Master Logo & Desain Kemasan TAWSEC (PNG/PDF)",
-      "Foto Katalog Produk HD (Abon, Kerupuk, Tepung)",
-      "Panduan E-Commerce Shopee & TikTok Shop",
-      "Dokumentasi Foto Pelatihan Branding HP"
-    ],
-    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
-  },
-  {
-    "id": "doc-004",
-    "nama_kegiatan": "Pelatihan Pilar 4: Legalitas (NIB & Halal) & Keberlanjutan",
-    "kategori": "Pilar 4",
-    "tanggal": "Juli 2026",
-    "deskripsi": "Berkas administrasi pengajuan NIB OSS, sertifikasi halal BPJPH, dan draf Peraturan Desa.",
+    "id": "doc-pilar-2",
+    "nama_kegiatan": "Pilar 2: Manajemen & Kewirausahaan",
+    "kategori": "Pilar 2",
+    "tanggal": "30 Juli – 1 Agustus 2026",
+    "deskripsi": "Dokumentasi pelatihan manajemen usaha (MNJ), perhitungan HPP, BEP, dan buku kas UMKM.",
     "foto_cover": "/images/galeri/pelatihan-1.png",
-    "statistik": ["📄 4 Berkas Legal", "📸 20+ Foto", "📑 Draf Perdes"],
+    "statistik": ["📸 35+ Foto", "📄 Modul HPP", "📊 Template Kas"],
     "isi_folder": [
-      "Draft Peraturan Desa (Perdes) Keberlanjutan (DOCX)",
+      "Modul Perhitungan HPP & BEP (PDF)",
+      "Template Kalkulator Kas UMKM (XLSX)",
+      "Dokumentasi Sesi Pelatihan Kewirausahaan",
+      "Daftar Hadir Peserta KUB Banyusangka"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/13MB2Vf2Go41GyJt-Cla6bYX_zAVVHP4v?usp=sharing"
+  },
+  {
+    "id": "doc-pilar-3",
+    "nama_kegiatan": "Pilar 3: Digitalisasi & Branding",
+    "kategori": "Pilar 3",
+    "tanggal": "7 Agustus 2026",
+    "deskripsi": "Dokumentasi kegiatan digitalisasi, fotografi produk HP, desain kemasan, dan e-commerce.",
+    "foto_cover": "/images/galeri/display-1.png",
+    "statistik": ["📸 30+ Foto", "🎨 Desain Kemasan", "📄 E-Commerce"],
+    "isi_folder": [
+      "Master Logo & Desain Kemasan TAWSEC",
+      "Foto Katalog Produk HD (Abon & Kerupuk)",
+      "Panduan Toko Shopee & TikTok Shop",
+      "Dokumentasi Sesi Praktik Fotografi HP"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1qkObfmmI_gHc45jjfx_BU1DaQ7PZ5Ijh?usp=sharing"
+  },
+  {
+    "id": "doc-pilar-4",
+    "nama_kegiatan": "Pilar 4: Legalitas Usaha & Perdes",
+    "kategori": "Pilar 4",
+    "tanggal": "8 Agustus 2026",
+    "deskripsi": "Dokumentasi pengurusan legalitas NIB OSS, sertifikasi halal BPJPH, dan perumusan draf Perdes.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📄 Berkas Legal", "📑 Draft Perdes", "📸 20+ Foto"],
+    "isi_folder": [
+      "Draft Peraturan Desa (Perdes) Keberlanjutan",
       "Berkas Pengajuan NIB OSS KUB Banyusangka",
-      "Dokumen Sertifikasi Halal BPJPH UNAIR",
+      "Dokumen Pendampingan Halal BPJPH UNAIR",
       "Dokumentasi Foto Pendampingan Legalitas"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
+    "link_gdrive": "https://drive.google.com/drive/folders/1lF-AvDipjniWdOnbvnh_7fLWULpPNTSl?usp=sharing"
   },
   {
-    "id": "doc-005",
-    "nama_kegiatan": "Peluncuran Website & Peresmian Etalase Digital",
-    "kategori": "Peluncuran Website",
-    "tanggal": "15 Juli 2026",
-    "deskripsi": "Dokumentasi acara launching website TAWSEC Banyusangka bersama perangkat desa dan pengurus KUB.",
-    "foto_cover": "/images/galeri/display-1.png",
-    "statistik": ["📸 50+ Foto", "🎬 1 Video Highlights", "📰 Press Release"],
-    "isi_folder": [
-      "Press Release Peluncuran Website TAWSEC (PDF)",
-      "Foto Dokumentasi Acara Peresmian Web",
-      "Video Highlight Launching & Sambutan Kades",
-      "Daftar Hadir & Berita Acara Peresmian"
-    ],
-    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
-  },
-  {
-    "id": "doc-006",
-    "nama_kegiatan": "Survei Lapangan & Forum Diskusi Komunitas Pesisir",
+    "id": "doc-rnd-1",
+    "nama_kegiatan": "Research & Development (RND 1)",
     "kategori": "Lainnya",
-    "tanggal": "Mei 2026",
-    "deskripsi": "Dokumentasi wawancara awal dengan pelaku ngojur, tokoh nelayan PPI, dan pengurus PKK.",
-    "foto_cover": "/images/galeri/nelayan-1.png",
-    "statistik": ["📸 30+ Foto", "📊 Hasil Transkrip", "📍 Peta Lokasi"],
+    "tanggal": "7 Juni 2026",
+    "deskripsi": "Dokumentasi Research & Development tahap 1 — uji formulasi resep awal dan varian olahan.",
+    "foto_cover": "/images/galeri/produksi-1.png",
+    "statistik": ["📸 25+ Foto", "🧪 Uji Formulasi"],
     "isi_folder": [
-      "Laporan Pemetaan Potensi Perikanan Banyusangka",
-      "Transkrip Wawancara Pelaku Ngojur & Nelayan",
-      "Foto Observasi Pendaratan Ikan PPI",
-      "Daftar Kontak Komunitas Pesisir Banyusangka"
+      "Catatan Riset Formulasi Rasa & Tekstur",
+      "Dokumentasi Foto Uji Coba Pengolahan Awal",
+      "Evaluasi Daya Tahan Produk Sesi 1"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/10vKl_QB-PFxRSH9nptZet_iFkc2UI3ZO?usp=sharing"
+  },
+  {
+    "id": "doc-rnd-2",
+    "nama_kegiatan": "Research & Development (RND 2)",
+    "kategori": "Lainnya",
+    "tanggal": "23 Juni 2026",
+    "deskripsi": "Dokumentasi Research & Development tahap 2 — penyempurnaan resep dan uji kemasan higienis.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📸 30+ Foto", "🧪 Uji Kemasan"],
+    "isi_folder": [
+      "Laporan Uji Kelayakan Kemasan Alumunium Foil",
+      "Foto Dokumentasi Praktik RND Tahap 2",
+      "Hasil Tes Organoleptik Rasa & Aroma"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1zvAAHJzjYFJ-6sWuvOgsOBOKQraaSYyN?usp=sharing"
+  },
+  {
+    "id": "doc-rnd-3",
+    "nama_kegiatan": "Research & Development (RND 3)",
+    "kategori": "Lainnya",
+    "tanggal": "4 Juli 2026",
+    "deskripsi": "Dokumentasi Research & Development tahap 3 — standardisasi takaran bumbu dan produksi skala KUB.",
+    "foto_cover": "/images/galeri/display-1.png",
+    "statistik": ["📸 25+ Foto", "📊 Takaran Standard"],
+    "isi_folder": [
+      "Master Sheet Takaran Bahan Per 10kg Tangkapan",
+      "Dokumentasi Foto Praktek KUB Tahap 3",
+      "Catatan Efisiensi Waktu Pengeringan & Goreng"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1SqaPDV-JjUgTeTsF51pO3eq0uQPReIZG?usp=sharing"
+  },
+  {
+    "id": "doc-rnd-4",
+    "nama_kegiatan": "Research & Development (RND 4)",
+    "kategori": "Lainnya",
+    "tanggal": "13 Juli 2026",
+    "deskripsi": "Dokumentasi Research & Development tahap 4 — uji lab akhir dan persiapan rilis produk.",
+    "foto_cover": "/images/galeri/produksi-1.png",
+    "statistik": ["📸 35+ Foto", "🔬 Uji Lab"],
+    "isi_folder": [
+      "Berkas Pengujian Laboratorium Produk",
+      "Dokumentasi Foto RND Final Siap Pemasaran",
+      "Catatan Standard Operating Procedure (SOP) Final"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1MHsI_DDTc8IDxGBpxEb1_DmAJ1Ax5TBb?usp=sharing"
+  },
+  {
+    "id": "doc-sosialisasi-sdgs",
+    "nama_kegiatan": "Sosialisasi SDGs & Program TAWSEC",
+    "kategori": "Lainnya",
+    "tanggal": "20 Juni 2026",
+    "deskripsi": "Dokumentasi kegiatan sosialisasi SDGs bersama tokoh masyarakat, kelompok nelayan, dan pengurus PKK.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📸 45+ Foto", "📑 Notulensi Forum"],
+    "isi_folder": [
+      "Naskah Notulensi Diskusi SDGs Desa",
+      "Dokumentasi Foto Pertemuan Tokoh & Nelayan",
+      "Daftar Hadir Peserta Sosialisasi"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1qro6RpgXegh7ajz6Nav2ssm3jL4tQSf3?usp=sharing"
+  },
+  {
+    "id": "doc-survey-3",
+    "nama_kegiatan": "Survei Lapangan 3",
+    "kategori": "Lainnya",
+    "tanggal": "15 Mei 2026",
+    "deskripsi": "Dokumentasi kegiatan survei lapangan tahap 3 — pemetaan PPI Banyusangka & observasi nelayan.",
+    "foto_cover": "/images/galeri/nelayan-1.png",
+    "statistik": ["📸 30+ Foto", "📍 Peta Observasi"],
+    "isi_folder": [
+      "Peta Lokasi & ObservasiPPI Banyusangka",
+      "Transkrip Wawancara Nelayan & Ngojur",
+      "Dokumentasi Foto Pendaratan Tangkapan Ikan"
+    ],
+    "link_gdrive": "https://drive.google.com/drive/folders/1AQP0gfeBpco6aw2GEwg-DDwjrNVTkGx2?usp=sharing"
+  },
+  {
+    "id": "doc-random-moments",
+    "nama_kegiatan": "UNAIR Sustain Random Moments",
+    "kategori": "Lainnya",
+    "tanggal": "17 Mei 2026",
+    "deskripsi": "Dokumentasi bebas/momen kebersamaan tim Ormawa AcSES FEB UNAIR selama bertugas di lapangan.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📸 50+ Foto", "🎉 Momen Tim"],
+    "isi_folder": [
+      "Kumpulan Foto Dokumentasi Momen Tim di Lapangan",
+      "Behind The Scenes Kegiatan Pengabdian Masyarakat",
+      "Dokumentasi Kebersamaan Bersama Warga Desa"
     ],
     "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   }
