@@ -24,9 +24,22 @@
   --color-emerald-500: #10b981;
   --color-emerald-600: #059669;
 
-  --color-navy-900: #0f172a;
-  --color-navy-800: #1e293b;
+  --color-navy-50: #f8fafc;
+  --color-navy-100: #f1f5f9;
+  --color-navy-200: #e2e8f0;
+  --color-navy-300: #cbd5e1;
+  --color-navy-400: #94a3b8;
+  --color-navy-500: #64748b;
+  --color-navy-600: #475569;
   --color-navy-700: #334155;
+  --color-navy-800: #1e293b;
+  --color-navy-900: #0f172a;
+  --color-navy-950: #020617;
+
+  --color-primary-950: #082f49;
+
+  --color-sunset-900: #7c2d12;
+  --color-sunset-950: #451a03;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Lora", ui-serif, Georgia, serif;
