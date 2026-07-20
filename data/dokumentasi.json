@@ -4,7 +4,15 @@
     "nama_kegiatan": "Pelatihan Pilar 1: Kewirausahaan & Manajemen Usaha",
     "kategori": "Pilar 1",
     "tanggal": "Juni 2026",
-    "deskripsi": "Dokumentasi foto, video, dan absensi pelatihan HPP, modal awal, dan pencatatan kas UMKM.",
+    "deskripsi": "Dokumentasi pelatihan perhitungan HPP, modal usaha awal, penetapan harga jual, dan buku kas sederhana.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📸 35+ Foto", "📄 2 Modul PDF", "📊 1 Excel Kas"],
+    "isi_folder": [
+      "Modul Perhitungan HPP & BEP (PDF)",
+      "Foto Sesi Pelatihan Kas UMKM",
+      "Daftar Hadir & Absensi Peserta",
+      "Template Buku Kas Sederhana (XLSX)"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR1"
   },
   {
@@ -12,7 +20,15 @@
     "nama_kegiatan": "Pelatihan Pilar 2: Produksi Berkelanjutan & Zero Waste",
     "kategori": "Pilar 2",
     "tanggal": "Juni 2026",
-    "deskripsi": "Dokumentasi SOP pembuatan abon, kerupuk kulit ikan, dan tepung tulang ikan.",
+    "deskripsi": "Dokumentasi SOP pembuatan abon ikan tongkol, kerupuk kulit ikan, dan tepung tulang ikan.",
+    "foto_cover": "/images/galeri/produksi-1.png",
+    "statistik": ["📸 40+ Foto", "📄 3 SOP PDF", "🎬 1 Video Sesi"],
+    "isi_folder": [
+      "Dokumen SOP Produksi Higienis (PDF)",
+      "Checklist Kebersihan Fasilitas Dapur",
+      "Foto Praktik Olahan Daging & Kulit",
+      "Video Dokumenter Pengolahan Tulang"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR2"
   },
   {
@@ -21,6 +37,14 @@
     "kategori": "Pilar 3",
     "tanggal": "Juli 2026",
     "deskripsi": "Dokumentasi pelatihan foto produk HP, desain Canva, serta pembuatan toko Shopee & TikTok.",
+    "foto_cover": "/images/galeri/display-1.png",
+    "statistik": ["📸 28+ Foto", "🎨 5 Desain Label", "📄 1 Panduan"],
+    "isi_folder": [
+      "Master Desain Logo & Label Canva (PNG/PDF)",
+      "Foto Katalog Produk Hasil Praktek HP",
+      "Panduan Buka Toko Shopee & TikTok Shop",
+      "Dokumentasi Foto Sesi Branding"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR3"
   },
   {
@@ -28,7 +52,15 @@
     "nama_kegiatan": "Pelatihan Pilar 4: Legalitas (NIB & Halal) & Keberlanjutan",
     "kategori": "Pilar 4",
     "tanggal": "Juli 2026",
-    "deskripsi": "Berkas administrasi pengajuan NIB OSS, sertifikasi halal BPJPH, dan draf Perdes.",
+    "deskripsi": "Berkas administrasi pengajuan NIB OSS, sertifikasi halal BPJPH, dan draf Peraturan Desa.",
+    "foto_cover": "/images/galeri/pelatihan-1.png",
+    "statistik": ["📄 4 Berkas Legal", "📸 20+ Foto", "📑 Draf Perdes"],
+    "isi_folder": [
+      "Draft Peraturan Desa (Perdes) Keberlanjutan",
+      "Berkas Pengajuan NIB OSS KUB",
+      "Dokumen Persyaratan Sertifikat Halal",
+      "Foto Sesi Pendampingan Perizinan"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR4"
   },
   {
@@ -36,7 +68,15 @@
     "nama_kegiatan": "Peluncuran Website & Peresmian Etalase Digital",
     "kategori": "Peluncuran Website",
     "tanggal": "15 Juli 2026",
-    "deskripsi": "Dokumentasi acara launching website TAWSEC Banyusangka bersama perangkat desa dan KUB.",
+    "deskripsi": "Dokumentasi acara launching website TAWSEC Banyusangka bersama perangkat desa dan pengurus KUB.",
+    "foto_cover": "/images/galeri/display-1.png",
+    "statistik": ["📸 50+ Foto", "🎬 1 Video Highlights", "📰 Press Release"],
+    "isi_folder": [
+      "Foto Dokumentasi Acara Peresmian",
+      "Video Highlight Launching Website",
+      "Naskah Press Release & Pubdok",
+      "Daftar Undangan & Berita Acara"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_LAUNCHING"
   },
   {
@@ -44,7 +84,15 @@
     "nama_kegiatan": "Survei Lapangan & Forum Diskusi Komunitas Pesisir",
     "kategori": "Lainnya",
     "tanggal": "Mei 2026",
-    "deskripsi": "Dokumentasi wawancara awal dengan pelaku ngojur, tokoh nelayan, dan pengurus PKK.",
+    "deskripsi": "Dokumentasi wawancara awal dengan pelaku ngojur, tokoh nelayan PPI, dan pengurus PKK.",
+    "foto_cover": "/images/galeri/nelayan-1.png",
+    "statistik": ["📸 30+ Foto", "📊 Hasil Transkrip", "📍 Peta Lokasi"],
+    "isi_folder": [
+      "Transkrip Wawancara Pelaku Ngojur",
+      "Foto Observasi Tangkapan PPI Banyusangka",
+      "Catatan Baseline Data Ekonomi Desa",
+      "Daftar Kontak Komunitas Pesisir"
+    ],
     "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_SURVEI"
   }
 ]

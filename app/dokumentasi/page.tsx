@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import dokumentasiData from "@/data/dokumentasi.json";
-import { ExternalLink, LogOut, Folder, Calendar, ShieldCheck, ArrowLeft } from "lucide-react";
+import { ExternalLink, LogOut, Folder, Calendar, ShieldCheck, ArrowLeft, FileText, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const categories = ["Semua", "Pilar 1", "Pilar 2", "Pilar 3", "Pilar 4", "Peluncuran Website", "Lainnya"];
@@ -77,7 +78,7 @@ export default function DokumentasiPage() {
             <div>
               <h2 className="font-semibold text-white text-base">Arsip Dokumen &amp; Media Kegiatan Internal</h2>
               <p className="text-slate-300 text-xs sm:text-sm mt-1 leading-relaxed">
-                Halaman ini memuat tautan folder Google Drive untuk setiap sesi pelatihan, pendampingan, dan peluncuran program. Pastikan hak akses folder Drive diset ke <strong className="text-orange-400">Terbatas</strong> dan di-share ke email anggota tim.
+                Halaman ini memuat visual preview dan tautan folder Google Drive untuk setiap kegiatan. Hak akses folder Drive diset ke <strong className="text-orange-400">Terbatas</strong> (di-share khusus ke email anggota).
               </p>
             </div>
           </div>
@@ -100,43 +101,87 @@ export default function DokumentasiPage() {
           ))}
         </div>
 
-        {/* Grid Cards */}
+        {/* Visual Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredData.map((item) => (
             <div
               key={item.id}
-              className="bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-2xl p-6 flex flex-col justify-between hover:bg-slate-850 transition-all shadow-md group"
+              className="bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-3xl overflow-hidden flex flex-col justify-between hover:bg-slate-850 transition-all shadow-xl group"
             >
               <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="bg-sky-950 text-sky-300 border border-sky-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
-                    {item.kategori}
-                  </span>
-                  <span className="text-slate-400 text-xs flex items-center gap-1 font-medium">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {item.tanggal}
-                  </span>
+                {/* Visual Cover Image Preview */}
+                <div className="relative aspect-[16/9] w-full bg-slate-800 overflow-hidden">
+                  <Image
+                    src={item.foto_cover}
+                    alt={item.nama_kegiatan}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                  
+                  {/* Category Badge & Date Overlay */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                    <span className="bg-sky-950/90 backdrop-blur-md text-sky-300 border border-sky-700/60 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                      {item.kategori}
+                    </span>
+                    <span className="bg-slate-950/80 backdrop-blur-md text-slate-300 text-xs px-2.5 py-1 rounded-full border border-slate-800 flex items-center gap-1 font-medium">
+                      <Calendar className="w-3 h-3 text-sky-400" />
+                      {item.tanggal}
+                    </span>
+                  </div>
+
+                  {/* Stat Badges Overlay at Bottom of Cover */}
+                  <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1.5">
+                    {item.statistik.map((stat, sIdx) => (
+                      <span key={sIdx} className="bg-slate-900/90 backdrop-blur-md text-slate-200 text-[10px] font-semibold px-2 py-0.5 rounded-lg border border-slate-700">
+                        {stat}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <h3 className="font-serif font-bold text-white text-lg group-hover:text-sky-300 transition-colors mb-2">
-                  {item.nama_kegiatan}
-                </h3>
+                {/* Card Content Body */}
+                <div className="p-6">
+                  <h3 className="font-serif font-bold text-white text-lg group-hover:text-sky-300 transition-colors mb-2 leading-snug">
+                    {item.nama_kegiatan}
+                  </h3>
 
-                <p className="text-slate-300 text-xs leading-relaxed mb-6">
-                  {item.deskripsi}
-                </p>
+                  <p className="text-slate-300 text-xs leading-relaxed mb-5">
+                    {item.deskripsi}
+                  </p>
+
+                  {/* Folder Contents Preview List */}
+                  <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-4 mb-6">
+                    <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-sky-400">
+                      <FileText className="w-3.5 h-3.5" />
+                      Pratinjau Isi Folder Drive:
+                    </div>
+                    <ul className="space-y-1.5">
+                      {item.isi_folder.map((file, fIdx) => (
+                        <li key={fIdx} className="flex items-center gap-2 text-xs text-slate-300">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                          <span className="truncate">{file}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
 
-              <a
-                href={item.link_gdrive}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 px-4 rounded-xl shadow-md transition-all active:scale-95"
-              >
-                <Folder className="w-4 h-4" />
-                Buka Folder Drive
-                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-              </a>
+              {/* Action Button */}
+              <div className="px-6 pb-6 pt-0">
+                <a
+                  href={item.link_gdrive}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all active:scale-95"
+                >
+                  <Folder className="w-4 h-4" />
+                  Buka Folder Google Drive
+                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                </a>
+              </div>
             </div>
           ))}
         </div>
