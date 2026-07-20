@@ -8,12 +8,12 @@
     "foto_cover": "/images/galeri/pelatihan-1.png",
     "statistik": ["📸 35+ Foto", "📄 2 Modul PDF", "📊 1 Excel Kas"],
     "isi_folder": [
-      "Modul Perhitungan HPP & BEP (PDF)",
-      "Foto Sesi Pelatihan Kas UMKM",
-      "Daftar Hadir & Absensi Peserta",
-      "Template Buku Kas Sederhana (XLSX)"
+      "Modul 1 - Kewirausahaan & Manajemen (PDF)",
+      "Template Kalkulator HPP & BEP (XLSX)",
+      "Buku Kas Sederhana UMKM Banyusangka (XLSX)",
+      "Dokumentasi Foto & Absensi Sesi Pilar 1"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR1"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   },
   {
     "id": "doc-002",
@@ -24,12 +24,12 @@
     "foto_cover": "/images/galeri/produksi-1.png",
     "statistik": ["📸 40+ Foto", "📄 3 SOP PDF", "🎬 1 Video Sesi"],
     "isi_folder": [
-      "Dokumen SOP Produksi Higienis (PDF)",
-      "Checklist Kebersihan Fasilitas Dapur",
-      "Foto Praktik Olahan Daging & Kulit",
-      "Video Dokumenter Pengolahan Tulang"
+      "SOP Produksi Abon Ikan Tongkol (PDF)",
+      "SOP Produksi Kerupuk & Tepung Tulang (PDF)",
+      "Checklist Kebersihan & Sanitasi Dapur",
+      "Dokumentasi Foto & Video Praktik Produksi"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR2"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   },
   {
     "id": "doc-003",
@@ -40,12 +40,12 @@
     "foto_cover": "/images/galeri/display-1.png",
     "statistik": ["📸 28+ Foto", "🎨 5 Desain Label", "📄 1 Panduan"],
     "isi_folder": [
-      "Master Desain Logo & Label Canva (PNG/PDF)",
-      "Foto Katalog Produk Hasil Praktek HP",
-      "Panduan Buka Toko Shopee & TikTok Shop",
-      "Dokumentasi Foto Sesi Branding"
+      "Master Logo & Desain Kemasan TAWSEC (PNG/PDF)",
+      "Foto Katalog Produk HD (Abon, Kerupuk, Tepung)",
+      "Panduan E-Commerce Shopee & TikTok Shop",
+      "Dokumentasi Foto Pelatihan Branding HP"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR3"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   },
   {
     "id": "doc-004",
@@ -56,12 +56,12 @@
     "foto_cover": "/images/galeri/pelatihan-1.png",
     "statistik": ["📄 4 Berkas Legal", "📸 20+ Foto", "📑 Draf Perdes"],
     "isi_folder": [
-      "Draft Peraturan Desa (Perdes) Keberlanjutan",
-      "Berkas Pengajuan NIB OSS KUB",
-      "Dokumen Persyaratan Sertifikat Halal",
-      "Foto Sesi Pendampingan Perizinan"
+      "Draft Peraturan Desa (Perdes) Keberlanjutan (DOCX)",
+      "Berkas Pengajuan NIB OSS KUB Banyusangka",
+      "Dokumen Sertifikasi Halal BPJPH UNAIR",
+      "Dokumentasi Foto Pendampingan Legalitas"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_PILAR4"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   },
   {
     "id": "doc-005",
@@ -72,12 +72,12 @@
     "foto_cover": "/images/galeri/display-1.png",
     "statistik": ["📸 50+ Foto", "🎬 1 Video Highlights", "📰 Press Release"],
     "isi_folder": [
-      "Foto Dokumentasi Acara Peresmian",
-      "Video Highlight Launching Website",
-      "Naskah Press Release & Pubdok",
-      "Daftar Undangan & Berita Acara"
+      "Press Release Peluncuran Website TAWSEC (PDF)",
+      "Foto Dokumentasi Acara Peresmian Web",
+      "Video Highlight Launching & Sambutan Kades",
+      "Daftar Hadir & Berita Acara Peresmian"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_LAUNCHING"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   },
   {
     "id": "doc-006",
@@ -88,11 +88,11 @@
     "foto_cover": "/images/galeri/nelayan-1.png",
     "statistik": ["📸 30+ Foto", "📊 Hasil Transkrip", "📍 Peta Lokasi"],
     "isi_folder": [
-      "Transkrip Wawancara Pelaku Ngojur",
-      "Foto Observasi Tangkapan PPI Banyusangka",
-      "Catatan Baseline Data Ekonomi Desa",
-      "Daftar Kontak Komunitas Pesisir"
+      "Laporan Pemetaan Potensi Perikanan Banyusangka",
+      "Transkrip Wawancara Pelaku Ngojur & Nelayan",
+      "Foto Observasi Pendaratan Ikan PPI",
+      "Daftar Kontak Komunitas Pesisir Banyusangka"
     ],
-    "link_gdrive": "https://drive.google.com/drive/folders/GANTI_DENGAN_ID_FOLDER_SURVEI"
+    "link_gdrive": "https://drive.google.com/drive/folders/16TvuI_IreLpDRDOJq1aQE9II6YoFwh3K?usp=drive_link"
   }
 ]
