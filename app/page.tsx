@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import {
   ArrowRight, ShieldCheck, ShoppingBag, BookOpen, ChevronRight,
-  Sparkles, Package, Store, Users
+  Sparkles, Package, Store, Users, Compass
 } from "lucide-react";
 import produkData from "@/data/produk.json";
 import { createClient } from "@/lib/supabase/client";
@@ -48,35 +48,36 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12 sm:space-y-16 pb-20 pt-16">
-      {/* ===== MAJESTIC OCEAN HERO BANNER ===== */}
-      <section className="relative min-h-[560px] sm:min-h-[620px] flex items-center overflow-hidden bg-navy-950 text-white">
-        {/* Background Ocean Image with Dark Overlay */}
+      {/* ===== MAJESTIC CRYSTAL-CLEAR OCEAN HERO BANNER ===== */}
+      <section className="relative min-h-[580px] sm:min-h-[640px] flex items-center overflow-hidden bg-navy-950 text-white">
+        {/* Background HD Ocean Image with High Sharpness & Vibrant Contrast */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/hero-desa.png"
+            src="/images/hero-banyusangka-hd.png"
             alt="Pemandangan Laut Pesisir Desa Banyusangka"
             fill
-            className="object-cover object-center opacity-40 scale-105"
+            className="object-cover object-center brightness-90 contrast-110 scale-105"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/80 to-navy-950/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-navy-950/50" />
+          {/* Subtle directional gradient so text is 100% readable while ocean view stays crisp & bright */}
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/30" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-24">
           <div className="max-w-3xl space-y-6">
             <FadeIn>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 uppercase tracking-wider shadow-lg">
-                <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-xs font-bold text-sky-200 uppercase tracking-wider shadow-lg">
+                <Sparkles className="w-4 h-4 text-amber-400" />
                 UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mt-4 drop-shadow-md">
-                Transformasi Olahan Laut &amp; <span className="text-gradient-ocean">Ekonomi Pesisir Banyusangka</span>
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mt-4 drop-shadow-lg">
+                Transformasi Olahan Laut &amp; <span className="text-gradient-ocean font-serif">Ekonomi Pesisir Banyusangka</span>
               </h1>
 
-              <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl mt-4 drop-shadow">
+              <p className="text-slate-100 text-base sm:text-lg leading-relaxed max-w-2xl mt-4 drop-shadow font-normal">
                 Inovasi <strong>Zero Waste</strong> pengolahan ikan layang &amp; tongkol oleh perempuan nelayan Desa Banyusangka. Mengubah sisa tangkapan melimpah menjadi produk olahan bernilai tambah tinggi.
               </p>
             </FadeIn>
@@ -86,29 +87,29 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
                   href="/katalog"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sunset-500 to-orange-600 hover:from-sunset-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all active:scale-95 text-sm"
+                  className="inline-flex items-center gap-2.5 bg-gradient-to-r from-sunset-500 to-orange-600 hover:from-sunset-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all active:scale-95 text-sm sm:text-base"
                 >
-                  <ShoppingBag className="w-4 h-4" />
+                  <ShoppingBag className="w-5 h-5" />
                   Lihat Katalog Produk
                 </Link>
 
                 <Link
                   href="/program-tawsec"
-                  className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/30 text-white font-semibold py-4 px-7 rounded-2xl shadow transition-all text-sm"
+                  className="inline-flex items-center gap-2.5 bg-white/15 backdrop-blur-md hover:bg-white/25 border border-white/40 text-white font-semibold py-4 px-7 rounded-2xl shadow transition-all text-sm sm:text-base"
                 >
+                  <Compass className="w-5 h-5 text-sky-300" />
                   Pelajari Program TAWSEC
-                  <ArrowRight className="w-4 h-4 text-sky-300" />
                 </Link>
               </div>
             </FadeIn>
 
             {/* Quick Trust Badges */}
             <FadeIn delay={0.3}>
-              <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-slate-300 border-t border-white/15">
-                <span className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-6 pt-4 text-xs sm:text-sm font-semibold text-slate-200 border-t border-white/20">
+                <span className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-400" /> NIB OSS &amp; Sertifikat Halal BPJPH
                 </span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-sky-400" /> Modul &amp; Perdes Keberlanjutan
                 </span>
               </div>
