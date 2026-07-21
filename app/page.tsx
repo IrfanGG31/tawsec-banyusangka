@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import produkData from "@/data/produk.json";
 import { createClient } from "@/lib/supabase/client";
+import NewsCarousel from "@/components/home/NewsCarousel";
 
 interface DampakItem {
   id: string;
@@ -46,96 +47,82 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-20 pt-24">
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-50/70 via-white to-white py-12 sm:py-20 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Text Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <FadeIn>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-100/80 border border-primary-200 text-xs font-bold text-primary-800 uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-sunset-500" />
-                  UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
-                </div>
+    <div className="space-y-12 sm:space-y-16 pb-20 pt-16">
+      {/* ===== MAJESTIC OCEAN HERO BANNER ===== */}
+      <section className="relative min-h-[560px] sm:min-h-[620px] flex items-center overflow-hidden bg-navy-950 text-white">
+        {/* Background Ocean Image with Dark Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/galeri/hero_desa_1784057776565.png"
+            alt="Pemandangan Laut Pesisir Desa Banyusangka"
+            fill
+            className="object-cover object-center brightness-60 scale-105"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/75 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-navy-950/40" />
+        </div>
 
-                <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-navy-950 leading-[1.15] mt-4">
-                  Transformasi Olahan Laut <span className="text-gradient-ocean">Desa Banyusangka</span>
-                </h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-24">
+          <div className="max-w-3xl space-y-6">
+            <FadeIn>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 uppercase tracking-wider shadow-lg">
+                <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+                UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
+              </div>
 
-                <p className="text-navy-600 text-base sm:text-lg leading-relaxed max-w-2xl mt-4">
-                  Inovasi <strong>Zero Waste</strong> pengolahan ikan layang &amp; tongkol oleh perempuan nelayan Desa Banyusangka. Mengubah hasil tangkapan melimpah menjadi produk olahan bernilai tambah tinggi.
-                </p>
-              </FadeIn>
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mt-4 drop-shadow-md">
+                Transformasi Olahan Laut &amp; <span className="text-gradient-ocean">Ekonomi Pesisir Banyusangka</span>
+              </h1>
 
-              {/* Action Buttons */}
-              <FadeIn delay={0.2}>
-                <div className="flex flex-wrap items-center gap-4 pt-2">
-                  <Link
-                    href="/katalog"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sunset-500 to-sunset-600 hover:from-sunset-600 hover:to-sunset-700 text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95 text-sm"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    Lihat Produk Olahan
-                  </Link>
+              <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl mt-4 drop-shadow">
+                Inovasi <strong>Zero Waste</strong> pengolahan ikan layang &amp; tongkol oleh perempuan nelayan Desa Banyusangka. Mengubah sisa tangkapan melimpah menjadi produk olahan bernilai tambah tinggi.
+              </p>
+            </FadeIn>
 
-                  <Link
-                    href="/program-tawsec"
-                    className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-navy-800 font-semibold py-3.5 px-6 rounded-2xl shadow-sm hover:shadow transition-all text-sm"
-                  >
-                    Pelajari Program TAWSEC
-                    <ArrowRight className="w-4 h-4 text-primary-600" />
-                  </Link>
-                </div>
-              </FadeIn>
+            {/* Action Buttons */}
+            <FadeIn delay={0.2}>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <Link
+                  href="/katalog"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sunset-500 to-orange-600 hover:from-sunset-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all active:scale-95 text-sm"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  Lihat Katalog Produk
+                </Link>
 
-              {/* Quick Trust Badges */}
-              <FadeIn delay={0.3}>
-                <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-navy-600 border-t border-gray-100">
-                  <span className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600" /> NIB OSS &amp; Sertifikat Halal BPJPH
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <BookOpen className="w-4 h-4 text-primary-600" /> Modul &amp; Perdes Keberlanjutan
-                  </span>
-                </div>
-              </FadeIn>
-            </div>
+                <Link
+                  href="/program-tawsec"
+                  className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/30 text-white font-semibold py-4 px-7 rounded-2xl shadow transition-all text-sm"
+                >
+                  Pelajari Program TAWSEC
+                  <ArrowRight className="w-4 h-4 text-sky-300" />
+                </Link>
+              </div>
+            </FadeIn>
 
-            {/* Hero Image / Banner Card */}
-            <div className="lg:col-span-5 relative">
-              <FadeIn direction="right">
-                <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-                  <Image
-                    src="/images/galeri/display-1.png"
-                    alt="Produk Olahan TAWSEC Banyusangka"
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <span className="bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block">
-                      ✓ Inovasi Zero Waste
-                    </span>
-                    <h3 className="font-serif font-bold text-lg leading-tight">
-                      Abon, Kerupuk Kulit &amp; Tepung Tulang Ikan
-                    </h3>
-                    <p className="text-white/80 text-xs mt-1">
-                      100% Ikan Segar Nelayan PPI Banyusangka
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            </div>
+            {/* Quick Trust Badges */}
+            <FadeIn delay={0.3}>
+              <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-slate-300 border-t border-white/15">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" /> NIB OSS &amp; Sertifikat Halal BPJPH
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <BookOpen className="w-4 h-4 text-sky-400" /> Modul &amp; Perdes Keberlanjutan
+                </span>
+              </div>
+            </FadeIn>
           </div>
         </div>
       </section>
 
+      {/* ===== NEWS & ACTIVITY CAROUSEL (INDORELAWAN BENCHMARK) ===== */}
+      <NewsCarousel />
+
       {/* ===== CAPAIAN & ANGKA DAMPAK PROGRAM ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-br from-navy-900 to-primary-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-navy-900 to-slate-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-slate-800">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-4 space-y-3">
               <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider">
@@ -151,14 +138,14 @@ export default function HomePage() {
 
             <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
               {dampakList.map((d) => (
-                <div key={d.id} className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 text-center hover:bg-white/15 transition-all">
-                  <div className="text-2xl mb-1 text-emerald-300">
+                <div key={d.id} className="bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-2xl p-5 text-center hover:bg-slate-800 transition-all shadow-md">
+                  <div className="text-2xl mb-1 text-emerald-400">
                     {d.icon === "Package" ? <Package className="w-6 h-6 mx-auto" /> : d.icon === "Store" ? <Store className="w-6 h-6 mx-auto" /> : <Users className="w-6 h-6 mx-auto" />}
                   </div>
                   <div className="font-serif font-bold text-3xl sm:text-4xl text-white">
                     {d.angka}
                   </div>
-                  <div className="text-emerald-200 text-xs font-medium">{d.satuan}</div>
+                  <div className="text-emerald-300 text-xs font-medium">{d.satuan}</div>
                   <div className="text-white/90 text-xs font-semibold mt-1">{d.label}</div>
                 </div>
               ))}
@@ -251,7 +238,7 @@ export default function HomePage() {
         </StaggerContainer>
       </section>
 
-      {/* ===== TESTIMONI KEPALA DESA & PENUTUP RINGKAS ===== */}
+      {/* ===== TESTIMONI KEPALA DESA ===== */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="bg-gradient-to-r from-primary-50 to-emerald-50 border border-primary-100 rounded-3xl p-8 sm:p-10 shadow-sm relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -271,7 +258,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== CALL TO ACTION FOOTER BANNER ===== */}
+      {/* ===== CALL TO ACTION BANNER ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="bg-gradient-to-r from-sunset-500 to-orange-600 rounded-3xl p-8 sm:p-12 text-white text-center shadow-xl relative overflow-hidden">
           <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white mb-3">
