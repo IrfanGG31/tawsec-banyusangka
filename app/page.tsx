@@ -53,15 +53,15 @@ export default function HomePage() {
         {/* Background Ocean Image with Dark Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/galeri/hero_desa_1784057776565.png"
+            src="/images/hero-desa.png"
             alt="Pemandangan Laut Pesisir Desa Banyusangka"
             fill
-            className="object-cover object-center brightness-60 scale-105"
+            className="object-cover object-center opacity-40 scale-105"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/75 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-navy-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/80 to-navy-950/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-navy-950/50" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-24">
