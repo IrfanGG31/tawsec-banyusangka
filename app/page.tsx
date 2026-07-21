@@ -1,337 +1,129 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
-import ProductCard from "@/components/katalog/ProductCard";
-import produkData from "@/data/produk.json";
-import dampakData from "@/data/dampak.json";
 import {
-  ArrowRight,
-  Fish,
-  TrendingUp,
-  Users,
-  MapPin,
-  ShoppingBag,
-  AlertTriangle,
-  Zap,
-  ChevronDown,
-  Globe,
-  Award,
+  ArrowRight, ShieldCheck, ShoppingBag, BookOpen, ChevronRight,
+  Sparkles, Package, Store, Users
 } from "lucide-react";
+import produkData from "@/data/produk.json";
+import { createClient } from "@/lib/supabase/client";
 
-const stats = [
-  { label: "Jiwa Penduduk", value: "2.628", icon: "👥", suffix: "" },
-  { label: "Nelayan Aktif", value: "621", icon: "🎣", suffix: "+" },
-  { label: "Kg Ikan/Hari", value: "300", icon: "🐟", suffix: "+" },
-  { label: "Pilar Program", value: "4", icon: "🏛️", suffix: "" },
-];
+interface DampakItem {
+  id: string;
+  label: string;
+  angka: string;
+  satuan: string;
+  icon?: string;
+}
 
-const macroStats = [
-  {
-    value: "53,76%",
-    label: "Pelaku UMKM Perempuan",
-    sub: "Kontribusi Ekonomi 61% (Kemenkeu 2021)",
-  },
-  {
-    value: "10,37%",
-    label: "Perempuan Miskin Nasional",
-    sub: "Tantangan Kemiskinan (BPS 2021)",
-  },
-  {
-    value: "28.084 Ton",
-    label: "Perikanan Bangkalan",
-    sub: "Tangkapan Perikanan (BPS 2024)",
-  },
-];
-
-const whyItems = [
-  {
-    icon: <AlertTriangle className="w-7 h-7 text-red-400" />,
-    label: "Masalah",
-    color: "from-red-50 to-orange-50 border-red-200",
-    title: "85% Dijual Mentah",
-    desc: "Ikan layang & tongkol segar dijual langsung tanpa diolah. Saat panen raya (>1 ton/hari), harga ANJLOK dari Rp30.000/kg jadi Rp1.000–3.000/kg.",
-  },
-  {
-    icon: <AlertTriangle className="w-7 h-7 text-orange-400" />,
-    label: "Masalah",
-    color: "from-orange-50 to-yellow-50 border-orange-200",
-    title: "Food Loss 20–35%",
-    desc: "Saat musim puncak panen raya, hasil tangkapan melimpah tidak terserap pasar — banyak terbuang sia-sia karena belum ada pabrik pengolahan.",
-  },
-  {
-    icon: <Zap className="w-7 h-7 text-emerald-500" />,
-    label: "Solusi TAWSEC",
-    color: "from-emerald-50 to-teal-50 border-emerald-200",
-    title: "Nilai Naik 10–50x",
-    desc: "Mengolah daging ikan jadi abon (Rp55.000/250g), kulit jadi kerupuk, dan tulang jadi tepung pakan. Mengubah sisa tangkapan jadi produk bernilai tinggi.",
-  },
-  {
-    icon: <TrendingUp className="w-7 h-7 text-primary-500" />,
-    label: "Solusi TAWSEC",
-    color: "from-primary-50 to-blue-50 border-primary-200",
-    title: "4 Pilar & Zero Waste",
-    desc: "Kewirausahaan, Produksi Higienis, Digitalization, & Legalitas — mendampingi perempuan pelaku ngojur menjadi pelaku usaha mandiri.",
-  },
-];
-
-const testimonials = [
-  {
-    nama: "H. Abd. Syukur",
-    peran: "Kepala Desa Banyusangka (Surat Kesediaan Mitra Resmi)",
-    isi: "Saat musim panen raya tiba dan hasil tangkapan membludak tanpa ada pengolahan, masyarakat terpaksa menjual ikan segar hanya seharga Rp1.000–3.000 per kilogram. Program TAWSEC sangat dibutuhkan untuk memberi nilai tambah.",
-    foto: "🏛️",
-  },
-  {
-    nama: "Kelompok Ibu-Ibu Ngojur",
-    peran: "Peserta Dampingan Program, Desa Banyusangka",
-    isi: "Kami antusias mengikuti pelatihan olahan abon, kerupuk, dan tepung tulang ikan. Dulu cuma angkut dan jual eceran, sekarang belajar punya produk dan usaha sendiri.",
-    foto: "👩‍💼",
-  },
+const defaultDampak: DampakItem[] = [
+  { id: "1", label: "Kemasan Siap Pemasaran", angka: "500+", satuan: "Pcs", icon: "Package" },
+  { id: "2", label: "Kelompok Usaha Bersama (KUB)", angka: "10", satuan: "Unit Usaha", icon: "Store" },
+  { id: "3", label: "Warga Pesisir Terlatih", angka: "45+", satuan: "Orang", icon: "Users" },
 ];
 
 export default function HomePage() {
+  const [dampakList, setDampakList] = useState<DampakItem[]>(defaultDampak);
+
+  useEffect(() => {
+    const fetchDampak = async () => {
+      const supabase = createClient();
+      if (supabase) {
+        try {
+          const { data, error } = await supabase.from("dampak").select("*");
+          if (!error && data && data.length > 0) {
+            setDampakList(data as DampakItem[]);
+          }
+        } catch {
+          // Fallback to default
+        }
+      }
+    };
+    fetchDampak();
+  }, []);
+
   return (
-    <div className="overflow-x-hidden">
-      {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/hero-desa.png"
-            alt="Desa Banyusangka"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/70 via-navy-900/50 to-navy-900/80" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-20">
-          <FadeIn delay={0.1}>
-            <div className="flex justify-center mb-6">
-              <div className="relative w-24 h-24 bg-white/95 backdrop-blur-md p-3 rounded-3xl shadow-2xl border border-white/20 hover:scale-105 transition-transform duration-300">
-                <Image
-                  src="/images/logos/logo-tawsec.png"
-                  alt="Logo TAWSEC"
-                  fill
-                  className="object-contain p-2.5"
-                />
-              </div>
-            </div>
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              ACSES &amp; UNAIR Sustainability Program · Desa Banyusangka 2026
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Dari Laut,{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-emerald-300">
-                Untuk Bangsa
-              </span>
-            </h1>
-          </FadeIn>
-
-          <FadeIn delay={0.3}>
-            <p className="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto mb-4 leading-relaxed">
-              TAWSEC mendampingi perempuan pelaku <em>ngojur</em> Desa Banyusangka mengolah
-              hasil laut menjadi produk UMKM bernilai jual{" "}
-              <strong className="text-emerald-300">10–50 kali lipat</strong> lebih tinggi.
-            </p>
-            <p className="text-white/60 text-base mb-10">
-              📍 Desa Banyusangka, Tanjung Bumi, Bangkalan, Madura
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.4}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/katalog"
-                id="hero-cta-katalog"
-                className="flex items-center gap-2 bg-sunset-500 hover:bg-sunset-600 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all duration-200 hover:shadow-2xl hover:scale-105"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                Lihat Katalog Produk
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/program-tawsec"
-                id="hero-cta-program"
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-2xl text-base transition-all duration-200 backdrop-blur-sm"
-              >
-                Tentang Program
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
-          <ChevronDown className="w-6 h-6" />
-        </div>
-      </section>
-
-      {/* ===== STATS ===== */}
-      <section className="bg-white py-16 relative border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((s) => (
-              <StaggerItem key={s.label}>
-                <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 hover:shadow-lg transition-shadow">
-                  <div className="text-4xl mb-2">{s.icon}</div>
-                  <div className="font-serif font-bold text-3xl text-primary-700">
-                    {s.value}
-                    <span className="text-sunset-500">{s.suffix}</span>
-                  </div>
-                  <div className="text-navy-500 text-sm mt-1">{s.label}</div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          {/* ===== ANGKA DAMPAK PROGRAM ===== */}
-          <div className="mt-12 pt-12 border-t border-gray-100">
-            <div className="text-center mb-8">
-              <span className="inline-block text-emerald-600 font-semibold text-xs uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-                🚀 Capaian &amp; Target Dampak
-              </span>
-              <h3 className="font-serif font-bold text-navy-900 text-2xl mt-2">
-                Angka Dampak Program TAWSEC
-              </h3>
-            </div>
-            <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {dampakData.map((d) => (
-                <StaggerItem key={d.id}>
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white shadow-lg text-center relative overflow-hidden group hover:scale-[1.02] transition-all">
-                    <div className="text-3xl mb-2">{d.icon}</div>
-                    <div className="font-serif font-bold text-4xl text-white">
-                      {d.angka} <span className="text-sm font-sans font-normal text-emerald-200">{d.satuan}</span>
-                    </div>
-                    <div className="text-white/90 text-sm font-semibold mt-1">{d.label}</div>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== KOMITMEN SDGs & UNAIR ===== */}
-      <section className="bg-gradient-to-br from-primary-900 to-navy-950 text-white py-16 overflow-hidden relative">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-primary-400 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        </div>
-
+    <div className="space-y-16 sm:space-y-24 pb-20 pt-24">
+      {/* ===== HERO SECTION ===== */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-primary-50/70 via-white to-white py-12 sm:py-20 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Column: Text Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Text Column */}
             <div className="lg:col-span-7 space-y-6">
               <FadeIn>
-                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-primary-200 text-xs font-semibold uppercase tracking-wider px-4 py-2 rounded-full">
-                  🌍 Tri Dharma &amp; Global Goals
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-100/80 border border-primary-200 text-xs font-bold text-primary-800 uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-sunset-500" />
+                  UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
                 </div>
-                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-3 leading-tight">
-                  Bagian dari Komitmen SDGs Universitas Airlangga
-                </h2>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed mt-4">
-                  Program TAWSEC merupakan wujud nyata kontribusi UNAIR — peringkat <strong>#15 dunia</strong> &amp; <strong>nomor 1 Indonesia</strong> dalam <em>THE Sustainability Impact Rankings 2026</em> — melalui hibah pengabdian <strong>UNAIR SUSTAINACTION 2026</strong> yang diselenggarakan oleh <strong>UKM-F Penalaran AcSES FEB Universitas Airlangga</strong> untuk pemberdayaan ekonomi pesisir di Desa Banyusangka.
+
+                <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-navy-950 leading-[1.15] mt-4">
+                  Transformasi Olahan Laut <span className="text-gradient-ocean">Desa Banyusangka</span>
+                </h1>
+
+                <p className="text-navy-600 text-base sm:text-lg leading-relaxed max-w-2xl mt-4">
+                  Inovasi <strong>Zero Waste</strong> pengolahan ikan layang &amp; tongkol oleh perempuan nelayan Desa Banyusangka. Mengubah hasil tangkapan melimpah menjadi produk olahan bernilai tambah tinggi.
                 </p>
               </FadeIn>
 
-              {/* Grid 4 SDG Cards */}
-              <StaggerContainer className="grid grid-cols-2 gap-4">
-                {[
-                  {
-                    num: 1,
-                    judul: "Tanpa Kemiskinan",
-                    color: "bg-[#E5243B]",
-                    textColor: "text-[#E5243B]",
-                    desc: "Peningkatan pendapatan perempuan nelayan lewat produk olahan laut bernilai tinggi.",
-                  },
-                  {
-                    num: 5,
-                    judul: "Kesetaraan Gender",
-                    color: "bg-[#FF3A21]",
-                    textColor: "text-[#FF3A21]",
-                    desc: "Pemberdayaan ekonomi perempuan pelaku ngojur menjadi wirausaha mandiri.",
-                  },
-                  {
-                    num: 8,
-                    judul: "Pekerjaan Layak",
-                    color: "bg-[#A21942]",
-                    textColor: "text-[#A21942]",
-                    desc: "Formalisasi kerja informal menjadi usaha berlegalitas (NIB & Halal).",
-                  },
-                  {
-                    num: 14,
-                    judul: "Ekosistem Laut",
-                    color: "bg-[#0A97D9]",
-                    textColor: "text-[#0A97D9]",
-                    desc: "Mengurangi food loss hasil tangkapan ikan layang & tongkol sebesar 20-35%.",
-                  },
-                ].map((sdg) => (
-                  <StaggerItem key={sdg.num}>
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors group">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="relative w-8 h-8 rounded-lg overflow-hidden shadow-md flex-shrink-0">
-                          <Image
-                            src={`/images/sdgs/sdg-${sdg.num}.svg`}
-                            alt={`SDG ${sdg.num} Icon`}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <span className="font-bold text-xs sm:text-sm tracking-tight text-white/90">
-                          {sdg.judul}
-                        </span>
-                      </div>
-                      <p className="text-white/60 text-xs leading-relaxed group-hover:text-white/80 transition-colors">
-                        {sdg.desc}
-                      </p>
-                    </div>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-
-              <FadeIn>
+              {/* Action Buttons */}
+              <FadeIn delay={0.2}>
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <Link
-                    href="/program-tawsec"
-                    id="sdgs-pelajari-lebih-lanjut"
-                    className="inline-flex items-center gap-2 bg-white text-navy-900 font-bold px-6 py-3 rounded-xl hover:shadow-xl hover:scale-105 transition-all text-sm"
+                    href="/katalog"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sunset-500 to-sunset-600 hover:from-sunset-600 hover:to-sunset-700 text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95 text-sm"
                   >
-                    Pelajari Selengkapnya
+                    <ShoppingBag className="w-4 h-4" />
+                    Lihat Produk Olahan
+                  </Link>
+
+                  <Link
+                    href="/program-tawsec"
+                    className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-navy-800 font-semibold py-3.5 px-6 rounded-2xl shadow-sm hover:shadow transition-all text-sm"
+                  >
+                    Pelajari Program TAWSEC
                     <ArrowRight className="w-4 h-4 text-primary-600" />
                   </Link>
-                  <span className="text-[10px] text-white/40 italic">
-                    * Sumber: THE Sustainability Impact Rankings 2026
+                </div>
+              </FadeIn>
+
+              {/* Quick Trust Badges */}
+              <FadeIn delay={0.3}>
+                <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-navy-600 border-t border-gray-100">
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" /> NIB OSS &amp; Sertifikat Halal BPJPH
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <BookOpen className="w-4 h-4 text-primary-600" /> Modul &amp; Perdes Keberlanjutan
                   </span>
                 </div>
               </FadeIn>
             </div>
 
-            {/* Right Column: Visual Supporting Image */}
-            <div className="lg:col-span-5 flex justify-center items-center">
-              <FadeIn direction="right" className="relative w-full max-w-[340px] aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/20 to-emerald-500/20 rounded-full blur-2xl animate-pulse" />
-                <div className="relative w-full h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-center gap-6 shadow-2xl hover:border-white/20 transition-all">
-                  <div className="relative w-full aspect-[1.914] max-w-[260px]">
-                    <Image
-                      src="/images/logos/logo-sdgs-color-wheel-unair-branding.png"
-                      alt="SDGs UNAIR Colour Wheel"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs font-semibold text-primary-200 tracking-widest uppercase">
-                      Sustainable Development Goals
-                    </p>
-                    <p className="text-[10px] text-white/50 mt-1 leading-relaxed">
-                      Universitas Airlangga berkomitmen penuh mendukung pencapaian SDGs global melalui pengabdian masyarakat pesisir.
+            {/* Hero Image / Banner Card */}
+            <div className="lg:col-span-5 relative">
+              <FadeIn direction="right">
+                <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                  <Image
+                    src="/images/galeri/display-1.png"
+                    alt="Produk Olahan TAWSEC Banyusangka"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <span className="bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-2 inline-block">
+                      ✓ Inovasi Zero Waste
+                    </span>
+                    <h3 className="font-serif font-bold text-lg leading-tight">
+                      Abon, Kerupuk Kulit &amp; Tepung Tulang Ikan
+                    </h3>
+                    <p className="text-white/80 text-xs mt-1">
+                      100% Ikan Segar Nelayan PPI Banyusangka
                     </p>
                   </div>
                 </div>
@@ -341,180 +133,167 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== PRODUK UNGGULAN ===== */}
-      <section className="bg-gradient-to-b from-white to-primary-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <FadeIn>
-            <div className="text-center mb-12">
-              <span className="inline-block text-primary-600 font-semibold text-sm uppercase tracking-widest mb-3">
-                Produk Unggulan
+      {/* ===== CAPAIAN & ANGKA DAMPAK PROGRAM ===== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="bg-gradient-to-br from-navy-900 to-primary-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-4 space-y-3">
+              <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider">
+                🚀 Dampak Program
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-900 mb-4">
-                Olahan Laut Khas Banyusangka
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                Hasil &amp; Target Pengabdian
               </h2>
-              <p className="text-navy-500 max-w-xl mx-auto">
-                Dibuat dari ikan segar hasil tangkapan nelayan lokal, diolah secara higienis
-                oleh ibu-ibu UMKM dampingan program TAWSEC.
+              <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
+                Capaian pemberdayaan ekonomi pesisir UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka.
               </p>
             </div>
-          </FadeIn>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            {produkData.map((produk) => (
-              <StaggerItem key={produk.id}>
-                <ProductCard produk={produk} />
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          <FadeIn>
-            <div className="text-center">
-              <Link
-                href="/katalog"
-                id="home-lihat-semua-produk"
-                className="inline-flex items-center gap-2 border-2 border-primary-500 text-primary-700 hover:bg-primary-500 hover:text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200"
-              >
-                Lihat Semua Produk
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ===== KENAPA TAWSEC ===== */}
-      <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <FadeIn>
-            <div className="text-center mb-12">
-              <span className="inline-block text-sunset-500 font-semibold text-sm uppercase tracking-widest mb-3">
-                Kenapa TAWSEC?
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy-900 mb-4">
-                Mengubah Masalah Jadi Peluang
-              </h2>
-              <p className="text-navy-500 max-w-xl mx-auto">
-                Potensi laut yang besar belum dimanfaatkan optimal. TAWSEC hadir untuk menutup gap itu.
-              </p>
-            </div>
-          </FadeIn>
-
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {whyItems.map((item, i) => (
-              <StaggerItem key={i}>
-                <div
-                  className={`rounded-2xl border p-6 bg-gradient-to-br ${item.color} hover:shadow-lg transition-shadow`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <span
-                        className={`text-xs font-semibold uppercase tracking-wider ${
-                          item.label === "Masalah" ? "text-red-500" : "text-emerald-600"
-                        }`}
-                      >
-                        {item.label}
-                      </span>
-                      <h3 className="font-serif font-bold text-navy-900 text-xl mt-0.5 mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-navy-600 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {dampakList.map((d) => (
+                <div key={d.id} className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 text-center hover:bg-white/15 transition-all">
+                  <div className="text-2xl mb-1 text-emerald-300">
+                    {d.icon === "Package" ? <Package className="w-6 h-6 mx-auto" /> : d.icon === "Store" ? <Store className="w-6 h-6 mx-auto" /> : <Users className="w-6 h-6 mx-auto" />}
                   </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          <FadeIn delay={0.2}>
-            <div className="mt-10 text-center">
-              <Link
-                href="/program-tawsec"
-                id="home-lihat-program"
-                className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-800 transition-colors"
-              >
-                Pelajari 4 Pilar Program TAWSEC
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ===== TESTIMONI ===== */}
-      <section className="bg-gradient-to-br from-primary-900 to-navy-900 py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-primary-300 rounded-full -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-300 rounded-full translate-x-1/2 translate-y-1/2" />
-        </div>
-
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-          <FadeIn>
-            <div className="text-center mb-12">
-              <span className="inline-block text-emerald-400 font-semibold text-sm uppercase tracking-widest mb-3">
-                Suara Peserta
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-                Dampak Nyata TAWSEC
-              </h2>
-              <p className="text-white/60 text-sm italic">
-                * Testimoni akan diperbarui seiring berjalannya program
-              </p>
-            </div>
-          </FadeIn>
-
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {testimonials.map((t, i) => (
-              <StaggerItem key={i}>
-                <div className="glass rounded-2xl p-6">
-                  <div className="text-4xl mb-4">{t.foto}</div>
-                  <p className="text-white/90 italic text-base leading-relaxed mb-4">
-                    &ldquo;{t.isi}&rdquo;
-                  </p>
-                  <div>
-                    <p className="text-white font-semibold">{t.nama}</p>
-                    <p className="text-primary-300 text-sm">{t.peran}</p>
+                  <div className="font-serif font-bold text-3xl sm:text-4xl text-white">
+                    {d.angka}
                   </div>
+                  <div className="text-emerald-200 text-xs font-medium">{d.satuan}</div>
+                  <div className="text-white/90 text-xs font-semibold mt-1">{d.label}</div>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ===== CTA FINAL ===== */}
-      <section className="bg-gradient-sunset py-20 text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <FadeIn>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-              Dukung UMKM Pesisir Banyusangka
+      {/* ===== PRODUK UNGGULAN (KATALOG RINGKAS) ===== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
+          <div>
+            <span className="text-primary-600 font-semibold text-xs uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full border border-primary-100">
+              🛒 Produk Khas Desa
+            </span>
+            <h2 className="font-serif font-bold text-navy-950 text-3xl mt-2">
+              Olahan Laut Khas Banyusangka
             </h2>
-            <p className="text-white/80 text-lg mb-8">
-              Setiap pembelian produk TAWSEC berarti ikut serta membangun kemandirian ekonomi
-              perempuan nelayan Madura. 🌊
+            <p className="text-navy-600 text-sm mt-1">
+              Dibuat higienis dari ikan segar tangkapan nelayan lokal oleh ibu-ibu UMKM binaan TAWSEC.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/katalog"
-                id="home-cta-beli-sekarang"
-                className="flex items-center gap-2 bg-white text-sunset-600 font-bold px-8 py-4 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-200"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                Beli Produk Sekarang
-              </Link>
-              <a
-                href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
-                target="_blank"
-                rel="noopener noreferrer"
-                id="home-cta-wa"
-                className="flex items-center gap-2 border-2 border-white text-white font-semibold px-8 py-4 rounded-2xl hover:bg-white/10 transition-colors"
-              >
-                📱 Tanya via WhatsApp
-              </a>
+          </div>
+
+          <Link
+            href="/katalog"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 hover:text-primary-800 bg-primary-50 hover:bg-primary-100 px-4 py-2.5 rounded-xl transition-all"
+          >
+            Lihat Semua Produk <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* 3 Main Product Cards */}
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {produkData.map((prod) => (
+            <StaggerItem key={prod.id}>
+              <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group h-full">
+                <div>
+                  <div className="relative aspect-[4/3] w-full bg-gray-100 overflow-hidden">
+                    <Image
+                      src={prod.foto[0] || "/images/galeri/display-1.png"}
+                      alt={prod.nama}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute top-3 left-3 flex gap-1.5">
+                      <span className="bg-navy-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                        {prod.kategori}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <h3 className="font-serif font-bold text-navy-950 text-xl group-hover:text-primary-600 transition-colors mb-1">
+                      {prod.nama}
+                    </h3>
+                    <p className="text-navy-600 text-xs sm:text-sm line-clamp-2 leading-relaxed mb-4">
+                      {prod.tagline}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {prod.varian.map((v) => (
+                        <span key={v.ukuran} className="bg-gray-100 text-navy-700 text-[10px] font-medium px-2 py-0.5 rounded-md">
+                          {v.ukuran}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 pt-0 flex items-center justify-between border-t border-gray-50 mt-2">
+                  <div>
+                    <span className="text-[10px] text-navy-400 block font-medium">Mulai dari</span>
+                    <span className="font-serif font-bold text-primary-700 text-lg">
+                      Rp {prod.varian[0].harga.toLocaleString("id-ID")}
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/katalog/${prod.id}`}
+                    className="inline-flex items-center gap-1 bg-sunset-500 hover:bg-sunset-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow transition-all active:scale-95"
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5" />
+                    Pesan
+                  </Link>
+                </div>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </section>
+
+      {/* ===== TESTIMONI KEPALA DESA & PENUTUP RINGKAS ===== */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="bg-gradient-to-r from-primary-50 to-emerald-50 border border-primary-100 rounded-3xl p-8 sm:p-10 shadow-sm relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="w-20 h-20 rounded-2xl bg-primary-600 flex items-center justify-center text-white text-3xl font-serif font-bold shadow-lg flex-shrink-0">
+              “
             </div>
-          </FadeIn>
+            <div className="flex-1 space-y-3 text-center md:text-left">
+              <blockquote className="font-serif italic text-navy-900 text-base sm:text-lg leading-relaxed">
+                &ldquo;Kami menyambut baik dan mendukung penuh program TAWSEC dari Ormawa AcSES FEB UNAIR. Pelatihan olahan ikan ini terbukti memberikan keterampilan nyata bagi masyarakat Banyusangka untuk mengolah hasil laut mandiri.&rdquo;
+              </blockquote>
+              <div>
+                <strong className="text-navy-950 font-bold text-sm block">H. Abd. Syukur</strong>
+                <span className="text-navy-500 text-xs">Kepala Desa Banyusangka, Kecamatan Tanjungbumi, Bangkalan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CALL TO ACTION FOOTER BANNER ===== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="bg-gradient-to-r from-sunset-500 to-orange-600 rounded-3xl p-8 sm:p-12 text-white text-center shadow-xl relative overflow-hidden">
+          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white mb-3">
+            Dukung Kemandirian Ekonomi Perempuan Pesisir Banyusangka
+          </h2>
+          <p className="text-white/90 text-sm max-w-2xl mx-auto mb-8 leading-relaxed">
+            Dapatkan produk olahan laut segar tanpa pengawet berkualitas tinggi, langsung dari hasil tangkapan nelayan lokal.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/katalog"
+              className="bg-white text-sunset-600 hover:bg-gray-100 font-bold py-3.5 px-8 rounded-2xl shadow-lg transition-all text-sm"
+            >
+              Beli Produk Sekarang 🛍️
+            </Link>
+            <Link
+              href="/kontak"
+              className="bg-sunset-700/60 hover:bg-sunset-700 text-white font-semibold py-3.5 px-6 rounded-2xl border border-white/30 transition-all text-sm"
+            >
+              Hubungi Tim TAWSEC
+            </Link>
+          </div>
         </div>
       </section>
     </div>
