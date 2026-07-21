@@ -12,7 +12,7 @@ export const config = {
   TAHUN_PROGRAM: "2026",
 
   /** WhatsApp contact (format: 62xxx tanpa +) */
-  WA_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282229888561",
+  WA_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6285852278026",
 
   /** Social media */
   INSTAGRAM_HANDLE: "@tawsec.banyusangka",
