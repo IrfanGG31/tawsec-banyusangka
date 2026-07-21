@@ -1,20 +1,9 @@
 /**
  * Konfigurasi pusat untuk website TAWSEC Banyusangka
- * 
- * PROGRESS TRACKER:
- * Untuk mengaktifkan live-sync dari Google Sheets:
- * 1. Buka Google Sheets → File → Bagikan → Publikasikan ke web
- * 2. Pilih sheet → format CSV
- * 3. Copy URL → paste ke PROGRESS_SHEET_CSV_URL di bawah
- * 
- * Format kolom yang wajib ada di Google Sheets:
- * id | kategori | nama_kegiatan | status | persentase | tanggal_update | catatan
- * 
- * Nilai status yang valid: "Selesai" | "Dalam Proses" | "Belum Mulai"
  */
 export const config = {
-  /** URL CSV Google Sheets publik untuk Progress Tracker.
-   *  Kosongkan ("") untuk pakai data fallback lokal saja. */
+  /** URL CSV Google Sheets publik untuk Progress Tracker (Backup Fallback).
+   *  Kosongkan ("") jika menggunakan Database Supabase / Fallback Lokal. */
   PROGRESS_SHEET_CSV_URL: "",
 
   /** Nama tim/program untuk tampilan */
@@ -23,7 +12,7 @@ export const config = {
   TAHUN_PROGRAM: "2026",
 
   /** WhatsApp contact (format: 62xxx tanpa +) */
-  WA_NUMBER: "6281234567890",
+  WA_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282229888561",
 
   /** Social media */
   INSTAGRAM_HANDLE: "@tawsec.banyusangka",
