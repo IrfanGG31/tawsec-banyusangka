@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import desaData from "@/data/desa.json";
 import { MapPin, Users, Fish, Building, BookOpen, Heart } from "lucide-react";
+import LocalHeroes from "@/components/program/LocalHeroes";
 
 export const metadata: Metadata = {
   title: "Tentang Desa Banyusangka",
@@ -138,6 +139,9 @@ export default function TentangDesaPage() {
             </div>
           </section>
         </FadeIn>
+
+        {/* Local Heroes (Aruna Benchmark Storytelling) */}
+        <LocalHeroes />
 
         {/* Mata Pencaharian */}
         <FadeIn>
