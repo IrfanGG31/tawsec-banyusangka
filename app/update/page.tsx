@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import updatesData from "@/data/updates.json";
 import { createClient } from "@/lib/supabase/client";
-import { Calendar, Tag, Sparkles, Newspaper } from "lucide-react";
+import { Calendar, Tag, Sparkles, Newspaper, BookOpen } from "lucide-react";
 
 interface UpdateItem {
   id: string;
   tanggal: string;
   judul: string;
   isi_singkat: string;
+  deskripsi_lengkap?: string;
   foto_url: string;
   kategori: string;
 }
@@ -47,62 +48,77 @@ export default function UpdatesPage() {
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary-50 border border-primary-200 text-xs font-semibold text-primary-700 uppercase tracking-wider mb-3">
-            <Newspaper className="w-4 h-4 text-primary-600" /> Warta &amp; Perkembangan Program
+            <Newspaper className="w-4 h-4 text-primary-600" /> Warta, Dokumentasi &amp; Penjelasan Acara
           </span>
-          <h1 className="font-serif font-bold text-3xl sm:text-5xl text-navy-900 leading-tight">
-            Kabar Terkini Banyusangka
+          <h1 className="font-serif font-bold text-3xl sm:text-5xl text-navy-950 leading-tight">
+            Dokumentasi Berita Kegiatan TAWSEC
           </h1>
           <p className="text-navy-600 text-sm sm:text-base mt-3 leading-relaxed">
-            Ikuti perjalanan pengabdian tim UKM-F Penalaran AcSES FEB UNAIR dalam mentransformasi potensi perikanan Desa Banyusangka.
+            Arsip penjelasan lengkap acara dan foto dokumentasi kegiatan pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka.
           </p>
         </div>
 
-        {/* Updates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Updates List */}
+        <div className="space-y-8">
           {updates.map((item) => (
             <article
               key={item.id}
-              className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              id={item.id}
+              className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 scroll-mt-28"
             >
-              <div>
-                {/* Photo Preview */}
-                <div className="relative aspect-[16/10] w-full bg-gray-100 overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                {/* Photo Preview Column */}
+                <div className="lg:col-span-5 relative aspect-[16/10] lg:aspect-auto bg-gray-100 overflow-hidden">
                   <Image
                     src={item.foto_url || "/images/galeri/pelatihan-1.png"}
                     alt={item.judul}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-navy-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 flex items-center gap-1">
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-navy-950/85 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-full border border-white/20 flex items-center gap-1 shadow">
                       <Tag className="w-3 h-3 text-sunset-400" />
                       {item.kategori}
                     </span>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-1.5 text-xs text-navy-400 font-medium mb-2">
-                    <Calendar className="w-3.5 h-3.5 text-primary-600" />
-                    <span>{item.tanggal}</span>
+                {/* Content Column */}
+                <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs text-primary-700 font-semibold mb-3">
+                      <Calendar className="w-3.5 h-3.5 text-sunset-500" />
+                      <span>{item.tanggal}</span>
+                    </div>
+
+                    <h2 className="font-serif font-bold text-navy-950 text-xl sm:text-2xl leading-snug mb-3">
+                      {item.judul}
+                    </h2>
+
+                    <p className="text-navy-700 text-xs sm:text-sm font-medium leading-relaxed mb-3">
+                      {item.isi_singkat}
+                    </p>
+
+                    {item.deskripsi_lengkap && (
+                      <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs sm:text-sm text-navy-600 leading-relaxed mb-4">
+                        <span className="font-bold text-navy-900 block mb-1 flex items-center gap-1.5 text-xs uppercase tracking-wider text-primary-700">
+                          <BookOpen className="w-3.5 h-3.5" /> Penjelasan Lengkap Acara:
+                        </span>
+                        {item.deskripsi_lengkap}
+                      </div>
+                    )}
                   </div>
 
-                  <h2 className="font-serif font-bold text-navy-900 text-lg group-hover:text-primary-600 transition-colors mb-3 leading-snug">
-                    {item.judul}
-                  </h2>
-
-                  <p className="text-navy-600 text-xs sm:text-sm leading-relaxed">
-                    {item.isi_singkat}
-                  </p>
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-primary-600">
+                    <span className="inline-flex items-center gap-1 text-navy-500">
+                      <Sparkles className="w-3.5 h-3.5 text-sunset-500" /> UKM-F Penalaran AcSES FEB UNAIR
+                    </span>
+                    <span className="text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                      ✓ Dokumentasi Terverifikasi
+                    </span>
+                  </div>
                 </div>
-              </div>
-
-              <div className="p-6 pt-0 border-t border-gray-50 mt-4 flex items-center justify-between text-xs font-semibold text-primary-600">
-                <span className="inline-flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-sunset-500" /> Program TAWSEC 2026
-                </span>
               </div>
             </article>
           ))}

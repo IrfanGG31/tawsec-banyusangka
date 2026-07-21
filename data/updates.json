@@ -1,26 +1,47 @@
 [
   {
-    "id": "update-003",
-    "tanggal": "15 Juli 2026",
-    "judul": "Peluncuran Resmi Website & E-Katalog TAWSEC Banyusangka",
-    "kategori": "Digitalisasi",
-    "isi_singkat": "Website resmi TAWSEC Banyusangka resmi diluncurkan oleh tim UKM-F Penalaran AcSES FEB UNAIR bersama pengurus KUB Perempuan Banyusangka untuk memperluas jangkauan pemasaran olahan ikan laut.",
-    "foto_url": "/images/galeri/display-1.png"
+    "id": "t1",
+    "tanggal": "April 2026",
+    "judul": "Survei Kebutuhan & Pemetaan Potensi Perikanan Desa Banyusangka",
+    "kategori": "Survei & Riset",
+    "isi_singkat": "Pengumpulan data awal perikanan PPI Banyusangka, identifikasi 45+ pelaku ngojur, dan koordinasi tingkat desa bersama Pemdes & PKK Banyusangka.",
+    "deskripsi_lengkap": "Tim Field Ops TAWSEC AcSES FEB UNAIR melakukan pemetaan potensi hasil laut di PPI Banyusangka. Ditemukan bahwa 85% hasil tangkapan ikan layang dan tongkol dijual mentah tanpa olahan dengan risiko food loss hingga 35% saat puncak musim panen. Dihasilkan rekomendasi awal pembentukan 10 unit Kelompok Usaha Bersama (KUB).",
+    "foto_url": "/images/galeri/nelayan-1.png"
   },
   {
-    "id": "update-002",
-    "tanggal": "10 Juli 2026",
-    "judul": "Pelatihan Produksi Higienis: Abon & Kerupuk Kulit Ikan Tongkol",
-    "kategori": "Produksi",
-    "isi_singkat": "Ibu-ibu ngojur Desa Banyusangka mengikuti praktik pembuatan abon ikan tongkol dan kerupuk kulit ikan sesuai SOP produksi higienis dan standar keamanan pangan.",
+    "id": "t2",
+    "tanggal": "Mei–Juni 2026",
+    "judul": "Pelatihan Pilar 1 (Kewirausahaan) & Pilar 2 (Produksi Higienis Zero Waste)",
+    "kategori": "Pelatihan Produksi",
+    "isi_singkat": "Pelatihan HPP, modal awal, BEP, serta SOP produksi higienis Abon Ikan Tongkol, Kerupuk Kulit Ikan, dan Tepung Tulang Ikan.",
+    "deskripsi_lengkap": "Pelatihan bertempat di Balai Desa Banyusangka diikuti oleh 45+ perempuan pelaku ngojur. Peserta diajarkan teknik pembuatan abon rasa gurih khas Madura, pemisahan kulit untuk kerupuk krispi, dan penepungan tulang ikan untuk pakan kaya kalsium.",
     "foto_url": "/images/galeri/produksi-1.png"
   },
   {
-    "id": "update-001",
-    "tanggal": "25 Juni 2026",
-    "judul": "Sosialisasi Program TAWSEC & Pemetaan Potensi Bersama Pemdes",
-    "kategori": "Kewirausahaan",
-    "isi_singkat": "Tim Ormawa AcSES FEB UNAIR menyelenggarakan sosialisasi program TAWSEC bersama Kepala Desa Banyusangka H. Abd. Syukur, PKK, dan tokoh masyarakat pesisir.",
+    "id": "t3",
+    "tanggal": "Juni–Juli 2026",
+    "judul": "Pelatihan Pilar 3 (Digitalisasi & Branding) & Pilar 4 (Legalitas Usaha)",
+    "kategori": "Digitalisasi & Legalitas",
+    "isi_singkat": "Desain logo & kemasan, fotografi produk HP, pendaftaran Toko Shopee/WA Business, pengajuan NIB OSS, dan Sertifikasi Halal BPJPH.",
+    "deskripsi_lengkap": "Pendampingan intensif digitalisasi UMKM. Setiap produk dilengkapi kemasan standing pouch food grade bertali pernis, kode QR katalog, sertifikasi NIB OSS berbasis risiko, serta pengajuan dokumen Sertifikasi Halal BPJPH.",
+    "foto_url": "/images/galeri/display-1.png"
+  },
+  {
+    "id": "t4",
+    "tanggal": "15 Juli 2026",
+    "judul": "Peluncuran Resmi Website & Etalase Digital TAWSEC Banyusangka",
+    "kategori": "Peluncuran Web",
+    "isi_singkat": "Rilis platform web e-katalog beralamat resmi untuk publikasi produk olahan laut dan profil keberlanjutan Desa Banyusangka.",
+    "deskripsi_lengkap": "Peluncuran website resmi TAWSEC Banyusangka yang menghubungkan langsung konsumen umum dan mitra ritel B2B dengan pengurus KUB Olahan Laut Banyusangka via WhatsApp Business.",
+    "foto_url": "/images/galeri/display-1.png"
+  },
+  {
+    "id": "t5",
+    "tanggal": "Juli–Agustus 2026",
+    "judul": "Pendampingan Pemasaran, Ritel Bangkalan, & Draf Perdes Keberlanjutan",
+    "kategori": "Ritel & Regulasi",
+    "isi_singkat": "Pemasyaratan produk ke 3 gerai ritel Bangkalan, pendampingan e-commerce, dan perumusan draf Peraturan Desa (Perdes) Keberlanjutan.",
+    "deskripsi_lengkap": "Tahap konsolidasi pasar dan jaminan keberlanjutan program melalui perumusan draf Peraturan Desa (Perdes) tentang Pemberdayaan Ekonomi Pesisir Berbasis Zero Waste di Desa Banyusangka.",
     "foto_url": "/images/galeri/pelatihan-1.png"
   }
 ]

@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FadeIn } from "@/components/ui/Animations";
-import { CheckCircle2, Clock, Calendar, UserCheck } from "lucide-react";
+import { CheckCircle2, Clock, Calendar, UserCheck, ArrowUpRight, BookOpen } from "lucide-react";
 
 interface TimelineStep {
   id: string;
@@ -66,12 +67,14 @@ export default function Timeline() {
   return (
     <section className="py-12">
       <div className="mb-10 text-center">
-        <span className="text-primary-600 font-semibold text-xs uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full border border-primary-100">
+        <span className="text-primary-600 font-semibold text-xs uppercase tracking-widest bg-primary-50 px-3.5 py-1 rounded-full border border-primary-100">
           📅 Jadwal &amp; Dokumentasi Visual Program
         </span>
-        <h2 className="font-serif font-bold text-navy-950 text-3xl mt-3">Timeline Pelaksanaan Program TAWSEC</h2>
+        <h2 className="font-serif font-bold text-navy-950 text-3xl sm:text-4xl mt-3">
+          Timeline Pelaksanaan Program TAWSEC
+        </h2>
         <p className="text-navy-600 text-sm mt-2 max-w-xl mx-auto">
-          Alur kegiatan berkelanjutan dari April hingga Agustus 2026 yang dilaksanakan oleh UKM-F Penalaran AcSES FEB UNAIR.
+          Klik pada setiap kartu agenda di bawah untuk membuka berita kegiatan lengkap dan dokumentasi foto acara di menu <strong>Update</strong>.
         </p>
       </div>
 
@@ -90,8 +93,11 @@ export default function Timeline() {
                 )}
               </div>
 
-              {/* Visual Card Container */}
-              <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+              {/* Visual Interactive Card Container */}
+              <Link
+                href={`/update#${step.id}`}
+                className="block bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary-300 transition-all duration-300 group/card"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
                   {/* Photo Preview Column */}
                   <div className="md:col-span-4 relative aspect-[16/10] md:aspect-auto bg-gray-100 overflow-hidden">
@@ -99,10 +105,10 @@ export default function Timeline() {
                       src={step.foto}
                       alt={step.judul}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover/card:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:hidden" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:hidden" />
                   </div>
 
                   {/* Content Column */}
@@ -126,7 +132,7 @@ export default function Timeline() {
                         </span>
                       </div>
 
-                      <h3 className="font-serif font-bold text-navy-950 text-xl leading-snug mb-2 group-hover:text-primary-600 transition-colors">
+                      <h3 className="font-serif font-bold text-navy-950 text-xl leading-snug mb-2 group-hover/card:text-primary-600 transition-colors">
                         {step.judul}
                       </h3>
 
@@ -135,15 +141,22 @@ export default function Timeline() {
                       </p>
                     </div>
 
-                    <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-navy-400">
+                    <div className="pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2 text-xs text-navy-500">
                       <span className="flex items-center gap-1 font-medium text-navy-600">
                         <UserCheck className="w-3.5 h-3.5 text-primary-600" />
                         PIC: <strong className="text-navy-800">{step.pic}</strong>
                       </span>
+
+                      {/* Direct Link Button to /update */}
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-sky-700 group-hover/card:text-sky-800 bg-sky-50 group-hover/card:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-100 transition-all">
+                        <BookOpen className="w-3.5 h-3.5 text-sky-600" />
+                        Lihat Dokumentasi &amp; Acara
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </FadeIn>
         ))}
