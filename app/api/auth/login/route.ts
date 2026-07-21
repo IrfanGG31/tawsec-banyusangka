@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 
 export async function POST(request: Request) {
   try {
@@ -15,8 +16,11 @@ export async function POST(request: Request) {
       );
     }
 
+    // Generate secure random token
+    const token = crypto.randomBytes(32).toString("hex");
+
     const cookieStore = await cookies();
-    cookieStore.set("tawsec_internal_auth", "authenticated", {
+    cookieStore.set("tawsec_internal_auth", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

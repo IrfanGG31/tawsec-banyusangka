@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, Clock, Circle, RefreshCw, Wifi, WifiOff } from "lucide-react";
 import fallbackData from "@/data/progress-fallback.json";
 import { config } from "@/lib/config";
+import { createClient } from "@/lib/supabase/client";
 
 type StatusType = "Selesai" | "Dalam Proses" | "Belum Mulai";
 
@@ -11,10 +12,11 @@ interface ProgressItem {
   kategori: string;
   nama_kegiatan: string;
   target?: string;
+  capaian_saat_ini?: string;
   status: StatusType;
   persentase: number;
-  tanggal_update: string;
-  catatan: string;
+  tanggal_update?: string;
+  catatan?: string;
 }
 
 const STATUS_CONFIG: Record<StatusType, { label: string; color: string; bar: string; icon: React.ReactNode }> = {
@@ -41,7 +43,6 @@ const STATUS_CONFIG: Record<StatusType, { label: string; color: string; bar: str
 function parseCSV(csv: string): ProgressItem[] {
   const lines = csv.trim().split("\n");
   if (lines.length < 2) return [];
-  // skip header row
   return lines.slice(1).map((line) => {
     const cols = line.split(",").map((c) => c.trim().replace(/^"|"$/g, ""));
     return {
@@ -59,31 +60,68 @@ function parseCSV(csv: string): ProgressItem[] {
 export function ProgressTracker() {
   const [items, setItems] = useState<ProgressItem[]>(fallbackData as ProgressItem[]);
   const [isLive, setIsLive] = useState(false);
+  const [liveSource, setLiveSource] = useState<string>("Data lokal");
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<string>("");
 
   const fetchData = async () => {
-    const csvUrl = config.PROGRESS_SHEET_CSV_URL;
-    if (!csvUrl) {
-      setIsLive(false);
-      return;
-    }
     setLoading(true);
-    try {
-      const res = await fetch(csvUrl, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch");
-      const csv = await res.text();
-      const parsed = parseCSV(csv);
-      if (parsed.length > 0) {
-        setItems(parsed);
-        setIsLive(true);
-        setLastUpdate(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }));
+
+    // 1. Try Supabase first
+    const supabase = createClient();
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from("progress_indicators").select("*").order("updated_at", { ascending: false });
+        if (!error && data && data.length > 0) {
+          const mapped = data.map((d) => ({
+            id: d.id,
+            kategori: d.kategori || "KPI Program",
+            nama_kegiatan: d.nama_indikator,
+            target: d.target,
+            capaian_saat_ini: d.capaian_saat_ini,
+            status: d.status as StatusType,
+            persentase: d.persentase,
+            catatan: d.capaian_saat_ini ? `Capaian: ${d.capaian_saat_ini}` : "",
+          }));
+          setItems(mapped);
+          setIsLive(true);
+          setLiveSource("Supabase Live DB");
+          setLastUpdate(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }));
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // Fallback to Google Sheets or Local JSON
       }
-    } catch {
-      setIsLive(false);
-    } finally {
-      setLoading(false);
     }
+
+    // 2. Try Google Sheets CSV
+    const csvUrl = config.PROGRESS_SHEET_CSV_URL;
+    if (csvUrl) {
+      try {
+        const res = await fetch(csvUrl, { cache: "no-store" });
+        if (res.ok) {
+          const csv = await res.text();
+          const parsed = parseCSV(csv);
+          if (parsed.length > 0) {
+            setItems(parsed);
+            setIsLive(true);
+            setLiveSource("Google Sheets CSV");
+            setLastUpdate(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }));
+            setLoading(false);
+            return;
+          }
+        }
+      } catch {
+        // Fallback to local JSON
+      }
+    }
+
+    // 3. Fallback to Local JSON
+    setItems(fallbackData as ProgressItem[]);
+    setIsLive(false);
+    setLiveSource("Data lokal JSON");
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -96,8 +134,9 @@ export function ProgressTracker() {
 
   // Group by kategori
   const kategoriMap = items.reduce<Record<string, ProgressItem[]>>((acc, item) => {
-    if (!acc[item.kategori]) acc[item.kategori] = [];
-    acc[item.kategori].push(item);
+    const cat = item.kategori || "Umum";
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(item);
     return acc;
   }, {});
 
@@ -107,18 +146,18 @@ export function ProgressTracker() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h3 className="font-serif font-bold text-navy-900 text-xl">Progress Kegiatan</h3>
-          <p className="text-navy-500 text-sm">Real-time update dari tim lapangan</p>
+          <p className="text-navy-500 text-sm">Real-time update dari Panel Admin / Tim Lapangan</p>
         </div>
         <div className="flex items-center gap-3">
           {isLive ? (
-            <span className="flex items-center gap-1.5 text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full">
-              <Wifi className="w-3 h-3" />
-              Live · {lastUpdate}
+            <span className="flex items-center gap-1.5 text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full font-medium">
+              <Wifi className="w-3.5 h-3.5 text-emerald-500" />
+              {liveSource} · {lastUpdate}
             </span>
           ) : (
-            <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 border border-gray-200 px-3 py-1.5 rounded-full">
-              <WifiOff className="w-3 h-3" />
-              Data lokal
+            <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 border border-gray-200 px-3 py-1.5 rounded-full font-medium">
+              <WifiOff className="w-3.5 h-3.5" />
+              {liveSource}
             </span>
           )}
           <button
@@ -133,10 +172,10 @@ export function ProgressTracker() {
       </div>
 
       {/* Overall progress */}
-      <div className="bg-gradient-to-r from-primary-600 to-emerald-600 rounded-2xl p-6 text-white">
+      <div className="bg-gradient-to-r from-primary-600 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
         <div className="flex items-end justify-between mb-3">
           <div>
-            <p className="text-white/70 text-sm mb-1">Progress Keseluruhan Program</p>
+            <p className="text-white/80 text-sm mb-1 font-medium">Progress Keseluruhan Program (9 KPI)</p>
             <p className="text-4xl font-bold">{overallPct}%</p>
           </div>
           <div className="text-right text-sm">
@@ -172,7 +211,7 @@ export function ProgressTracker() {
                         </span>
                       </div>
                       {item.target && (
-                        <p className="text-primary-700 font-medium text-xs mt-1 bg-primary-50 px-2.5 py-1 rounded-lg border border-primary-100 inline-block">
+                        <p className="text-primary-700 font-medium text-xs mt-1.5 bg-primary-50 px-2.5 py-1 rounded-lg border border-primary-100 inline-block">
                           🎯 Target: {item.target}
                         </p>
                       )}
@@ -196,12 +235,6 @@ export function ProgressTracker() {
           </div>
         </div>
       ))}
-
-      {config.PROGRESS_SHEET_CSV_URL === "" && (
-        <p className="text-center text-xs text-gray-400 pt-2">
-          💡 Update progress? Edit <code className="bg-gray-100 px-1 rounded">data/progress-fallback.json</code> atau sambungkan Google Sheets di <code className="bg-gray-100 px-1 rounded">lib/config.ts</code>
-        </p>
-      )}
     </div>
   );
 }
