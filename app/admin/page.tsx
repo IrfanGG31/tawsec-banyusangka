@@ -262,13 +262,39 @@ export default function AdminDashboardPage() {
     }
 
     try {
-      const fileExt = file.name.split(".").pop()?.toLowerCase() || "jpg";
-      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+      let fileToUpload: File | Blob = file;
+      const fileExt = file.name.split(".").pop()?.toLowerCase() || "";
+      const isHeic = fileExt === "heic" || fileExt === "heif" || file.type.includes("heic") || file.type.includes("heif");
+
+      let uploadExt = fileExt || "jpg";
+
+      // Automatic client-side conversion for iPhone HEIC/HEIF photos
+      if (isHeic) {
+        setUploadSuccessMsg("⚙️ Mengonversi foto iPhone (.HEIC) ke JPG...");
+        try {
+          const heic2any = (await import("heic2any")).default;
+          const convertedBlob = await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+            quality: 0.85,
+          });
+          fileToUpload = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+          uploadExt = "jpg";
+        } catch (convErr) {
+          console.warn("Konversi HEIC gagal, mencoba mengunggah file asli:", convErr);
+        }
+      }
+
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${uploadExt}`;
       const filePath = `updates/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from("galeri")
-        .upload(filePath, file, { cacheControl: "3600", upsert: true });
+        .upload(filePath, fileToUpload, {
+          cacheControl: "3600",
+          contentType: isHeic ? "image/jpeg" : file.type || "image/jpeg",
+          upsert: true,
+        });
 
       if (uploadError) {
         alert(`Gagal mengunggah foto: ${uploadError.message}`);
@@ -281,7 +307,7 @@ export default function AdminDashboardPage() {
 
       if (publicUrlData?.publicUrl) {
         setFormData((prev) => ({ ...prev, foto_url: publicUrlData.publicUrl }));
-        setUploadSuccessMsg("✓ Foto JPG/PNG berhasil diunggah & terpasang!");
+        setUploadSuccessMsg(isHeic ? "✓ Foto HEIC iPhone berhasil dikonversi ke JPG & diunggah!" : "✓ Foto berhasil diunggah & terpasang!");
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal mengunggah gambar";
@@ -883,7 +909,7 @@ export default function AdminDashboardPage() {
                   <div className="p-3.5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
                     <div className="flex items-center justify-between">
                       <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
-                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (JPG/PNG)
+                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (JPG / PNG / HEIC iPhone)
                       </label>
                       {uploadSuccessMsg && (
                         <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/50">
@@ -915,7 +941,7 @@ export default function AdminDashboardPage() {
                     <div className="flex gap-2">
                       <input
                         type="file"
-                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.heic,.heif"
                         onChange={handleFileUpload}
                         id="image-file-input"
                         className="hidden"
@@ -931,12 +957,12 @@ export default function AdminDashboardPage() {
                         {uploadingImage ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
-                            Mengunggah Foto ke Supabase...
+                            Memproses &amp; Mengunggah Foto...
                           </>
                         ) : (
                           <>
                             <Upload className="w-4 h-4" />
-                            Pilih &amp; Unggah Foto dari Laptop / HP
+                            Pilih Foto dari Laptop / HP (JPG, PNG, HEIC)
                           </>
                         )}
                       </label>
