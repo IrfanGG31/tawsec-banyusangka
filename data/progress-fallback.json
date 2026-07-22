@@ -1,92 +1,83 @@
 [
   {
-    "id": "kpi-1",
-    "kategori": "Kapasitas",
+    "id": "b5f8598d-b59d-4032-9149-8657d9a4f328",
+    "kategori": "Kapasitas Tim",
     "nama_kegiatan": "Kapasitas Ormawa & Mahasiswa",
     "target": "Peningkatan skor soft/hard skills 100%",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Evaluasi kuesioner awal & akhir selesai."
+    "catatan": "Capaian: Kuesioner soft/hard skills selesai dievaluasi, skor meningkat 100%"
   },
   {
-    "id": "kpi-2",
+    "id": "5d94d250-da05-46a8-90d6-567ca0ab96ae",
     "kategori": "Kewirausahaan",
     "nama_kegiatan": "Pelaku Usaha Terbentuk",
-    "target": "10 Usaha Individu + 1 Kelompok (KUB)",
+    "target": "10 individu + 2 kelompok (KUB)",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "KUB Perempuan Banyusangka resmi terbentuk."
+    "catatan": "Capaian: 10 individu + 2 KUB resmi terbentuk"
   },
   {
-    "id": "kpi-3",
-    "kategori": "Pelatihan",
+    "id": "4c4d41f6-153a-4ca2-b2e9-ff96be5dca50",
+    "kategori": "Kewirausahaan",
     "nama_kegiatan": "Intervensi Peningkatan Kapasitas",
-    "target": "3 Jenis (Pelatihan, Branding, Promosi)",
+    "target": "3 jenis: pelatihan, branding, promosi",
     "status": "Selesai",
     "persentase": 100,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Pelatihan 4 pilar telah terlaksana."
+    "catatan": "Capaian: 3 jenis pelatihan 4 Pilar selesai terlaksana"
   },
   {
-    "id": "kpi-4",
+    "id": "64dc7494-7f78-49c4-a0c5-9fa1883e94bc",
     "kategori": "Kelembagaan",
     "nama_kegiatan": "Aktivitas Lembaga Ekonomi Desa",
-    "target": "SK Unit Usaha BUMDes / MoU Mitra",
+    "target": "SK Unit Usaha BUMDes/Koperasi atau MoU",
     "status": "Dalam Proses",
     "persentase": 85,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Proses penerbitan SK Unit Usaha di bawah BUMDes Wijaya Kusuma."
+    "catatan": "Capaian: Proses penerbitan SK Unit Usaha di bawah BUMDes Wijaya Kusuma"
   },
   {
-    "id": "kpi-5",
-    "kategori": "Ekonomi",
-    "nama_kegiatan": "Kenaikan Omzet Usaha",
-    "target": "Naik 20–30% dari pendapatan awal",
-    "status": "Dalam Proses",
-    "persentase": 60,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Pendampingan penjualan awal produk olahan."
-  },
-  {
-    "id": "kpi-6",
-    "kategori": "Pemasaran",
-    "nama_kegiatan": "Jangkauan Pasar",
-    "target": "Masuk min. 3 Gerai Ritel / Toko Oleh-oleh",
-    "status": "Dalam Proses",
-    "persentase": 50,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Penjajakan kerja sama dengan toko oleh-oleh Bangkalan & Madura."
-  },
-  {
-    "id": "kpi-7",
-    "kategori": "Teknologi",
-    "nama_kegiatan": "Pemanfaatan Teknologi & Digital",
-    "target": "Alat TTG + Transaksi E-Commerce",
-    "status": "Dalam Proses",
-    "persentase": 75,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Website live, onboarding toko Shopee & WhatsApp Business."
-  },
-  {
-    "id": "kpi-8",
+    "id": "8d09af78-9913-43be-97c5-a77f306acd06",
     "kategori": "Legalitas",
     "nama_kegiatan": "Legalitas Usaha (NIB & Halal)",
-    "target": "80% Unit Usaha Punya NIB & Sertifikat Halal",
+    "target": "80% unit usaha punya NIB & Sertifikat Halal",
     "status": "Dalam Proses",
     "persentase": 70,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Pendaftaran NIB via OSS selesai, berkas Halal diajukan ke BPJPH."
+    "catatan": "Capaian: Pendaftaran NIB via OSS selesai, berkas Halal diajukan ke BPJPH"
   },
   {
-    "id": "kpi-9",
-    "kategori": "Sertifikasi",
+    "id": "1307aca1-85f6-457d-a8ac-be1087f0b49a",
+    "kategori": "Produksi",
     "nama_kegiatan": "Produk Tersertifikasi",
-    "target": "3 Varian Produk (Uji Lab Organoleptik)",
+    "target": "3 varian dengan uji organoleptik & lab",
     "status": "Dalam Proses",
     "persentase": 65,
-    "tanggal_update": "15 Juli 2026",
-    "catatan": "Uji kelayakan konsumsi Abon, Kerupuk, dan Tepung Tulang Ikan."
+    "catatan": "Capaian: Uji kelayakan konsumsi Abon, Kerupuk, dan Tepung Tulang Ikan sedang berjalan"
+  },
+  {
+    "id": "abe8a943-55c8-4021-aab5-9d929076e9e6",
+    "kategori": "Ekonomi",
+    "nama_kegiatan": "Kenaikan Omzet Usaha",
+    "target": "20-30% dari pendapatan awal",
+    "status": "Dalam Proses",
+    "persentase": 60,
+    "catatan": "Capaian: Pendampingan penjualan awal produk olahan berjalan"
+  },
+  {
+    "id": "f5defe1e-ce88-4044-a7c2-868a54ed8d03",
+    "kategori": "Pemasaran",
+    "nama_kegiatan": "Jangkauan Pasar",
+    "target": "Masuk 3 gerai ritel/toko oleh-oleh",
+    "status": "Dalam Proses",
+    "persentase": 50,
+    "catatan": "Capaian: 0 gerai, penjajakan kerja sama dengan toko oleh-oleh Bangkalan & Madura"
+  },
+  {
+    "id": "ac54ff46-0226-480e-81f6-b46bf090610a",
+    "kategori": "Digitalisasi",
+    "nama_kegiatan": "Pemanfaatan Teknologi & Digital",
+    "target": "Alat TTG beroperasi + data transaksi digital",
+    "status": "Dalam Proses",
+    "persentase": 30,
+    "catatan": "Capaian: Website live, onboarding Shopee & WhatsApp Business dalam proses"
   }
 ]

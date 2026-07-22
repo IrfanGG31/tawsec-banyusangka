@@ -403,11 +403,11 @@ export default function AdminDashboardPage() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-950 border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider font-semibold">
-                    <th className="py-4 px-6">Indikator</th>
+                    <th className="py-4 px-6">Indikator KPI</th>
                     <th className="py-4 px-4">Kategori</th>
-                    <th className="py-4 px-4">Target Resmi</th>
-                    <th className="py-4 px-4">Capaian Saat Ini</th>
-                    <th className="py-4 px-4">Progress %</th>
+                    <th className="py-4 px-6">Target Resmi</th>
+                    <th className="py-4 px-6">Capaian Saat Ini</th>
+                    <th className="py-4 px-4">Progress</th>
                     <th className="py-4 px-4">Status</th>
                     <th className="py-4 px-6 text-right">Aksi</th>
                   </tr>
@@ -415,11 +415,21 @@ export default function AdminDashboardPage() {
                 <tbody className="divide-y divide-slate-800/80 text-xs">
                   {progressList.map((item, idx) => (
                     <tr key={item.id || idx} className="hover:bg-slate-800/50 transition-colors">
-                      <td className="py-4 px-6 font-semibold text-white">{item.nama_indikator}</td>
-                      <td className="py-4 px-4 text-slate-400">{item.kategori}</td>
-                      <td className="py-4 px-4 text-slate-300">{item.target}</td>
-                      <td className="py-4 px-4 text-emerald-400 font-medium">{item.capaian_saat_ini}</td>
-                      <td className="py-4 px-4 font-mono font-bold text-sky-400">{item.persentase}%</td>
+                      <td className="py-4 px-6 font-semibold text-white max-w-[180px]">{item.nama_indikator}</td>
+                      <td className="py-4 px-4 text-slate-400 whitespace-nowrap">{item.kategori}</td>
+                      <td className="py-4 px-6 text-slate-300 max-w-[160px] text-xs">{item.target}</td>
+                      <td className="py-4 px-6 text-emerald-400 font-medium text-xs max-w-[180px]">{item.capaian_saat_ini}</td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 bg-slate-800 rounded-full h-1.5">
+                            <div className={`rounded-full h-1.5 transition-all ${
+                              item.status === 'Selesai' ? 'bg-emerald-500' :
+                              item.status === 'Dalam Proses' ? 'bg-amber-400' : 'bg-slate-600'
+                            }`} style={{ width: `${item.persentase}%` }} />
+                          </div>
+                          <span className="font-mono font-bold text-sky-400 text-xs">{item.persentase}%</span>
+                        </div>
+                      </td>
                       <td className="py-4 px-4">
                         <span
                           className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
@@ -635,17 +645,23 @@ export default function AdminDashboardPage() {
             <form onSubmit={handleSaveForm} className="space-y-4">
               {/* Dynamic Form Fields per Tab */}
               {activeTab === "progress" && (
-                <>
+                <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+                  {/* Nama Indikator */}
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Nama Indikator KPI</label>
+                    <label className="block text-xs text-slate-400 mb-1">
+                      Nama Indikator KPI <span className="text-rose-400">*</span>
+                    </label>
                     <input
                       type="text"
                       value={(formData.nama_indikator as string) || ""}
                       onChange={(e) => setFormData({ ...formData, nama_indikator: e.target.value })}
                       required
+                      placeholder="Contoh: Jangkauan Pasar"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
+
+                  {/* Kategori + Status */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs text-slate-400 mb-1">Kategori</label>
@@ -653,6 +669,7 @@ export default function AdminDashboardPage() {
                         type="text"
                         value={(formData.kategori as string) || ""}
                         onChange={(e) => setFormData({ ...formData, kategori: e.target.value })}
+                        placeholder="Pemasaran / Ekonomi / dll"
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                       />
                     </div>
@@ -663,45 +680,63 @@ export default function AdminDashboardPage() {
                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                       >
-                        <option value="Belum Mulai">Belum Mulai</option>
-                        <option value="Dalam Proses">Dalam Proses</option>
-                        <option value="Selesai">Selesai</option>
+                        <option value="Belum Mulai">⏳ Belum Mulai</option>
+                        <option value="Dalam Proses">⚡ Dalam Proses</option>
+                        <option value="Selesai">✓ Selesai</option>
                       </select>
                     </div>
                   </div>
+
+                  {/* Target */}
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Target Resmi</label>
-                    <input
-                      type="text"
+                    <label className="block text-xs text-slate-400 mb-1">
+                      Target Resmi <span className="text-rose-400">*</span>
+                    </label>
+                    <textarea
+                      rows={2}
                       value={(formData.target as string) || ""}
                       onChange={(e) => setFormData({ ...formData, target: e.target.value })}
                       required
+                      placeholder="Masuk 3 gerai ritel / toko oleh-oleh"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
+
+                  {/* Capaian Saat Ini */}
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Capaian Saat Ini</label>
+                    <label className="block text-xs text-slate-400 mb-1">
+                      Capaian Saat Ini <span className="text-rose-400">*</span>
+                    </label>
                     <input
                       type="text"
                       value={(formData.capaian_saat_ini as string) || ""}
                       onChange={(e) => setFormData({ ...formData, capaian_saat_ini: e.target.value })}
                       required
+                      placeholder="0 gerai (sedang penjajakan)"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
+
+                  {/* Persentase — slider + number combo */}
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Persentase (%)</label>
+                    <label className="block text-xs text-slate-400 mb-2">
+                      Persentase Progress
+                      <span className="ml-2 font-bold text-sky-400 text-sm">{(formData.persentase as number) || 0}%</span>
+                    </label>
                     <input
-                      type="number"
+                      type="range"
                       min={0}
                       max={100}
+                      step={5}
                       value={(formData.persentase as number) || 0}
-                      onChange={(e) => setFormData({ ...formData, persentase: parseInt(e.target.value) || 0 })}
-                      required
-                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                      onChange={(e) => setFormData({ ...formData, persentase: parseInt(e.target.value) })}
+                      className="w-full accent-sky-500 cursor-pointer"
                     />
+                    <div className="flex justify-between text-[10px] text-slate-600 mt-0.5">
+                      <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+                    </div>
                   </div>
-                </>
+                </div>
               )}
 
               {activeTab === "updates" && (
