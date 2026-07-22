@@ -52,7 +52,7 @@ export default function ProgramTawsecPage() {
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-xs font-bold text-sky-200 uppercase tracking-wider shadow-lg">
+            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/30 text-xs sm:text-sm font-extrabold text-sky-200 uppercase tracking-wide shadow-lg">
               <Award className="w-4 h-4 text-amber-400" />
               UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
             </div>

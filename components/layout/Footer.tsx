@@ -57,16 +57,16 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <span className="font-serif font-bold text-lg block leading-none">TAWSEC</span>
-                <span className="text-primary-300 text-xs">Banyusangka</span>
+                <span className="font-serif font-bold text-lg block leading-none text-white">TAWSEC</span>
+                <span className="text-sky-300 text-sm font-extrabold tracking-wide block mt-0.5">Banyusangka</span>
               </div>
             </div>
-            <p className="text-navy-300 text-sm leading-relaxed mb-4">
+            <p className="text-slate-300 text-sm leading-relaxed mb-4">
               Transformasi Ekonomi Pesisir melalui Sinergi Aksi Mandiri — Program
               UNAIR SUSTAINACTION 2026 oleh UKM-F Penalaran AcSES FEB Universitas Airlangga di Desa Banyusangka, Bangkalan, Madura.
             </p>
-            <div className="flex items-start gap-2 text-navy-400 text-sm">
-              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary-400" />
+            <div className="flex items-start gap-2 text-slate-300 text-sm">
+              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-sky-400" />
               <span>Desa Banyusangka, Kec. Tanjung Bumi, Kab. Bangkalan, Madura</span>
             </div>
           </div>
@@ -76,12 +76,12 @@ export default function Footer() {
             <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
               Navigasi
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-navy-400 hover:text-primary-300 text-sm transition-colors"
+                    className="text-slate-300 hover:text-sky-300 text-sm font-medium transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -95,28 +95,28 @@ export default function Footer() {
             <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
               Produk Kami
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {produkLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-navy-400 hover:text-primary-300 text-sm transition-colors"
+                    className="text-slate-300 hover:text-sky-300 text-sm font-medium transition-colors"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div className="mt-4 p-3 bg-navy-800 rounded-xl">
-              <p className="text-xs text-navy-400 mb-1">Pesan via WhatsApp</p>
+            <div className="mt-5 p-3.5 bg-slate-800/90 border border-slate-700/80 rounded-2xl shadow-sm">
+              <p className="text-sm font-semibold text-slate-200 mb-2">Pesan via WhatsApp</p>
               <a
                 href="https://wa.me/6285852278026?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-emerald-400 font-semibold text-sm hover:text-emerald-300 flex items-center gap-1"
+                className="inline-flex items-center justify-between w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
               >
-                📱 Chat Sekarang
-                <ExternalLink className="w-3 h-3" />
+                <span className="flex items-center gap-1.5">📱 Chat Sekarang</span>
+                <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function Footer() {
               ].map((sdg) => (
                 <div
                   key={sdg.num}
-                  className="flex items-center gap-2 p-2 bg-navy-800 rounded-lg"
+                  className="flex items-center gap-2 p-2 bg-slate-800/90 border border-slate-700/80 rounded-xl"
                 >
                   <div className="relative w-8 h-8 rounded-md overflow-hidden shadow-md flex-shrink-0">
                     <Image
@@ -145,7 +145,7 @@ export default function Footer() {
                       className="object-cover"
                     />
                   </div>
-                  <span className="text-navy-400 text-xs leading-tight">{sdg.label}</span>
+                  <span className="text-slate-200 text-xs sm:text-sm font-semibold leading-tight">{sdg.label}</span>
                 </div>
               ))}
             </div>
@@ -153,14 +153,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-navy-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-navy-500 text-xs text-center sm:text-left">
+        <div className="border-t border-slate-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-slate-400 text-xs sm:text-sm text-center sm:text-left">
             © {currentYear} TAWSEC Banyusangka — Program UNAIR SUSTAINACTION 2026 oleh UKM-F Penalaran AcSES FEB Universitas Airlangga.
             <br className="sm:hidden" /> Dibangun dengan ❤️ untuk kemajuan UMKM pesisir Madura.
           </p>
           <div className="flex items-center gap-3">
-            <span className="text-navy-500 text-xs">Penyelenggara:</span>
-            <div className="flex items-center gap-2 bg-navy-800 px-3 py-1.5 rounded-lg border border-navy-700">
+            <span className="text-slate-400 text-xs sm:text-sm font-medium">Penyelenggara:</span>
+            <div className="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
               <div className="relative w-5 h-5">
                 <Image
                   src="/images/logos/logo-unair-biru.png"
@@ -169,9 +169,9 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-white font-bold text-xs">UNAIR</span>
-              <span className="text-navy-500 text-xs">×</span>
-              <span className="text-emerald-400 font-bold text-xs">AcSES FEB</span>
+              <span className="text-white font-bold text-xs sm:text-sm">UNAIR</span>
+              <span className="text-slate-400 text-xs">×</span>
+              <span className="text-emerald-400 font-bold text-xs sm:text-sm">AcSES FEB</span>
             </div>
           </div>
         </div>

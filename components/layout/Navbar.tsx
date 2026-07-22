@@ -43,7 +43,7 @@ export default function Navbar() {
               <span className="font-serif font-bold text-base text-navy-950 block tracking-tight group-hover:text-sky-600 transition-colors">
                 TAWSEC
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600 block">
+              <span className="text-xs font-extrabold uppercase tracking-wide text-sky-600 block">
                 Banyusangka
               </span>
             </div>
