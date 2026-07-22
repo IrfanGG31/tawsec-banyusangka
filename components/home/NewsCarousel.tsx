@@ -28,7 +28,12 @@ export default function NewsCarousel() {
       const supabase = createClient();
       if (supabase) {
         try {
-          const { data, error } = await supabase.from("updates").select("*").order("created_at", { ascending: false });
+          const { data, error } = await supabase
+            .from("updates")
+            .select("*")
+            .order("urutan", { ascending: true })
+            .order("created_at", { ascending: true });
+
           if (!error && data && data.length > 0) {
             setUpdates(data as UpdateItem[]);
           }
@@ -60,7 +65,7 @@ export default function NewsCarousel() {
   if (updates.length === 0) return null;
 
   const currentItem = updates[currentIndex];
-  const itemAnchor = `/update#${currentItem.slug || currentItem.id}`;
+  const itemAnchor = `/update/${currentItem.slug || currentItem.id}`;
 
   return (
     <section
