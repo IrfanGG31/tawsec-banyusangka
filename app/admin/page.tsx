@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   LogOut, Plus, Edit, Trash2, Database, BarChart3,
-  Newspaper, Layers, FolderGit2, Check, X, Shield, RefreshCw
+  Newspaper, Layers, FolderGit2, Check, X, Shield, RefreshCw,
+  Upload, Image as ImageIcon, Loader2
 } from "lucide-react";
 
 type TabType = "progress" | "updates" | "dampak" | "dokumentasi";
@@ -73,6 +74,8 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   // Track whether slug was manually edited so auto-gen doesn't override
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadSuccessMsg, setUploadSuccessMsg] = useState("");
   const [activeTab, setActiveTab] = useState<TabType>("progress");
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -170,6 +173,7 @@ export default function AdminDashboardPage() {
   // CRUD Actions
   const handleOpenAdd = () => {
     setEditingId(null);
+    setUploadSuccessMsg("");
     if (activeTab === "progress") {
       setFormData({
         nama_indikator: "",
@@ -212,6 +216,7 @@ export default function AdminDashboardPage() {
   const handleOpenEdit = (item: Record<string, unknown>) => {
     setEditingId((item.id as string) || null);
     setFormData({ ...item });
+    setUploadSuccessMsg("");
     // If editing an existing item that already has a slug, mark as manually set
     setSlugManuallyEdited(!!(item.slug as string));
     setIsModalOpen(true);
@@ -239,6 +244,50 @@ export default function AdminDashboardPage() {
       alert(`Gagal menghapus data: ${error.message}`);
     } else {
       fetchAllTables(supabase);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setUploadSuccessMsg("");
+
+    const supabase = createClient();
+    if (!supabase) {
+      alert("Database Supabase belum terhubung. Tidak bisa mengunggah file ke Storage.");
+      setUploadingImage(false);
+      return;
+    }
+
+    try {
+      const fileExt = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+      const filePath = `updates/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("galeri")
+        .upload(filePath, file, { cacheControl: "3600", upsert: true });
+
+      if (uploadError) {
+        alert(`Gagal mengunggah foto: ${uploadError.message}`);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("galeri")
+        .getPublicUrl(filePath);
+
+      if (publicUrlData?.publicUrl) {
+        setFormData((prev) => ({ ...prev, foto_url: publicUrlData.publicUrl }));
+        setUploadSuccessMsg("✓ Foto JPG/PNG berhasil diunggah & terpasang!");
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal mengunggah gambar";
+      alert(`Error upload: ${msg}`);
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -830,15 +879,82 @@ export default function AdminDashboardPage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-xs text-slate-400 mb-1">Foto URL</label>
-                    <input
-                      type="text"
-                      value={(formData.foto_url as string) || ""}
-                      onChange={(e) => setFormData({ ...formData, foto_url: e.target.value })}
-                      placeholder="/images/galeri/nama-foto.png"
-                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono"
-                    />
+                  {/* ── Photo Uploader & URL Input ── */}
+                  <div className="p-3.5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
+                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (JPG/PNG)
+                      </label>
+                      {uploadSuccessMsg && (
+                        <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/50">
+                          {uploadSuccessMsg}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Live Image Preview Thumbnail */}
+                    {(formData.foto_url as string) && (
+                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center group">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={formData.foto_url as string}
+                          alt="Preview Upload"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Fallback image indicator if URL fails to load
+                            (e.target as HTMLImageElement).src = "/images/galeri/pelatihan-1.png";
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-[10px] text-slate-300 font-mono text-center break-all">
+                          {formData.foto_url as string}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* File Picker Button for Supabase Storage */}
+                    <div className="flex gap-2">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        onChange={handleFileUpload}
+                        id="image-file-input"
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor="image-file-input"
+                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all active:scale-[0.98] ${
+                          uploadingImage
+                            ? "bg-slate-800 text-slate-400 border-slate-700 pointer-events-none"
+                            : "bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-500 shadow-md"
+                        }`}
+                      >
+                        {uploadingImage ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
+                            Mengunggah Foto ke Supabase...
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4" />
+                            Pilih &amp; Unggah Foto dari Laptop / HP
+                          </>
+                        )}
+                      </label>
+                    </div>
+
+                    {/* Manual URL Input (Fallback) */}
+                    <div>
+                      <label className="block text-[10px] text-slate-500 mb-1">
+                        Atau masukkan URL gambar / path lokal manual:
+                      </label>
+                      <input
+                        type="text"
+                        value={(formData.foto_url as string) || ""}
+                        onChange={(e) => setFormData({ ...formData, foto_url: e.target.value })}
+                        placeholder="/images/galeri/nama-foto.png atau https://..."
+                        className="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-300 font-mono"
+                      />
+                    </div>
                   </div>
 
                   {/* ── Timeline-specific fields ── */}
