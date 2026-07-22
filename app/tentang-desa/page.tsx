@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import desaData from "@/data/desa.json";
-import { MapPin, Users, Fish, Building, BookOpen, Heart } from "lucide-react";
+import { MapPin, Users, Fish, Building, BookOpen, Heart, Sparkles, Anchor, Waves } from "lucide-react";
 import LocalHeroes from "@/components/program/LocalHeroes";
 
 export const metadata: Metadata = {
@@ -36,24 +37,55 @@ export default function TentangDesaPage() {
 
   return (
     <div className="pt-16">
-      {/* Header */}
-      <div className="bg-gradient-ocean text-white py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      {/* ===== MAJESTIC GRAND HERO BANNER: TENTANG DESA ===== */}
+      <section className="relative min-h-[420px] sm:min-h-[460px] flex items-center justify-center overflow-hidden bg-navy-950 text-white border-b border-slate-800">
+        {/* Background Coastal Ocean Photo */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/galeri/nelayan-1.png"
+            alt="Pesisir dan Perahu Nelayan Desa Banyusangka"
+            fill
+            className="object-cover object-center brightness-90 contrast-110 scale-105"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/80 to-sky-950/85" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/40" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-sm px-4 py-2 rounded-full mb-6">
-              <MapPin className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-xs font-bold text-sky-200 uppercase tracking-wider shadow-lg">
+              <MapPin className="w-4 h-4 text-sky-400" />
               Kab. Bangkalan → Kec. Tanjung Bumi → Desa Banyusangka
             </div>
-            <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">
-              Desa Banyusangka
+
+            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight mt-4 drop-shadow-xl">
+              Profil &amp; Potensi Maritim <span className="text-gradient-ocean font-serif">Desa Banyusangka</span>
             </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Desa pesisir di ujung utara Madura, rumah bagi ratusan nelayan tangguh
-              yang menggantungkan hidup dari kekayaan Laut Jawa.
+
+            <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mt-4 drop-shadow font-normal">
+              Mengenal desa pesisir di ujung utara Pulau Madura — pusat pendaratan ikan tradisional melimpah, komunitas nelayan tangguh, dan potensi pengolahan olahan laut berkelanjutan.
             </p>
+
+            {/* Quick Feature Chips Bar */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 shadow">
+                <Users className="w-4 h-4 text-amber-400" /> 4.800+ Jiwa Penduduk
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-emerald-300 shadow">
+                <Anchor className="w-4 h-4 text-emerald-400" /> 1.200+ Nelayan Aktif
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-cyan-300 shadow">
+                <Fish className="w-4 h-4 text-cyan-400" /> 85+ Ton Tangkapan/Bulan
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-orange-300 shadow">
+                <Waves className="w-4 h-4 text-sunset-400" /> PPI Banyusangka
+              </div>
+            </div>
           </FadeIn>
         </div>
-      </div>
+      </section>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-20">
         {/* Geografis */}

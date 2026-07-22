@@ -33,20 +33,53 @@ export default function ProgramTawsecPage() {
   const activePilar = modulData.find((m) => m.nomor === activePilarNomor) || modulData[0];
 
   return (
-    <div className="space-y-16 sm:space-y-20 pb-20 pt-24">
-      {/* ===== HERO PROGRAM HEADER ===== */}
-      <section className="bg-gradient-to-b from-primary-50 via-white to-white py-12 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+    <div className="space-y-16 sm:space-y-20 pb-20 pt-16">
+      {/* ===== MAJESTIC GRAND HERO BANNER: PROGRAM TAWSEC ===== */}
+      <section className="relative min-h-[420px] sm:min-h-[460px] flex items-center justify-center overflow-hidden bg-navy-950 text-white border-b border-slate-800">
+        {/* Background Training Photo */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/galeri/pelatihan-1.png"
+            alt="Pelatihan Pemberdayaan Ibu-Ibu Nelayan TAWSEC"
+            fill
+            className="object-cover object-center brightness-90 contrast-110 scale-105"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/80 to-indigo-950/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/40" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
           <FadeIn>
-            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary-100 border border-primary-200 text-xs font-bold text-primary-800 uppercase tracking-wider mb-3">
-              <Award className="w-4 h-4 text-sunset-500" /> UNAIR SUSTAINACTION 2026
-            </span>
-            <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-navy-950 leading-tight">
-              Program TAWSEC Banyusangka
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-xs font-bold text-sky-200 uppercase tracking-wider shadow-lg">
+              <Award className="w-4 h-4 text-amber-400" />
+              UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
+            </div>
+
+            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight mt-4 drop-shadow-xl">
+              Program TAWSEC &amp; <span className="text-gradient-ocean font-serif">4 Pilar Pemberdayaan</span>
             </h1>
-            <p className="text-navy-600 text-sm sm:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
-              Program Hibah Pengabdian Masyarakat oleh <strong>UKM-F Penalaran AcSES FEB Universitas Airlangga</strong> untuk pemberdayaan ekonomi perempuan pesisir berbasis pengolahan hasil laut.
+
+            <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mt-4 drop-shadow font-normal">
+              Sinergi Aksi Mandiri pengolahan hasil laut <strong>Zero Waste</strong>, pendampingan manajemen kewirausahaan, e-commerce digital, dan legalitas NIB/Sertifikasi Halal bagi perempuan pesisir Desa Banyusangka.
             </p>
+
+            {/* Quick Feature Chips Bar */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 shadow">
+                <TrendingUp className="w-4 h-4 text-sky-400" /> 9 KPI Target Utama
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-emerald-300 shadow">
+                <Leaf className="w-4 h-4 text-emerald-400" /> 4 Pilar Kurikulum
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-300 shadow">
+                <Shield className="w-4 h-4 text-amber-400" /> Legalitas NIB &amp; Serhal
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-purple-300 shadow">
+                <Recycle className="w-4 h-4 text-purple-400" /> Zero Waste Processing
+              </div>
+            </div>
           </FadeIn>
         </div>
       </section>

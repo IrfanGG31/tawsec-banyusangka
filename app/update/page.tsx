@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import updatesData from "@/data/updates.json";
-import { Calendar, Tag, Sparkles, Newspaper, ArrowRight, Loader2, UserCheck } from "lucide-react";
+import { Calendar, Tag, Sparkles, Newspaper, ArrowRight, Loader2, UserCheck, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/Animations";
 
 interface UpdateItem {
   id: string;
@@ -56,20 +57,55 @@ export default function UpdatesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-28 pb-20">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary-50 border border-primary-200 text-xs font-semibold text-primary-700 uppercase tracking-wider mb-3">
-            <Newspaper className="w-4 h-4 text-primary-600" /> Warta, Dokumentasi &amp; Penjelasan Acara
-          </span>
-          <h1 className="font-serif font-bold text-3xl sm:text-5xl text-navy-950 leading-tight">
-            Dokumentasi Berita Kegiatan TAWSEC
-          </h1>
-          <p className="text-navy-600 text-sm sm:text-base mt-3 leading-relaxed">
-            Arsip penjelasan lengkap acara, foto galeri dokumentasi, dan warta pelaksanaan kegiatan pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka.
-          </p>
+    <div className="min-h-screen bg-slate-50 pt-16 pb-20">
+      {/* ===== MAJESTIC GRAND HERO BANNER: UPDATE & WARTA ===== */}
+      <section className="relative min-h-[420px] sm:min-h-[460px] flex items-center justify-center overflow-hidden bg-navy-950 text-white border-b border-slate-800 mb-14">
+        {/* Background HD Ocean Photo */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero-banyusangka-hd.png"
+            alt="Kegiatan Pengabdian TAWSEC Banyusangka"
+            fill
+            className="object-cover object-center brightness-90 contrast-110 scale-105"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-slate-950/85 to-sky-950/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/40" />
         </div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
+          <FadeIn>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-xs font-bold text-sky-200 uppercase tracking-wider shadow-lg">
+              <Newspaper className="w-4 h-4 text-sky-400" />
+              Warta Lapangan &amp; Rekam Jejak Program TAWSEC
+            </div>
+
+            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight mt-4 drop-shadow-xl">
+              Update &amp; Dokumentasi <span className="text-gradient-ocean font-serif">Berita Kegiatan</span>
+            </h1>
+
+            <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mt-4 drop-shadow font-normal">
+              Jelajahi rekam jejak pelaksanaan 7 agenda utama pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka — dari survei awal, formulasi R&amp;D, pelatihan 4 pilar, hingga sertifikasi halal.
+            </p>
+
+            {/* Quick Feature Chips Bar */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 shadow">
+                <Calendar className="w-4 h-4 text-sky-400" /> 7 Agenda Utama
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-emerald-300 shadow">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Dokumentasi Terverifikasi
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-300 shadow">
+                <Sparkles className="w-4 h-4 text-amber-400" /> Halaman Detail &amp; Galeri Lightbox
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
 
         {/* Loading Spinner or Grid Cards */}
         {loading ? (
