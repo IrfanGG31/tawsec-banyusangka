@@ -25,8 +25,16 @@ interface UpdateItem {
   tanggal: string;
   judul: string;
   isi_singkat: string;
+  deskripsi_lengkap?: string;
   foto_url: string;
   kategori: string;
+  // New fields for slug-based anchors + timeline integration
+  slug?: string;
+  periode?: string;
+  pic?: string;
+  status_kegiatan?: "Selesai" | "Berjalan" | "Belum Mulai";
+  urutan?: number;
+  is_timeline?: boolean;
 }
 
 interface DampakItem {
@@ -46,8 +54,25 @@ interface DokumentasiItem {
   link_gdrive: string;
 }
 
+// Auto-generates a URL-safe kebab-case slug from any text.
+// E.g. "Survei & Pemetaan Potensi!" → "survei-pemetaan-potensi"
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // strip diacritics
+    .replace(/&/g, "dan")
+    .replace(/[^a-z0-9\s-]/g, "")    // drop non-alphanumeric
+    .trim()
+    .replace(/\s+/g, "-")            // spaces → hyphens
+    .replace(/-+/g, "-")             // collapse multiple hyphens
+    .slice(0, 80);                   // max 80 chars
+}
+
 export default function AdminDashboardPage() {
   const router = useRouter();
+  // Track whether slug was manually edited so auto-gen doesn't override
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("progress");
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -155,12 +180,20 @@ export default function AdminDashboardPage() {
         status: "Belum Mulai",
       });
     } else if (activeTab === "updates") {
+      setSlugManuallyEdited(false);
       setFormData({
         tanggal: new Date().toISOString().split("T")[0],
         judul: "",
+        slug: "",
         isi_singkat: "",
+        deskripsi_lengkap: "",
         foto_url: "/images/galeri/pelatihan-1.png",
         kategori: "Kegiatan",
+        periode: "",
+        pic: "",
+        status_kegiatan: "Selesai",
+        urutan: 99,
+        is_timeline: false,
       });
     } else if (activeTab === "dampak") {
       setFormData({ label: "", angka: "", satuan: "", icon: "Users" });
@@ -179,6 +212,8 @@ export default function AdminDashboardPage() {
   const handleOpenEdit = (item: Record<string, unknown>) => {
     setEditingId((item.id as string) || null);
     setFormData({ ...item });
+    // If editing an existing item that already has a slug, mark as manually set
+    setSlugManuallyEdited(!!(item.slug as string));
     setIsModalOpen(true);
   };
 
@@ -441,7 +476,8 @@ export default function AdminDashboardPage() {
                     <th className="py-4 px-6">Tanggal</th>
                     <th className="py-4 px-6">Judul Update</th>
                     <th className="py-4 px-4">Kategori</th>
-                    <th className="py-4 px-6">Isi Ringkas</th>
+                    <th className="py-4 px-4">Slug</th>
+                    <th className="py-4 px-4">Timeline</th>
                     <th className="py-4 px-6 text-right">Aksi</th>
                   </tr>
                 </thead>
@@ -451,7 +487,12 @@ export default function AdminDashboardPage() {
                       <td className="py-4 px-6 text-slate-400 font-mono whitespace-nowrap">{item.tanggal}</td>
                       <td className="py-4 px-6 font-semibold text-white">{item.judul}</td>
                       <td className="py-4 px-4 text-sky-400">{item.kategori}</td>
-                      <td className="py-4 px-6 text-slate-300 max-w-md truncate">{item.isi_singkat}</td>
+                      <td className="py-4 px-4 text-emerald-400 font-mono text-[10px] max-w-[140px] truncate">{item.slug || <span className="text-slate-600 italic">—</span>}</td>
+                      <td className="py-4 px-4">
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${item.is_timeline ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" : "bg-slate-800 text-slate-500 border border-slate-700"}`}>
+                          {item.is_timeline ? "✓ Timeline" : "Blog only"}
+                        </span>
+                      </td>
                       <td className="py-4 px-6 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button
@@ -664,25 +705,58 @@ export default function AdminDashboardPage() {
               )}
 
               {activeTab === "updates" && (
-                <>
+                <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+                  {/* Judul — auto-generates slug */}
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Judul Update</label>
+                    <label className="block text-xs text-slate-400 mb-1">Judul Update <span className="text-rose-400">*</span></label>
                     <input
                       type="text"
                       value={(formData.judul as string) || ""}
-                      onChange={(e) => setFormData({ ...formData, judul: e.target.value })}
+                      onChange={(e) => {
+                        const judul = e.target.value;
+                        const updates: Record<string, unknown> = { judul };
+                        // Only auto-fill slug when it hasn't been manually touched
+                        if (!slugManuallyEdited) {
+                          updates.slug = slugify(judul);
+                        }
+                        setFormData({ ...formData, ...updates });
+                      }}
                       required
+                      placeholder="Judul berita / kegiatan"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
+
+                  {/* Slug — auto-generated, manually overrideable */}
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">
+                      Slug Anchor
+                      <span className="ml-1.5 text-slate-600 font-normal">(/update#slug-ini)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={(formData.slug as string) || ""}
+                      onChange={(e) => {
+                        setSlugManuallyEdited(true);
+                        setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") });
+                      }}
+                      placeholder="auto-generated dari judul — edit untuk kustom"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-emerald-800/50 text-xs text-emerald-300 font-mono"
+                    />
+                    {!slugManuallyEdited && (
+                      <p className="text-[10px] text-slate-600 mt-0.5">✦ Auto-generate dari judul. Klik untuk override manual.</p>
+                    )}
+                  </div>
+
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Tanggal</label>
+                      <label className="block text-xs text-slate-400 mb-1">Tanggal Tampil <span className="text-rose-400">*</span></label>
                       <input
                         type="text"
                         value={(formData.tanggal as string) || ""}
                         onChange={(e) => setFormData({ ...formData, tanggal: e.target.value })}
                         required
+                        placeholder="15 Juli 2026"
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                       />
                     </div>
@@ -692,30 +766,116 @@ export default function AdminDashboardPage() {
                         type="text"
                         value={(formData.kategori as string) || ""}
                         onChange={(e) => setFormData({ ...formData, kategori: e.target.value })}
+                        placeholder="Pelatihan Produksi"
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                       />
                     </div>
                   </div>
+
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Isi Singkat</label>
+                    <label className="block text-xs text-slate-400 mb-1">Isi Singkat <span className="text-rose-400">*</span></label>
                     <textarea
-                      rows={3}
+                      rows={2}
                       value={(formData.isi_singkat as string) || ""}
                       onChange={(e) => setFormData({ ...formData, isi_singkat: e.target.value })}
                       required
+                      placeholder="1-2 kalimat ringkasan kegiatan"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Penjelasan Lengkap</label>
+                    <textarea
+                      rows={4}
+                      value={(formData.deskripsi_lengkap as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, deskripsi_lengkap: e.target.value })}
+                      placeholder="Detail kegiatan, jumlah peserta, hasil, dll."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">Foto URL</label>
                     <input
                       type="text"
                       value={(formData.foto_url as string) || ""}
                       onChange={(e) => setFormData({ ...formData, foto_url: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                      placeholder="/images/galeri/nama-foto.png"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono"
                     />
                   </div>
-                </>
+
+                  {/* ── Timeline-specific fields ── */}
+                  <div className="pt-2 border-t border-slate-800">
+                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                      <div
+                        onClick={() => setFormData({ ...formData, is_timeline: !(formData.is_timeline as boolean) })}
+                        className={`w-10 h-5 rounded-full transition-all relative ${
+                          (formData.is_timeline as boolean) ? "bg-indigo-600" : "bg-slate-700"
+                        }`}
+                      >
+                        <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${
+                          (formData.is_timeline as boolean) ? "left-5" : "left-0.5"
+                        }`} />
+                      </div>
+                      <span className="text-xs text-slate-300 font-semibold">
+                        Tampilkan di Timeline Program
+                      </span>
+                    </label>
+                  </div>
+
+                  {(formData.is_timeline as boolean) && (
+                    <>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">Periode Timeline</label>
+                          <input
+                            type="text"
+                            value={(formData.periode as string) || ""}
+                            onChange={(e) => setFormData({ ...formData, periode: e.target.value })}
+                            placeholder="Mei–Juni 2026"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">Urutan Timeline</label>
+                          <input
+                            type="number"
+                            min={1}
+                            value={(formData.urutan as number) || 99}
+                            onChange={(e) => setFormData({ ...formData, urutan: parseInt(e.target.value) || 99 })}
+                            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">PIC Penanggung Jawab</label>
+                          <input
+                            type="text"
+                            value={(formData.pic as string) || ""}
+                            onChange={(e) => setFormData({ ...formData, pic: e.target.value })}
+                            placeholder="Nama & Tim"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">Status Kegiatan</label>
+                          <select
+                            value={(formData.status_kegiatan as string) || "Selesai"}
+                            onChange={(e) => setFormData({ ...formData, status_kegiatan: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                          >
+                            <option value="Selesai">✓ Selesai</option>
+                            <option value="Berjalan">⚡ Sedang Berjalan</option>
+                            <option value="Belum Mulai">⏳ Belum Mulai</option>
+                          </select>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
 
               {activeTab === "dampak" && (
