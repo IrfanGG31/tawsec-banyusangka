@@ -3,10 +3,10 @@
 import { useEffect, useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import {
   Calendar, Tag, Sparkles, Newspaper, BookOpen, ArrowLeft,
-  UserCheck, ShieldCheck, Maximize2, X, ChevronRight, ArrowUpRight, Loader2
+  UserCheck, ShieldCheck, Maximize2, X, ChevronRight, ChevronLeft,
+  ArrowUpRight, Loader2, Grid, SlidersHorizontal, Image as ImageIcon
 } from "lucide-react";
 import updatesData from "@/data/updates.json";
 import { createClient } from "@/lib/supabase/client";
@@ -41,7 +41,11 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
   const [galeriList, setGaleriList] = useState<GaleriFoto[]>([]);
   const [relatedList, setRelatedList] = useState<UpdateItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPhoto, setSelectedPhoto] = useState<GaleriFoto | null>(null);
+
+  // Gallery Carousel & Lightbox State
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<"slider" | "grid">("slider");
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchDetailData = async () => {
@@ -59,7 +63,7 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
             query = query.eq("slug", slug);
           }
 
-          const { data: updateData, error: fetchErr } = await query.maybeSingle();
+          const { data: updateData } = await query.maybeSingle();
 
           if (updateData) {
             setUpdateItem(updateData as UpdateItem);
@@ -71,8 +75,18 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
               .eq("update_id", updateData.id)
               .order("urutan", { ascending: true });
 
-            if (galeriData) {
+            if (galeriData && galeriData.length > 0) {
               setGaleriList(galeriData as GaleriFoto[]);
+            } else {
+              setGaleriList([
+                {
+                  id: "main-cover",
+                  update_id: updateData.id,
+                  foto_url: updateData.foto_url || "/images/galeri/pelatihan-1.png",
+                  caption: updateData.judul,
+                  urutan: 1,
+                },
+              ]);
             }
 
             // 3. Fetch related updates (excluding current)
@@ -151,6 +165,30 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
 
   const mainPhoto = updateItem.foto_url || galeriList[0]?.foto_url || "/images/galeri/pelatihan-1.png";
 
+  const nextSlide = () => {
+    if (galeriList.length === 0) return;
+    setCurrentSlideIndex((prev) => (prev + 1) % galeriList.length);
+  };
+
+  const prevSlide = () => {
+    if (galeriList.length === 0) return;
+    setCurrentSlideIndex((prev) => (prev - 1 + galeriList.length) % galeriList.length);
+  };
+
+  const nextLightbox = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedPhotoIndex === null || galeriList.length === 0) return;
+    setSelectedPhotoIndex((prev) => (prev !== null ? (prev + 1) % galeriList.length : 0));
+  };
+
+  const prevLightbox = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedPhotoIndex === null || galeriList.length === 0) return;
+    setSelectedPhotoIndex((prev) => (prev !== null ? (prev - 1 + galeriList.length) % galeriList.length : 0));
+  };
+
+  const activeSlide = galeriList[currentSlideIndex] || galeriList[0];
+
   return (
     <div className="min-h-screen bg-slate-50 pt-24 pb-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -216,7 +254,7 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
           </div>
 
           {/* Article Body */}
-          <div className="p-6 sm:p-10 space-y-6">
+          <div className="p-6 sm:p-10 space-y-8">
 
             {/* Short Ringkasan Box */}
             <div className="p-5 bg-sky-50/80 border border-sky-200/80 rounded-2xl text-slate-800 text-sm sm:text-base leading-relaxed font-medium">
@@ -239,24 +277,143 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
               </div>
             )}
 
-            {/* ===== GALERI FOTO DOKUMENTASI (GRID & LIGHTBOX) ===== */}
+            {/* ===== INTERACTIVE GALERI FOTO SLIDER CAROUSEL ===== */}
             <div className="pt-2">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-serif font-bold text-navy-950 text-xl flex items-center gap-2">
-                  <Newspaper className="w-5 h-5 text-emerald-600" />
-                  Galeri Foto Kegiatan ({galeriList.length > 0 ? galeriList.length : 1} Foto)
-                </h3>
-                <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-                  Klik foto untuk memperbesar
-                </span>
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-5 border-b border-slate-100 pb-3">
+                <div>
+                  <h3 className="font-serif font-bold text-navy-950 text-xl flex items-center gap-2">
+                    <ImageIcon className="w-5 h-5 text-emerald-600" />
+                    Galeri Foto Kegiatan ({galeriList.length} Foto)
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {galeriList.length > 1
+                      ? "Geser slide atau klik foto untuk memperbesar layar penuh"
+                      : "Foto dokumentasi kegiatan"}
+                  </p>
+                </div>
+
+                {/* View Mode Toggle Buttons */}
+                {galeriList.length > 1 && (
+                  <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
+                    <button
+                      onClick={() => setViewMode("slider")}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        viewMode === "slider"
+                          ? "bg-sky-600 text-white shadow-sm"
+                          : "text-slate-600 hover:text-navy-950"
+                      }`}
+                    >
+                      <SlidersHorizontal className="w-3.5 h-3.5" />
+                      <span>Mode Slide</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        viewMode === "grid"
+                          ? "bg-sky-600 text-white shadow-sm"
+                          : "text-slate-600 hover:text-navy-950"
+                      }`}
+                    >
+                      <Grid className="w-3.5 h-3.5" />
+                      <span>Mode Grid</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {galeriList.length > 0 ? (
+              {/* SLIDER VIEW MODE */}
+              {viewMode === "slider" && galeriList.length > 0 && (
+                <div className="space-y-4">
+                  {/* Main Slider Display Stage */}
+                  <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 shadow-xl group">
+                    <Image
+                      src={activeSlide?.foto_url || mainPhoto}
+                      alt={activeSlide?.caption || updateItem.judul}
+                      fill
+                      className="object-cover transition-all duration-500"
+                      sizes="(max-width: 1024px) 100vw, 80vw"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/20" />
+
+                    {/* Expand Zoom Trigger Button */}
+                    <button
+                      onClick={() => setSelectedPhotoIndex(currentSlideIndex)}
+                      className="absolute top-4 right-4 p-3 bg-slate-900/80 hover:bg-sky-600 text-white rounded-full backdrop-blur-md shadow-lg border border-white/20 transition-all hover:scale-110 active:scale-95"
+                      title="Perbesar Layar Penuh"
+                    >
+                      <Maximize2 className="w-4 h-4" />
+                    </button>
+
+                    {/* Counter Badge */}
+                    <div className="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3.5 py-1 rounded-full shadow">
+                      Foto {currentSlideIndex + 1} dari {galeriList.length}
+                    </div>
+
+                    {/* Previous Slide Navigation Arrow */}
+                    {galeriList.length > 1 && (
+                      <button
+                        onClick={prevSlide}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-slate-900/70 hover:bg-sky-600 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 shadow-xl transition-all hover:scale-110 active:scale-95 group-hover:opacity-100 opacity-90"
+                        aria-label="Slide Sebelumya"
+                      >
+                        <ChevronLeft className="w-6 h-6" />
+                      </button>
+                    )}
+
+                    {/* Next Slide Navigation Arrow */}
+                    {galeriList.length > 1 && (
+                      <button
+                        onClick={nextSlide}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-slate-900/70 hover:bg-sky-600 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 shadow-xl transition-all hover:scale-110 active:scale-95 group-hover:opacity-100 opacity-90"
+                        aria-label="Slide Selanjutnya"
+                      >
+                        <ChevronRight className="w-6 h-6" />
+                      </button>
+                    )}
+
+                    {/* Caption Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                      <p className="font-semibold text-sm sm:text-base drop-shadow-md">
+                        {activeSlide?.caption || updateItem.judul}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Thumbnail Navigation Strip */}
+                  {galeriList.length > 1 && (
+                    <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-1 scrollbar-thin">
+                      {galeriList.map((foto, idx) => (
+                        <button
+                          key={foto.id || idx}
+                          onClick={() => setCurrentSlideIndex(idx)}
+                          className={`relative aspect-[4/3] w-24 sm:w-28 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                            currentSlideIndex === idx
+                              ? "border-sky-500 ring-2 ring-sky-300 scale-105 shadow-md"
+                              : "border-slate-200 opacity-65 hover:opacity-100 hover:border-slate-400"
+                          }`}
+                        >
+                          <Image
+                            src={foto.foto_url}
+                            alt={foto.caption || `Thumbnail ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="120px"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* GRID VIEW MODE */}
+              {viewMode === "grid" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {galeriList.map((foto) => (
+                  {galeriList.map((foto, idx) => (
                     <div
-                      key={foto.id}
-                      onClick={() => setSelectedPhoto(foto)}
+                      key={foto.id || idx}
+                      onClick={() => setSelectedPhotoIndex(idx)}
                       className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 cursor-pointer shadow-sm hover:shadow-xl transition-all"
                     >
                       <Image
@@ -278,10 +435,6 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
                       )}
                     </div>
                   ))}
-                </div>
-              ) : (
-                <div className="p-6 bg-slate-100 rounded-2xl text-center text-slate-500 text-xs">
-                  Foto dokumentasi kegiatan tambahan belum diunggah.
                 </div>
               )}
             </div>
@@ -361,36 +514,65 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
         )}
       </div>
 
-      {/* ===== LIGHTBOX MODAL FULLSCREEN ===== */}
-      {selectedPhoto && (
+      {/* ===== LIGHTBOX MODAL FULLSCREEN WITH CAROUSEL CONTROLS ===== */}
+      {selectedPhotoIndex !== null && galeriList[selectedPhotoIndex] && (
         <div
-          onClick={() => setSelectedPhoto(null)}
+          onClick={() => setSelectedPhotoIndex(null)}
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
         >
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center"
           >
+            {/* Close Lightbox Button */}
             <button
-              onClick={() => setSelectedPhoto(null)}
+              onClick={() => setSelectedPhotoIndex(null)}
               className="absolute -top-12 right-0 p-2 text-white/80 hover:text-white bg-slate-800/80 hover:bg-slate-800 rounded-full transition-all"
               aria-label="Close Lightbox"
             >
               <X className="w-6 h-6" />
             </button>
 
+            {/* Counter Tag */}
+            <div className="absolute -top-12 left-0 text-white text-xs font-bold bg-slate-800/80 px-3 py-1 rounded-full border border-white/20">
+              Foto {selectedPhotoIndex + 1} dari {galeriList.length}
+            </div>
+
+            {/* Main Fullscreen Image Stage */}
             <div className="relative w-full h-[65vh] sm:h-[75vh] rounded-2xl overflow-hidden shadow-2xl bg-black">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={selectedPhoto.foto_url}
-                alt={selectedPhoto.caption || "Foto Kegiatan"}
+                src={galeriList[selectedPhotoIndex].foto_url}
+                alt={galeriList[selectedPhotoIndex].caption || "Foto Kegiatan"}
                 className="w-full h-full object-contain"
               />
+
+              {/* Prev Arrow in Lightbox */}
+              {galeriList.length > 1 && (
+                <button
+                  onClick={prevLightbox}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/60 hover:bg-sky-600 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/30 transition-all hover:scale-110 active:scale-95"
+                  aria-label="Foto Sebelumnya"
+                >
+                  <ChevronLeft className="w-7 h-7" />
+                </button>
+              )}
+
+              {/* Next Arrow in Lightbox */}
+              {galeriList.length > 1 && (
+                <button
+                  onClick={nextLightbox}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/60 hover:bg-sky-600 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/30 transition-all hover:scale-110 active:scale-95"
+                  aria-label="Foto Selanjutnya"
+                >
+                  <ChevronRight className="w-7 h-7" />
+                </button>
+              )}
             </div>
 
-            {selectedPhoto.caption && (
-              <p className="mt-4 text-center text-white text-sm sm:text-base font-medium max-w-2xl bg-slate-900/80 border border-slate-800 px-6 py-2.5 rounded-2xl shadow">
-                {selectedPhoto.caption}
+            {galeriList[selectedPhotoIndex].caption && (
+              <p className="mt-4 text-center text-white text-sm sm:text-base font-medium max-w-2xl bg-slate-900/90 border border-slate-800 px-6 py-2.5 rounded-2xl shadow">
+                {galeriList[selectedPhotoIndex].caption}
               </p>
             )}
           </div>
