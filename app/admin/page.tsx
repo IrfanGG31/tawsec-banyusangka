@@ -76,6 +76,7 @@ export default function AdminDashboardPage() {
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadSuccessMsg, setUploadSuccessMsg] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
   // Gallery state for current update
   const [modalGaleriList, setModalGaleriList] = useState<Array<{ id: string; update_id: string; foto_url: string; caption?: string; urutan: number }>>([]);
   const [newGaleriCaption, setNewGaleriCaption] = useState("");
@@ -269,10 +270,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFileAndUpload = async (file: File) => {
     setUploadingImage(true);
     setUploadSuccessMsg("");
 
@@ -337,6 +335,11 @@ export default function AdminDashboardPage() {
     } finally {
       setUploadingImage(false);
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) processFileAndUpload(file);
   };
 
   const handleAddGaleriPhoto = async (fotoUrl: string, caption: string) => {
@@ -974,8 +977,28 @@ export default function AdminDashboardPage() {
                     />
                   </div>
 
-                  {/* ── Photo Uploader & URL Input ── */}
-                  <div className="p-3.5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
+                  {/* ── Photo Uploader Dropzone & URL Input ── */}
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDragging(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                      const file = e.dataTransfer.files?.[0];
+                      if (file) processFileAndUpload(file);
+                    }}
+                    className={`p-4 border-2 border-dashed rounded-2xl transition-all space-y-3 ${
+                      isDragging
+                        ? "border-indigo-400 bg-indigo-950/80 scale-[1.01]"
+                        : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
                       <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
                         <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (JPG / PNG / HEIC iPhone)
@@ -996,7 +1019,6 @@ export default function AdminDashboardPage() {
                           alt="Preview Upload"
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            // Fallback image indicator if URL fails to load
                             (e.target as HTMLImageElement).src = "/images/galeri/pelatihan-1.png";
                           }}
                         />
@@ -1006,8 +1028,8 @@ export default function AdminDashboardPage() {
                       </div>
                     )}
 
-                    {/* File Picker Button for Supabase Storage */}
-                    <div className="flex gap-2">
+                    {/* Drag & Drop Visual Hint + Upload Button */}
+                    <div className="flex flex-col gap-2">
                       <input
                         type="file"
                         accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.heic,.heif"
@@ -1017,21 +1039,28 @@ export default function AdminDashboardPage() {
                       />
                       <label
                         htmlFor="image-file-input"
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all active:scale-[0.98] ${
-                          uploadingImage
+                        className={`flex flex-col items-center justify-center gap-1.5 p-4 rounded-xl border border-dashed text-xs font-bold cursor-pointer transition-all active:scale-[0.98] ${
+                          isDragging
+                            ? "bg-indigo-600 text-white border-indigo-300 shadow-lg"
+                            : uploadingImage
                             ? "bg-slate-800 text-slate-400 border-slate-700 pointer-events-none"
-                            : "bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-500 shadow-md"
+                            : "bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border-indigo-500/40 shadow-sm"
                         }`}
                       >
                         {uploadingImage ? (
-                          <>
+                          <div className="flex items-center gap-2">
                             <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
                             Memproses &amp; Mengunggah Foto...
-                          </>
+                          </div>
                         ) : (
                           <>
-                            <Upload className="w-4 h-4" />
-                            Pilih Foto dari Laptop / HP (JPG, PNG, HEIC)
+                            <div className="flex items-center gap-2 text-sm font-extrabold text-white">
+                              <Upload className="w-4 h-4 text-sky-400" />
+                              Drag &amp; Drop Foto ke Sini
+                            </div>
+                            <span className="text-[10px] text-indigo-300 font-normal">
+                              atau <u className="font-semibold">klik di sini</u> untuk memilih file dari komputer/HP (JPG, PNG, HEIC)
+                            </span>
                           </>
                         )}
                       </label>
