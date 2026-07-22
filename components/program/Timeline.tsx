@@ -63,8 +63,8 @@ export default function Timeline() {
   return (
     <section className="py-12">
       <div className="mb-10 text-center">
-        <span className="text-primary-600 font-semibold text-xs uppercase tracking-widest bg-primary-50 px-3.5 py-1 rounded-full border border-primary-100">
-          📅 Jadwal &amp; Dokumentasi Visual Program
+        <span className="text-sky-700 font-semibold text-xs uppercase tracking-widest bg-sky-50 px-3.5 py-1 rounded-full border border-sky-200">
+          Jadwal &amp; Rekam Jejak Program
         </span>
         <h2 className="font-serif font-bold text-navy-950 text-3xl sm:text-4xl mt-3">
           Timeline Pelaksanaan Program TAWSEC

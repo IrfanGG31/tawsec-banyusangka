@@ -52,34 +52,13 @@ export default function ProgramTawsecPage() {
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/30 text-xs sm:text-sm font-extrabold text-sky-200 uppercase tracking-wide shadow-lg">
-              <Award className="w-4 h-4 text-amber-400" />
-              UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight mt-4 drop-shadow-xl">
+            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight drop-shadow-xl">
               Program TAWSEC &amp; <span className="text-gradient-ocean font-serif">4 Pilar Pemberdayaan</span>
             </h1>
 
             <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mt-4 drop-shadow font-normal">
               Sinergi Aksi Mandiri pengolahan hasil laut <strong>Zero Waste</strong>, pendampingan manajemen kewirausahaan, e-commerce digital, dan legalitas NIB/Sertifikasi Halal bagi perempuan pesisir Desa Banyusangka.
             </p>
-
-            {/* Quick Feature Chips Bar */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 shadow">
-                <TrendingUp className="w-4 h-4 text-sky-400" /> 9 KPI Target Utama
-              </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-emerald-300 shadow">
-                <Leaf className="w-4 h-4 text-emerald-400" /> 4 Pilar Kurikulum
-              </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-300 shadow">
-                <Shield className="w-4 h-4 text-amber-400" /> Legalitas NIB &amp; Serhal
-              </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-purple-300 shadow">
-                <Recycle className="w-4 h-4 text-purple-400" /> Zero Waste Processing
-              </div>
-            </div>
           </FadeIn>
         </div>
       </section>
@@ -87,8 +66,8 @@ export default function ProgramTawsecPage() {
       {/* ===== 4 PILAR PROGRAM (INTERACTIVE TABS VIEW) ===== */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
-          <span className="text-primary-600 font-semibold text-xs uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full border border-primary-100">
-            🎯 Pendekatan Komprehensif
+          <span className="text-sky-700 font-semibold text-xs uppercase tracking-widest bg-sky-50 px-3.5 py-1 rounded-full border border-sky-200">
+            Pendekatan Komprehensif
           </span>
           <h2 className="font-serif font-bold text-navy-950 text-3xl mt-2">
             4 Pilar Utama Pemberdayaan

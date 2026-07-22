@@ -259,7 +259,7 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
             {/* Short Ringkasan Box */}
             <div className="p-5 bg-sky-50/80 border border-sky-200/80 rounded-2xl text-slate-800 text-sm sm:text-base leading-relaxed font-medium">
               <span className="text-xs font-bold text-sky-800 uppercase tracking-wider block mb-1">
-                📌 Ringkasan Singkat Acara:
+                Ringkasan Singkat Acara:
               </span>
               {updateItem.isi_singkat}
             </div>

@@ -76,31 +76,13 @@ export default function UpdatesPage() {
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
           <FadeIn>
-            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/30 text-xs sm:text-sm font-extrabold text-sky-200 uppercase tracking-wide shadow-lg">
-              <Newspaper className="w-4 h-4 text-sky-400" />
-              Warta Lapangan &amp; Rekam Jejak Program TAWSEC
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight mt-4 drop-shadow-xl">
+            <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-white leading-tight drop-shadow-xl">
               Update &amp; Dokumentasi <span className="text-gradient-ocean font-serif">Berita Kegiatan</span>
             </h1>
 
             <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mt-4 drop-shadow font-normal">
               Jelajahi rekam jejak pelaksanaan 7 agenda utama pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka — dari survei awal, formulasi R&amp;D, pelatihan 4 pilar, hingga sertifikasi halal.
             </p>
-
-            {/* Quick Feature Chips Bar */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-sky-300 shadow">
-                <Calendar className="w-4 h-4 text-sky-400" /> 7 Agenda Utama
-              </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-emerald-300 shadow">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Dokumentasi Terverifikasi
-              </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-300 shadow">
-                <Sparkles className="w-4 h-4 text-amber-400" /> Halaman Detail &amp; Galeri Lightbox
-              </div>
-            </div>
           </FadeIn>
         </div>
       </section>

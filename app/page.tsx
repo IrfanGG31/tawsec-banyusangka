@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import {
   ArrowRight, ShieldCheck, ShoppingBag, ChevronRight,
-  Sparkles, Package, Store, Users, Compass, MapPin, Layers, Image as ImageIcon, Phone
+  Package, Store, Users, Compass, MapPin, Layers, Phone
 } from "lucide-react";
 import produkData from "@/data/produk.json";
 import { createClient } from "@/lib/supabase/client";
@@ -48,7 +48,7 @@ const jelajahiCards = [
     title: "Katalog Olahan Laut",
     desc: "Produk higienis Abon Ikan Tongkol, Kerupuk Kulit Ikan, dan Tepung Tulang Ikan.",
     image: "/images/galeri/display-1.png",
-    icon: <ShoppingBag className="w-4 h-4 text-sunset-600" />,
+    icon: <ShoppingBag className="w-4 h-4 text-orange-600" />,
     tag: "E-Commerce",
   },
   {
@@ -63,7 +63,6 @@ const jelajahiCards = [
 
 export default function HomePage() {
   const [dampakList, setDampakList] = useState<DampakItem[]>(defaultDampak);
-  const [galeriCardImage, setGaleriCardImage] = useState("/images/galeri/display-1.png");
 
   useEffect(() => {
     const fetchDynamicData = async () => {
@@ -72,16 +71,6 @@ export default function HomePage() {
         try {
           const { data: dData } = await supabase.from("dampak").select("*");
           if (dData && dData.length > 0) setDampakList(dData as DampakItem[]);
-
-          const { data: gData } = await supabase
-            .from("dokumentasi")
-            .select("foto_url, foto")
-            .order("id", { ascending: false })
-            .limit(1);
-          if (gData && gData.length > 0) {
-            const latest = (gData[0].foto_url as string) || (gData[0].foto as string);
-            if (latest) setGaleriCardImage(latest);
-          }
         } catch {
           // Fallback
         }
@@ -92,8 +81,8 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12 sm:space-y-16 pb-20 pt-16">
-      {/* ===== MAJESTIC CRYSTAL-CLEAR OCEAN HERO BANNER ===== */}
-      <section className="relative min-h-[540px] sm:min-h-[600px] flex items-center overflow-hidden bg-navy-950 text-white">
+      {/* ===== HERO BANNER ===== */}
+      <section className="relative min-h-[500px] sm:min-h-[560px] flex items-center overflow-hidden bg-navy-950 text-white border-b border-slate-800">
         {/* Background HD Ocean Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -111,12 +100,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 py-14 sm:py-20">
           <div className="max-w-3xl space-y-6">
             <FadeIn>
-              <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/30 text-xs sm:text-sm font-extrabold text-sky-200 uppercase tracking-wide shadow-lg">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                UNAIR SUSTAINACTION 2026 × UKM-F Penalaran AcSES FEB UNAIR
-              </div>
-
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mt-4 drop-shadow-lg">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] drop-shadow-lg">
                 Transformasi Olahan Laut &amp; <span className="text-gradient-ocean font-serif">Ekonomi Pesisir Banyusangka</span>
               </h1>
 
@@ -149,14 +133,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== SECTION 2: SLIDE CAROUSEL BERITA TERKINI (INDORELAWAN BENCHMARK) ===== */}
+      {/* ===== SECTION 2: SLIDE CAROUSEL BERITA TERKINI ===== */}
       <NewsCarousel />
 
-      {/* ===== SECTION 3: JELAJAHI TAWSEC BANYUSANGKA (5 KARTU NAVIGASI COMPACT) ===== */}
+      {/* ===== SECTION 3: JELAJAHI TAWSEC BANYUSANGKA (4 KARTU NAVIGASI COMPACT) ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-primary-700 bg-primary-50 px-3.5 py-1 rounded-full border border-primary-100">
-            🧭 Peta Navigasi Cepat
+          <span className="text-xs font-bold uppercase tracking-widest text-sky-700 bg-sky-50 px-3.5 py-1 rounded-full border border-sky-200">
+            Peta Navigasi Cepat
           </span>
           <h2 className="font-serif font-bold text-navy-950 text-2xl sm:text-3xl mt-2">
             Jelajahi Platform TAWSEC Banyusangka
@@ -193,12 +177,12 @@ export default function HomePage() {
                         {card.title}
                       </h3>
                     </div>
-                    <p className="text-navy-600 text-[11px] leading-relaxed line-clamp-2">
+                    <p className="text-navy-600 text-xs leading-relaxed line-clamp-2">
                       {card.desc}
                     </p>
                   </div>
                 </div>
-                <div className="px-4 pb-4 pt-1 flex items-center justify-between text-[11px] font-bold text-primary-600 group-hover:text-primary-700">
+                <div className="px-4 pb-4 pt-1 flex items-center justify-between text-xs font-bold text-sky-700 group-hover:text-sky-800">
                   <span>Buka Halaman</span>
                   <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -225,12 +209,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== SECTION 5: PRODUK KHAS DESA (RINGKAS — HANYA 3 KARTU DENGAN HARGA MULAI-DARI) ===== */}
+      {/* ===== SECTION 5: PRODUK KHAS DESA ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-sunset-600 bg-sunset-50 px-3.5 py-1 rounded-full border border-sunset-100">
-              🛍️ Etalase Produk Khas
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-700 bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
+              Etalase Produk Khas
             </span>
             <h2 className="font-serif font-bold text-navy-950 text-2xl sm:text-3xl mt-2">
               Produk Olahan Laut Banyusangka
@@ -242,7 +226,7 @@ export default function HomePage() {
 
           <Link
             href="/katalog"
-            className="inline-flex items-center gap-1 text-xs font-bold text-primary-700 hover:text-primary-800 bg-primary-50 px-4 py-2 rounded-xl border border-primary-100 hover:bg-primary-100 transition-all"
+            className="inline-flex items-center gap-1 text-xs font-bold text-sky-700 hover:text-sky-800 bg-sky-50 px-4 py-2 rounded-xl border border-sky-200 hover:bg-sky-100 transition-all"
           >
             <span>Lihat Semua Katalog &amp; Detail Varian</span>
             <ArrowRight className="w-4 h-4" />
@@ -268,33 +252,33 @@ export default function HomePage() {
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
-                        ✓ Zero Waste
+                      <span className="bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+                        Zero Waste
                       </span>
                     </div>
                   </div>
 
                   <div className="p-6">
-                    <span className="text-[10px] font-bold text-primary-700 uppercase tracking-wider bg-primary-50 px-2.5 py-0.5 rounded-md border border-primary-100">
+                    <span className="text-xs font-bold text-sky-800 uppercase tracking-wider bg-sky-50 px-2.5 py-0.5 rounded-md border border-sky-100">
                       {prod.kategori}
                     </span>
 
-                    <h3 className="font-serif font-bold text-navy-950 text-xl mt-2 mb-1 group-hover:text-primary-600 transition-colors">
+                    <h3 className="font-serif font-bold text-navy-950 text-xl mt-2 mb-1 group-hover:text-sky-600 transition-colors">
                       {prod.nama}
                     </h3>
 
-                    <p className="text-navy-600 text-xs line-clamp-2 leading-relaxed mb-4">
+                    <p className="text-navy-600 text-xs sm:text-sm line-clamp-2 leading-relaxed mb-4">
                       {prod.tagline}
                     </p>
 
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                       <div>
-                        <span className="text-[10px] text-navy-400 block font-medium">Mulai dari:</span>
-                        <span className="font-bold text-emerald-700 text-base">
+                        <span className="text-xs text-navy-400 block font-medium">Mulai dari:</span>
+                        <span className="font-bold text-emerald-700 text-base sm:text-lg">
                           Rp {minPrice.toLocaleString("id-ID")}
                         </span>
                       </div>
-                      <span className="text-[10px] font-semibold text-navy-500 bg-gray-100 px-2.5 py-1 rounded-lg">
+                      <span className="text-xs font-semibold text-navy-600 bg-gray-100 px-2.5 py-1 rounded-lg">
                         {prod.varian?.[0]?.ukuran || "100g"}
                       </span>
                     </div>
@@ -304,9 +288,9 @@ export default function HomePage() {
                 <div className="p-6 pt-0">
                   <Link
                     href={`/katalog/${prod.id}`}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-xl text-xs transition-all shadow active:scale-95"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all shadow active:scale-95"
                   >
-                    <ShoppingBag className="w-3.5 h-3.5" />
+                    <ShoppingBag className="w-4 h-4" />
                     Detail Produk &amp; Pesan
                   </Link>
                 </div>
@@ -329,8 +313,8 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-2 text-center md:text-left flex-1">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full border border-emerald-200">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
               Dukungan Pemerintah Desa Banyusangka
             </div>
 
@@ -338,7 +322,7 @@ export default function HomePage() {
               &quot;Pendampingan dari mahasiswa Universitas Airlangga ini sangat membantu ibu-ibu nelayan kami mengolah hasil laut menjadi produk bernilai tinggi yang siap bersaing.&quot;
             </blockquote>
 
-            <p className="text-navy-600 text-xs font-medium">
+            <p className="text-navy-600 text-xs sm:text-sm font-medium">
               <strong className="text-navy-900">H. Abd. Syukur</strong> — Kepala Desa Banyusangka, Kec. Tanjung Bumi, Bangkalan
             </p>
           </div>
