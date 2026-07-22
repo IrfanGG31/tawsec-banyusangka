@@ -10,7 +10,7 @@ const quickLinks = [
   { href: "/program-tawsec", label: "Program TAWSEC" },
   { href: "/katalog", label: "Katalog Produk" },
   { href: "/program-tawsec#modul", label: "Modul Pelatihan" },
-  { href: "/galeri", label: "Galeri" },
+  { href: "/update", label: "Update & Warta" },
   { href: "/tim-mitra", label: "Tim & Kontak" },
 ];
 

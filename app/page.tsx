@@ -52,14 +52,6 @@ const jelajahiCards = [
     tag: "E-Commerce",
   },
   {
-    href: "/galeri",
-    title: "Galeri Foto Visual",
-    desc: "Dokumentasi visual rangkaian kegiatan pengabdian dan pelatihan warga pesisir.",
-    image: "/images/galeri/display-1.png",
-    icon: <ImageIcon className="w-4 h-4 text-indigo-600" />,
-    tag: "Dokumentasi",
-  },
-  {
     href: "/tim-mitra",
     title: "Tim & Kontak Pemesanan",
     desc: "15 mahasiswa UNAIR, dosen pembimbing, mitra kelembagaan, & kontak WhatsApp.",
@@ -174,7 +166,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {jelajahiCards.map((card, idx) => (
             <StaggerItem key={idx}>
               <Link
@@ -184,11 +176,11 @@ export default function HomePage() {
                 <div>
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-100">
                     <Image
-                      src={card.href === "/galeri" ? galeriCardImage : card.image}
+                      src={card.image}
                       alt={card.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 20vw"
+                      sizes="(max-width: 768px) 100vw, 25vw"
                     />
                     <div className="absolute top-2 left-2 bg-navy-950/80 backdrop-blur-md text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full border border-white/20">
                       {card.tag}

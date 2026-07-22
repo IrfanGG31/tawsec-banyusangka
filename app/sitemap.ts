@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/tentang-desa`, lastModified: new Date() },
     { url: `${base}/program-tawsec`, lastModified: new Date() },
     { url: `${base}/katalog`, lastModified: new Date() },
-    { url: `${base}/galeri`, lastModified: new Date() },
     { url: `${base}/update`, lastModified: new Date() },
     { url: `${base}/tim-mitra`, lastModified: new Date() },
   ];

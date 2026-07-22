@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
         destination: "/program-tawsec#modul",
         permanent: true,
       },
+      {
+        source: "/galeri",
+        destination: "/update",
+        permanent: true,
+      },
     ];
   },
 };
