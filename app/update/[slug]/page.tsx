@@ -50,12 +50,16 @@ export default function UpdateDetailPage({ params }: { params: Promise<{ slug: s
       try {
         const supabase = createClient();
         if (supabase) {
-          // 1. Fetch update by slug or id
-          const { data: updateData } = await supabase
-            .from("updates")
-            .select("*")
-            .or(`slug.eq.${slug},id.eq.${slug}`)
-            .single();
+          // 1. Fetch update by slug (or id if slug is UUID)
+          const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+          let query = supabase.from("updates").select("*");
+          if (isUuid) {
+            query = query.or(`id.eq.${slug},slug.eq.${slug}`);
+          } else {
+            query = query.eq("slug", slug);
+          }
+
+          const { data: updateData, error: fetchErr } = await query.maybeSingle();
 
           if (updateData) {
             setUpdateItem(updateData as UpdateItem);
