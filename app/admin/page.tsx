@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   LogOut, Plus, Edit, Trash2, Database, BarChart3,
   Newspaper, Layers, FolderGit2, Check, X, Shield, RefreshCw,
-  Upload, Image as ImageIcon, Loader2
+  Upload, Image as ImageIcon, Loader2, Star
 } from "lucide-react";
 
 type TabType = "progress" | "updates" | "dampak" | "dokumentasi";
@@ -270,7 +270,10 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const processFileAndUpload = async (file: File) => {
+  const processFilesAndUpload = async (files: FileList | File[]) => {
+    const fileArray = Array.from(files);
+    if (fileArray.length === 0) return;
+
     setUploadingImage(true);
     setUploadSuccessMsg("");
 
@@ -281,66 +284,91 @@ export default function AdminDashboardPage() {
       return;
     }
 
+    let successCount = 0;
+    let lastUploadedUrl = "";
+
     try {
-      let fileToUpload: File | Blob = file;
-      const fileExt = file.name.split(".").pop()?.toLowerCase() || "";
-      const isHeic = fileExt === "heic" || fileExt === "heif" || file.type.includes("heic") || file.type.includes("heif");
-      const isRaw = fileExt === "dng" || fileExt === "cr2" || fileExt === "nef" || fileExt === "arw" || fileExt === "raw";
+      for (let i = 0; i < fileArray.length; i++) {
+        const file = fileArray[i];
+        setUploadSuccessMsg(`⚙️ Memproses & mengunggah foto ${i + 1}/${fileArray.length}...`);
 
-      let uploadExt = fileExt || "jpg";
+        let fileToUpload: File | Blob = file;
+        const fileExt = file.name.split(".").pop()?.toLowerCase() || "";
+        const isHeic = fileExt === "heic" || fileExt === "heif" || file.type.includes("heic") || file.type.includes("heif");
+        const isRaw = fileExt === "dng" || fileExt === "cr2" || fileExt === "nef" || fileExt === "arw" || fileExt === "raw";
 
-      // Automatic client-side conversion for iPhone HEIC/HEIF photos
-      if (isHeic) {
-        setUploadSuccessMsg("⚙️ Mengonversi foto iPhone (.HEIC) ke JPG...");
-        try {
-          const heic2any = (await import("heic2any")).default;
-          const convertedBlob = await heic2any({
-            blob: file,
-            toType: "image/jpeg",
-            quality: 0.85,
+        let uploadExt = fileExt || "jpg";
+
+        // Automatic client-side conversion for iPhone HEIC/HEIF photos
+        if (isHeic) {
+          try {
+            const heic2any = (await import("heic2any")).default;
+            const convertedBlob = await heic2any({
+              blob: file,
+              toType: "image/jpeg",
+              quality: 0.85,
+            });
+            fileToUpload = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+            uploadExt = "jpg";
+          } catch (convErr) {
+            console.warn("Konversi HEIC gagal, mencoba mengunggah file asli:", convErr);
+          }
+        }
+
+        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${uploadExt}`;
+        const filePath = `updates/${fileName}`;
+
+        const mimeType = isHeic
+          ? "image/jpeg"
+          : isRaw
+          ? "image/x-adobe-dng"
+          : file.type || "image/jpeg";
+
+        const { error: uploadError } = await supabase.storage
+          .from("galeri")
+          .upload(filePath, fileToUpload, {
+            cacheControl: "3600",
+            contentType: mimeType,
+            upsert: true,
           });
-          fileToUpload = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-          uploadExt = "jpg";
-        } catch (convErr) {
-          console.warn("Konversi HEIC gagal, mencoba mengunggah file asli:", convErr);
+
+        if (uploadError) {
+          console.error(`Gagal upload ${file.name}:`, uploadError);
+          continue;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from("galeri")
+          .getPublicUrl(filePath);
+
+        if (publicUrlData?.publicUrl) {
+          const publicUrl = publicUrlData.publicUrl;
+          lastUploadedUrl = publicUrl;
+          successCount++;
+
+          // If editing an existing update, automatically insert into updates_galeri table!
+          if (editingId) {
+            const nextUrutan = modalGaleriList.length + successCount;
+            await supabase.from("updates_galeri").insert([
+              {
+                update_id: editingId,
+                foto_url: publicUrl,
+                caption: "",
+                urutan: nextUrutan,
+              },
+            ]);
+          }
         }
       }
 
-      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${uploadExt}`;
-      const filePath = `updates/${fileName}`;
-
-      const mimeType = isHeic
-        ? "image/jpeg"
-        : isRaw
-        ? "image/x-adobe-dng"
-        : file.type || "image/jpeg";
-
-      const { error: uploadError } = await supabase.storage
-        .from("galeri")
-        .upload(filePath, fileToUpload, {
-          cacheControl: "3600",
-          contentType: mimeType,
-          upsert: true,
-        });
-
-      if (uploadError) {
-        alert(`Gagal mengunggah foto: ${uploadError.message}`);
-        return;
-      }
-
-      const { data: publicUrlData } = supabase.storage
-        .from("galeri")
-        .getPublicUrl(filePath);
-
-      if (publicUrlData?.publicUrl) {
-        setFormData((prev) => ({ ...prev, foto_url: publicUrlData.publicUrl }));
-        setUploadSuccessMsg(
-          isHeic
-            ? "✓ Foto HEIC iPhone berhasil dikonversi ke JPG & diunggah!"
-            : isRaw
-            ? `✓ Foto RAW (.${uploadExt.toUpperCase()}) berhasil diunggah ke Storage!`
-            : "✓ Foto berhasil diunggah & terpasang!"
-        );
+      if (successCount > 0) {
+        if (lastUploadedUrl && !formData.foto_url) {
+          setFormData((prev) => ({ ...prev, foto_url: lastUploadedUrl }));
+        }
+        setUploadSuccessMsg(`✓ Berhasil mengunggah ${successCount} foto sekaligus!`);
+        if (editingId) {
+          fetchGaleriForUpdate(editingId);
+        }
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal mengunggah gambar";
@@ -351,8 +379,29 @@ export default function AdminDashboardPage() {
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) processFileAndUpload(file);
+    if (e.target.files && e.target.files.length > 0) {
+      processFilesAndUpload(e.target.files);
+    }
+  };
+
+  const handleSetMainCover = async (fotoUrl: string) => {
+    setFormData((prev) => ({ ...prev, foto_url: fotoUrl }));
+    if (editingId) {
+      const supabase = createClient();
+      if (supabase) {
+        const { error } = await supabase
+          .from("updates")
+          .update({ foto_url: fotoUrl })
+          .eq("id", editingId);
+        if (error) {
+          alert(`Gagal memperbarui sampul: ${error.message}`);
+        } else {
+          setUploadSuccessMsg("⭐ Foto ini berhasil dijadikan Sampul Utama!");
+        }
+      }
+    } else {
+      setUploadSuccessMsg("⭐ Foto ini dipilih sebagai Sampul Utama!");
+    }
   };
 
   const handleAddGaleriPhoto = async (fotoUrl: string, caption: string) => {
@@ -1003,8 +1052,9 @@ export default function AdminDashboardPage() {
                     onDrop={(e) => {
                       e.preventDefault();
                       setIsDragging(false);
-                      const file = e.dataTransfer.files?.[0];
-                      if (file) processFileAndUpload(file);
+                      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        processFilesAndUpload(e.dataTransfer.files);
+                      }
                     }}
                     className={`p-4 border-2 border-dashed rounded-2xl transition-all space-y-3 ${
                       isDragging
@@ -1014,7 +1064,7 @@ export default function AdminDashboardPage() {
                   >
                     <div className="flex items-center justify-between">
                       <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
-                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (Semua Format: JPG, PNG, HEIC, DNG RAW)
+                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Upload Foto (Bisa Pilih Banyak Foto Sekaligus)
                       </label>
                       {uploadSuccessMsg && (
                         <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/50">
@@ -1023,9 +1073,9 @@ export default function AdminDashboardPage() {
                       )}
                     </div>
 
-                    {/* Live Image Preview Thumbnail */}
+                    {/* Live Image Preview Thumbnail (Main Cover Photo) */}
                     {(formData.foto_url as string) && (
-                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center group">
+                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex flex-col justify-between group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={formData.foto_url as string}
@@ -1035,6 +1085,9 @@ export default function AdminDashboardPage() {
                             (e.target as HTMLImageElement).src = "/images/galeri/pelatihan-1.png";
                           }}
                         />
+                        <div className="absolute top-3 left-3 bg-amber-950/90 text-amber-300 border border-amber-800/90 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg backdrop-blur-md">
+                          <Star className="w-3.5 h-3.5 fill-amber-400" /> Sampul Utama Terpasang
+                        </div>
                         <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-[10px] text-slate-300 font-mono text-center break-all">
                           {formData.foto_url as string}
                         </div>
@@ -1045,6 +1098,7 @@ export default function AdminDashboardPage() {
                     <div className="flex flex-col gap-2">
                       <input
                         type="file"
+                        multiple
                         accept="image/*,.dng,.cr2,.nef,.arw,.tiff,.bmp,.heic,.heif,.raw"
                         onChange={handleFileUpload}
                         id="image-file-input"
@@ -1069,10 +1123,10 @@ export default function AdminDashboardPage() {
                           <>
                             <div className="flex items-center gap-2 text-sm font-extrabold text-white">
                               <Upload className="w-4 h-4 text-sky-400" />
-                              Drag &amp; Drop Foto ke Sini
+                              Drag &amp; Drop Beberapa Foto Sekaligus di Sini
                             </div>
                             <span className="text-[10px] text-indigo-300 font-normal">
-                              atau <u className="font-semibold">klik di sini</u> untuk memilih file (JPG, PNG, HEIC, DNG RAW)
+                              atau <u className="font-semibold">klik di sini</u> untuk memilih banyak foto (JPG, PNG, HEIC, DNG RAW)
                             </span>
                           </>
                         )}
@@ -1106,29 +1160,52 @@ export default function AdminDashboardPage() {
 
                     {/* Listing of Existing Gallery Photos */}
                     {modalGaleriList.length > 0 ? (
-                      <div className="grid grid-cols-2 gap-2.5 max-h-48 overflow-y-auto pr-1">
-                        {modalGaleriList.map((g) => (
-                          <div key={g.id} className="relative group bg-slate-900 border border-slate-800 rounded-xl p-2 flex items-center gap-2">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={g.foto_url}
-                              alt={g.caption || "Galeri"}
-                              className="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-950"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[10px] text-slate-300 font-medium truncate">{g.caption || "Tanpa caption"}</p>
-                              <span className="text-[9px] text-slate-500 font-mono">Urutan #{g.urutan}</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                        {modalGaleriList.map((g) => {
+                          const isMainCover = formData.foto_url === g.foto_url;
+                          return (
+                            <div key={g.id} className="relative group bg-slate-900 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={g.foto_url}
+                                  alt={g.caption || "Galeri"}
+                                  className="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-950 border border-slate-800"
+                                />
+                                <div className="min-w-0">
+                                  <p className="text-[10px] text-slate-300 font-medium truncate">{g.caption || "Tanpa caption"}</p>
+                                  <span className="text-[9px] text-slate-500 font-mono">Urutan #{g.urutan}</span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-1.5 flex-shrink-0">
+                                {isMainCover ? (
+                                  <span className="px-2 py-1 text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-800/80 rounded-lg flex items-center gap-1 shadow-sm">
+                                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" /> Sampul Utama
+                                  </span>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleSetMainCover(g.foto_url)}
+                                    className="px-2 py-1 text-[9px] font-semibold text-sky-300 hover:text-white bg-sky-950/70 hover:bg-sky-900 border border-sky-800/60 rounded-lg transition-colors flex items-center gap-1"
+                                    title="Jadikan foto ini sebagai Sampul Utama"
+                                  >
+                                    <Star className="w-3 h-3 text-sky-400" /> Jadikan Sampul
+                                  </button>
+                                )}
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteGaleriPhoto(g.id)}
+                                  className="p-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition-colors"
+                                  title="Hapus foto ini"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteGaleriPhoto(g.id)}
-                              className="p-1 rounded-md bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition-colors"
-                              title="Hapus foto ini"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     ) : (
                       <p className="text-[11px] text-slate-500 italic text-center py-2">
