@@ -784,19 +784,27 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* ================= TAB 4: DOKUMENTASI ================= */}
+        {/* ================= TAB 4: DOKUMENTASI & GALERI ================= */}
         {activeTab === "dokumentasi" && (
           <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-slate-800">
-              <h2 className="font-serif font-bold text-lg text-white">Dokumentasi Kegiatan (Drive Links)</h2>
-              <p className="text-xs text-slate-400">Daftar folder Google Drive yang tampil di halaman terproteksi /dokumentasi</p>
+            <div className="p-6 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 className="font-serif font-bold text-lg text-white flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5 text-indigo-400" />
+                  Dokumentasi &amp; Galeri Foto Kegiatan (/galeri)
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Kelola foto visual galeri kegiatan, kategori, dan link Google Drive yang tampil di halaman /galeri
+                </p>
+              </div>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-950 border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider font-semibold">
-                    <th className="py-4 px-6">Nama Kegiatan / Folder</th>
+                    <th className="py-4 px-4 text-center">Foto</th>
+                    <th className="py-4 px-6">Nama Kegiatan / Judul Foto</th>
                     <th className="py-4 px-4">Kategori</th>
                     <th className="py-4 px-4">Tanggal</th>
                     <th className="py-4 px-6">Link Google Drive</th>
@@ -804,30 +812,63 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/80 text-xs">
-                  {dokumentasiList.map((item, idx) => (
-                    <tr key={item.id || idx} className="hover:bg-slate-800/50 transition-colors">
-                      <td className="py-4 px-6 font-semibold text-white">{item.nama_kegiatan}</td>
-                      <td className="py-4 px-4 text-sky-400">{item.kategori}</td>
-                      <td className="py-4 px-4 text-slate-400 font-mono">{item.tanggal}</td>
-                      <td className="py-4 px-6 text-emerald-400 max-w-xs truncate font-mono">{item.link_gdrive}</td>
-                      <td className="py-4 px-6 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => handleOpenEdit(item as unknown as Record<string, unknown>)}
-                            className="p-2 bg-slate-800 hover:bg-sky-600/30 text-sky-300 rounded-lg border border-slate-700 transition-all"
-                          >
-                            <Edit className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="p-2 bg-slate-800 hover:bg-rose-600/30 text-rose-300 rounded-lg border border-slate-700 transition-all"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {dokumentasiList.map((item, idx) => {
+                    const photoSrc = (item as unknown as Record<string, unknown>).foto_url as string || (item as unknown as Record<string, unknown>).foto as string || "/images/galeri/pelatihan-1.png";
+                    return (
+                      <tr key={item.id || idx} className="hover:bg-slate-800/50 transition-colors">
+                        <td className="py-3 px-4 text-center">
+                          <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mx-auto">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={photoSrc}
+                              alt={item.nama_kegiatan}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "/images/galeri/pelatihan-1.png";
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 font-semibold text-white">
+                          <div className="font-bold text-slate-100">{item.nama_kegiatan}</div>
+                          {item.deskripsi && <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1">{item.deskripsi}</p>}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="bg-indigo-950/80 text-indigo-300 border border-indigo-800 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
+                            {item.kategori || "Lainnya"}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-slate-400 font-mono">{item.tanggal || "-"}</td>
+                        <td className="py-4 px-6 text-emerald-400 max-w-xs truncate font-mono">
+                          {item.link_gdrive ? (
+                            <a href={item.link_gdrive} target="_blank" rel="noreferrer" className="hover:underline flex items-center gap-1">
+                              <span>Drive Link</span> ↗
+                            </a>
+                          ) : (
+                            <span className="text-slate-600 italic">Tanpa Link</span>
+                          )}
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => handleOpenEdit(item as unknown as Record<string, unknown>)}
+                              className="p-2 bg-slate-800 hover:bg-sky-600/30 text-sky-300 rounded-lg border border-slate-700 transition-all"
+                              title="Edit foto & detail kegiatan"
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item.id)}
+                              className="p-2 bg-slate-800 hover:bg-rose-600/30 text-rose-300 rounded-lg border border-slate-700 transition-all"
+                              title="Hapus dari galeri"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
