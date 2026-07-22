@@ -70,8 +70,8 @@ export default function UpdatesPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-slate-950/85 to-sky-950/90" />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/30" />
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 text-center space-y-6">
