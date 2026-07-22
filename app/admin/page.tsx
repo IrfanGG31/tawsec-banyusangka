@@ -285,6 +285,7 @@ export default function AdminDashboardPage() {
       let fileToUpload: File | Blob = file;
       const fileExt = file.name.split(".").pop()?.toLowerCase() || "";
       const isHeic = fileExt === "heic" || fileExt === "heif" || file.type.includes("heic") || file.type.includes("heif");
+      const isRaw = fileExt === "dng" || fileExt === "cr2" || fileExt === "nef" || fileExt === "arw" || fileExt === "raw";
 
       let uploadExt = fileExt || "jpg";
 
@@ -308,11 +309,17 @@ export default function AdminDashboardPage() {
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${uploadExt}`;
       const filePath = `updates/${fileName}`;
 
+      const mimeType = isHeic
+        ? "image/jpeg"
+        : isRaw
+        ? "image/x-adobe-dng"
+        : file.type || "image/jpeg";
+
       const { error: uploadError } = await supabase.storage
         .from("galeri")
         .upload(filePath, fileToUpload, {
           cacheControl: "3600",
-          contentType: isHeic ? "image/jpeg" : file.type || "image/jpeg",
+          contentType: mimeType,
           upsert: true,
         });
 
@@ -327,7 +334,13 @@ export default function AdminDashboardPage() {
 
       if (publicUrlData?.publicUrl) {
         setFormData((prev) => ({ ...prev, foto_url: publicUrlData.publicUrl }));
-        setUploadSuccessMsg(isHeic ? "✓ Foto HEIC iPhone berhasil dikonversi ke JPG & diunggah!" : "✓ Foto berhasil diunggah & terpasang!");
+        setUploadSuccessMsg(
+          isHeic
+            ? "✓ Foto HEIC iPhone berhasil dikonversi ke JPG & diunggah!"
+            : isRaw
+            ? `✓ Foto RAW (.${uploadExt.toUpperCase()}) berhasil diunggah ke Storage!`
+            : "✓ Foto berhasil diunggah & terpasang!"
+        );
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal mengunggah gambar";
@@ -1001,7 +1014,7 @@ export default function AdminDashboardPage() {
                   >
                     <div className="flex items-center justify-between">
                       <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
-                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (JPG / PNG / HEIC iPhone)
+                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Kegiatan (Semua Format: JPG, PNG, HEIC, DNG RAW)
                       </label>
                       {uploadSuccessMsg && (
                         <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/50">
@@ -1032,7 +1045,7 @@ export default function AdminDashboardPage() {
                     <div className="flex flex-col gap-2">
                       <input
                         type="file"
-                        accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.heic,.heif"
+                        accept="image/*,.dng,.cr2,.nef,.arw,.tiff,.bmp,.heic,.heif,.raw"
                         onChange={handleFileUpload}
                         id="image-file-input"
                         className="hidden"
@@ -1059,7 +1072,7 @@ export default function AdminDashboardPage() {
                               Drag &amp; Drop Foto ke Sini
                             </div>
                             <span className="text-[10px] text-indigo-300 font-normal">
-                              atau <u className="font-semibold">klik di sini</u> untuk memilih file dari komputer/HP (JPG, PNG, HEIC)
+                              atau <u className="font-semibold">klik di sini</u> untuk memilih file (JPG, PNG, HEIC, DNG RAW)
                             </span>
                           </>
                         )}
