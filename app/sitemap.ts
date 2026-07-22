@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import produkData from "@/data/produk.json";
+import updatesData from "@/data/updates.json";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://tawsec-banyusangka.vercel.app";
@@ -19,5 +20,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...productRoutes];
+  const updateRoutes = updatesData.map((u) => ({
+    url: `${base}/update/${u.slug || u.id}`,
+    lastModified: new Date(),
+  }));
+
+  return [...staticRoutes, ...productRoutes, ...updateRoutes];
 }

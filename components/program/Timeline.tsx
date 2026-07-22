@@ -39,7 +39,6 @@ export default function Timeline() {
             return;
           }
         }
-        // Fallback to static JSON (filter only timeline items, sorted by urutan)
         const fallback = (updatesData as TimelineStep[])
           .filter((u) => (u as unknown as { is_timeline?: boolean }).is_timeline !== false)
           .sort((a, b) => {
@@ -49,7 +48,6 @@ export default function Timeline() {
           });
         setSteps(fallback);
       } catch {
-        // Any error → use static JSON fallback
         const fallback = (updatesData as TimelineStep[]).sort((a, b) => {
           const ua = a as unknown as { urutan?: number };
           const ub = b as unknown as { urutan?: number };
@@ -72,14 +70,13 @@ export default function Timeline() {
           Timeline Pelaksanaan Program TAWSEC
         </h2>
         <p className="text-navy-600 text-sm mt-2 max-w-xl mx-auto">
-          Klik pada setiap kartu agenda di bawah untuk membuka berita kegiatan lengkap dan dokumentasi foto acara di menu <strong>Update</strong>.
+          Klik pada setiap kartu agenda di bawah untuk membuka halaman dokumentasi berita lengkap dan foto galeri di menu <strong>Update</strong>.
         </p>
       </div>
 
       <div className="relative max-w-4xl mx-auto pl-6 sm:pl-8 border-l-2 border-primary-200 space-y-10">
         {steps.map((step, idx) => {
-          // Anchor target: slug takes priority over id (slug is permanent & semantic)
-          const anchor = step.slug || step.id;
+          const targetUrl = `/update/${step.slug || step.id}`;
           return (
             <FadeIn key={step.id} delay={idx * 0.1}>
               <div className="relative group">
@@ -94,9 +91,9 @@ export default function Timeline() {
                   )}
                 </div>
 
-                {/* Interactive Card → navigates to /update#[slug] */}
+                {/* Interactive Card → navigates directly to dedicated detail page /update/[slug] */}
                 <Link
-                  href={`/update#${anchor}`}
+                  href={targetUrl}
                   className="block bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary-300 transition-all duration-300 group/card"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
@@ -154,7 +151,7 @@ export default function Timeline() {
 
                         <span className="inline-flex items-center gap-1 text-xs font-bold text-sky-700 group-hover/card:text-sky-800 bg-sky-50 group-hover/card:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-100 transition-all">
                           <BookOpen className="w-3.5 h-3.5 text-sky-600" />
-                          Lihat Dokumentasi &amp; Acara
+                          Buka Halaman Dokumentasi
                           <ArrowUpRight className="w-3.5 h-3.5" />
                         </span>
                       </div>

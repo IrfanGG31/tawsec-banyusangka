@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import updatesData from "@/data/updates.json";
-import { Calendar, Tag, Sparkles, Newspaper, BookOpen, Loader2 } from "lucide-react";
+import { Calendar, Tag, Sparkles, Newspaper, ArrowRight, Loader2, UserCheck } from "lucide-react";
 
 interface UpdateItem {
   id: string;
@@ -28,7 +29,6 @@ export default function UpdatesPage() {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        // createClient() is inside try so any constructor error also hits finally
         const { createClient } = await import("@/lib/supabase/client");
         const supabase = createClient();
 
@@ -39,20 +39,15 @@ export default function UpdatesPage() {
             .order("urutan", { ascending: true })
             .order("created_at", { ascending: false });
 
-          // Use Supabase data only when there are no errors AND rows exist
-          // Empty table (data.length === 0) falls through to JSON fallback below
           if (!error && data && data.length > 0) {
             setUpdates(data as UpdateItem[]);
-            return; // ✅ early-return; finally still runs
+            return;
           }
         }
-        // Fallback: Supabase null | error | empty table → use static JSON
         setUpdates(updatesData as UpdateItem[]);
       } catch {
-        // Any throw (network, createClient, query) → JSON fallback
         setUpdates(updatesData as UpdateItem[]);
       } finally {
-        // ✅ ALWAYS reached regardless of success / error / throw
         setLoading(false);
       }
     };
@@ -72,11 +67,11 @@ export default function UpdatesPage() {
             Dokumentasi Berita Kegiatan TAWSEC
           </h1>
           <p className="text-navy-600 text-sm sm:text-base mt-3 leading-relaxed">
-            Arsip penjelasan lengkap acara dan foto dokumentasi kegiatan pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka.
+            Arsip penjelasan lengkap acara, foto galeri dokumentasi, dan warta pelaksanaan kegiatan pengabdian UKM-F Penalaran AcSES FEB UNAIR di Desa Banyusangka.
           </p>
         </div>
 
-        {/* ── Bug A Fix: show spinner INSTEAD OF list while loading ── */}
+        {/* Loading Spinner or Grid Cards */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4 text-navy-400">
             <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
@@ -85,22 +80,21 @@ export default function UpdatesPage() {
         ) : (
           <div className="space-y-8">
             {updates.map((item) => {
-              // Anchor ID: prefer slug, fall back to id for backward-compat
-              const anchorId = item.slug || item.id;
+              const detailUrl = `/update/${item.slug || item.id}`;
               return (
                 <article
                   key={item.id}
-                  id={anchorId}
-                  className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 scroll-mt-28"
+                  id={item.slug || item.id}
+                  className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 scroll-mt-28 group/card"
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     {/* Photo Preview Column */}
-                    <div className="lg:col-span-5 relative aspect-[16/10] lg:aspect-auto bg-gray-100 overflow-hidden">
+                    <Link href={detailUrl} className="lg:col-span-5 relative aspect-[16/10] lg:aspect-auto bg-gray-100 overflow-hidden block">
                       <Image
                         src={item.foto_url || "/images/galeri/pelatihan-1.png"}
                         alt={item.judul}
                         fill
-                        className="object-cover hover:scale-105 transition-transform duration-500"
+                        className="object-cover group-hover/card:scale-105 transition-transform duration-500"
                         sizes="(max-width: 1024px) 100vw, 40vw"
                       />
                       <div className="absolute top-4 left-4">
@@ -109,7 +103,6 @@ export default function UpdatesPage() {
                           {item.kategori}
                         </span>
                       </div>
-                      {/* Status badge for timeline items */}
                       {item.is_timeline && item.status_kegiatan && (
                         <div className="absolute bottom-4 left-4">
                           <span
@@ -129,7 +122,7 @@ export default function UpdatesPage() {
                           </span>
                         </div>
                       )}
-                    </div>
+                    </Link>
 
                     {/* Content Column */}
                     <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
@@ -142,38 +135,36 @@ export default function UpdatesPage() {
                           )}
                         </div>
 
-                        <h2 className="font-serif font-bold text-navy-950 text-xl sm:text-2xl leading-snug mb-3">
-                          {item.judul}
+                        <h2 className="font-serif font-bold text-navy-950 text-xl sm:text-2xl leading-snug mb-3 group-hover/card:text-sky-600 transition-colors">
+                          <Link href={detailUrl}>
+                            {item.judul}
+                          </Link>
                         </h2>
 
-                        <p className="text-navy-700 text-xs sm:text-sm font-medium leading-relaxed mb-3">
+                        <p className="text-navy-700 text-xs sm:text-sm font-medium leading-relaxed mb-5">
                           {item.isi_singkat}
                         </p>
 
-                        {item.deskripsi_lengkap && (
-                          <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs sm:text-sm text-navy-600 leading-relaxed mb-4">
-                            <span className="font-bold text-navy-900 flex items-center gap-1.5 text-xs uppercase tracking-wider text-primary-700 mb-1">
-                              <BookOpen className="w-3.5 h-3.5" /> Penjelasan Lengkap Acara:
-                            </span>
-                            {item.deskripsi_lengkap}
-                          </div>
-                        )}
-
-                        {/* PIC row — only for timeline items */}
                         {item.pic && (
-                          <p className="text-xs text-navy-500 mb-2">
-                            <span className="font-semibold text-navy-700">PIC:</span> {item.pic}
+                          <p className="text-xs text-navy-500 mb-4 flex items-center gap-1.5">
+                            <UserCheck className="w-3.5 h-3.5 text-sky-600" />
+                            <span>PIC: <strong className="text-navy-800">{item.pic}</strong></span>
                           </p>
                         )}
                       </div>
 
-                      <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-primary-600">
-                        <span className="inline-flex items-center gap-1 text-navy-500">
+                      <div className="pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <span className="inline-flex items-center gap-1 text-navy-500 font-medium">
                           <Sparkles className="w-3.5 h-3.5 text-sunset-500" /> UKM-F Penalaran AcSES FEB UNAIR
                         </span>
-                        <span className="text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                          ✓ Dokumentasi Terverifikasi
-                        </span>
+
+                        <Link
+                          href={detailUrl}
+                          className="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2 rounded-xl shadow-md transition-all active:scale-95 text-xs"
+                        >
+                          <span>Baca Penjelasan Lengkap Acara</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform" />
+                        </Link>
                       </div>
                     </div>
                   </div>

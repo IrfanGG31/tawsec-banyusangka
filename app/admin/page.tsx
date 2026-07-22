@@ -76,6 +76,9 @@ export default function AdminDashboardPage() {
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadSuccessMsg, setUploadSuccessMsg] = useState("");
+  // Gallery state for current update
+  const [modalGaleriList, setModalGaleriList] = useState<Array<{ id: string; update_id: string; foto_url: string; caption?: string; urutan: number }>>([]);
+  const [newGaleriCaption, setNewGaleriCaption] = useState("");
   const [activeTab, setActiveTab] = useState<TabType>("progress");
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -171,9 +174,21 @@ export default function AdminDashboardPage() {
   };
 
   // CRUD Actions
+  const fetchGaleriForUpdate = async (updateId: string) => {
+    const supabase = createClient();
+    if (!supabase) return;
+    const { data } = await supabase
+      .from("updates_galeri")
+      .select("*")
+      .eq("update_id", updateId)
+      .order("urutan", { ascending: true });
+    if (data) setModalGaleriList(data);
+  };
+
   const handleOpenAdd = () => {
     setEditingId(null);
     setUploadSuccessMsg("");
+    setModalGaleriList([]);
     if (activeTab === "progress") {
       setFormData({
         nama_indikator: "",
@@ -214,11 +229,18 @@ export default function AdminDashboardPage() {
   };
 
   const handleOpenEdit = (item: Record<string, unknown>) => {
-    setEditingId((item.id as string) || null);
+    const idStr = (item.id as string) || null;
+    setEditingId(idStr);
     setFormData({ ...item });
     setUploadSuccessMsg("");
-    // If editing an existing item that already has a slug, mark as manually set
     setSlugManuallyEdited(!!(item.slug as string));
+
+    if (activeTab === "updates" && idStr) {
+      fetchGaleriForUpdate(idStr);
+    } else {
+      setModalGaleriList([]);
+    }
+
     setIsModalOpen(true);
   };
 
@@ -314,6 +336,53 @@ export default function AdminDashboardPage() {
       alert(`Error upload: ${msg}`);
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  const handleAddGaleriPhoto = async (fotoUrl: string, caption: string) => {
+    if (!editingId) {
+      alert("Simpan kegiatan ini terlebih dahulu sebelum menambahkan foto galeri.");
+      return;
+    }
+    if (!fotoUrl) {
+      alert("Unggah foto atau masukkan URL foto terlebih dahulu.");
+      return;
+    }
+
+    const supabase = createClient();
+    if (!supabase) {
+      alert("Database Supabase belum terhubung.");
+      return;
+    }
+
+    const nextUrutan = modalGaleriList.length + 1;
+    const { error } = await supabase.from("updates_galeri").insert([
+      {
+        update_id: editingId,
+        foto_url: fotoUrl,
+        caption: caption || "",
+        urutan: nextUrutan,
+      },
+    ]);
+
+    if (error) {
+      alert(`Gagal menambah foto galeri: ${error.message}`);
+    } else {
+      setNewGaleriCaption("");
+      fetchGaleriForUpdate(editingId);
+    }
+  };
+
+  const handleDeleteGaleriPhoto = async (galeriId: string) => {
+    if (!confirm("Hapus foto galeri ini?")) return;
+    const supabase = createClient();
+    if (!supabase) return;
+
+    const { error } = await supabase.from("updates_galeri").delete().eq("id", galeriId);
+    if (error) {
+      alert(`Gagal menghapus: ${error.message}`);
+    } else if (editingId) {
+      fetchGaleriForUpdate(editingId);
     }
   };
 
@@ -983,7 +1052,69 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
 
-                  {/* ── Timeline-specific fields ── */}
+                  {/* ── Sub-section: Galeri Foto Kegiatan (updates_galeri) ── */}
+                  <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl space-y-3">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                      <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                        <ImageIcon className="w-3.5 h-3.5 text-emerald-400" />
+                        Galeri Foto Kegiatan ({modalGaleriList.length} Foto)
+                      </span>
+                      <span className="text-[10px] text-slate-500">Tabel updates_galeri</span>
+                    </div>
+
+                    {/* Listing of Existing Gallery Photos */}
+                    {modalGaleriList.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-2.5 max-h-48 overflow-y-auto pr-1">
+                        {modalGaleriList.map((g) => (
+                          <div key={g.id} className="relative group bg-slate-900 border border-slate-800 rounded-xl p-2 flex items-center gap-2">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={g.foto_url}
+                              alt={g.caption || "Galeri"}
+                              className="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-950"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[10px] text-slate-300 font-medium truncate">{g.caption || "Tanpa caption"}</p>
+                              <span className="text-[9px] text-slate-500 font-mono">Urutan #{g.urutan}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteGaleriPhoto(g.id)}
+                              className="p-1 rounded-md bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition-colors"
+                              title="Hapus foto ini"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-[11px] text-slate-500 italic text-center py-2">
+                        {editingId ? "Belum ada foto galeri tambahan untuk kegiatan ini." : "Simpan kegiatan dulu untuk menambah foto galeri."}
+                      </p>
+                    )}
+
+                    {/* Input caption & add photo button */}
+                    {editingId && (
+                      <div className="pt-2 border-t border-slate-800/80 flex flex-col gap-2">
+                        <input
+                          type="text"
+                          value={newGaleriCaption}
+                          onChange={(e) => setNewGaleriCaption(e.target.value)}
+                          placeholder="Caption foto galeri (opsional)"
+                          className="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-white"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleAddGaleriPhoto(formData.foto_url as string, newGaleriCaption)}
+                          className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          Tambahkan Foto di Atas ke Galeri Kegiatan
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   <div className="pt-2 border-t border-slate-800">
                     <label className="flex items-center gap-2 cursor-pointer select-none">
                       <div
