@@ -1,66 +1,45 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── 1. Primary Ocean Sky Blue (From Swatch 4: #3FA7EA) ── */
-  --color-primary-50: #f0f8ff;
+  --color-primary-50: #f0f9ff;
   --color-primary-100: #e0f2fe;
-  --color-primary-200: #b9e3fc;
-  --color-primary-300: #7ccdf9;
-  --color-primary-400: #3FA7EA;
-  --color-primary-500: #298ed7;
-  --color-primary-600: #1b73bc;
-  --color-primary-700: #145ba0;
-  --color-primary-800: #144b80;
-  --color-primary-900: #0A2282;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
 
-  --color-sky-400: #3FA7EA;
-  --color-sky-500: #298ed7;
-  --color-sky-600: #1b73bc;
-  --color-sky-700: #145ba0;
+  --color-ocean-50: #f0f9ff;
+  --color-ocean-900: #0c4a6e;
 
-  /* ── 2. Deep Royal Navy (From Swatch 3: #0A2282) ── */
-  --color-navy-50: #f4f6fa;
-  --color-navy-100: #E2E2E2;
-  --color-navy-200: #cbd3e6;
-  --color-navy-300: #9cb0db;
-  --color-navy-400: #6a88cb;
-  --color-navy-500: #4263b6;
-  --color-navy-600: #25479e;
-  --color-navy-700: #16368a;
-  --color-navy-800: #0f2975;
-  --color-navy-900: #0A2282;
-  --color-navy-950: #061557;
+  --color-sunset-50: #fff7ed;
+  --color-sunset-400: #fb923c;
+  --color-sunset-500: #f97316;
+  --color-sunset-600: #ea580c;
 
-  /* ── 3. Warm Gold / Amber / Mustard (From Swatch 1: #F5A623) ── */
-  --color-sunset-50: #fffbf0;
-  --color-sunset-100: #fef2d2;
-  --color-sunset-400: #f7b848;
-  --color-sunset-500: #F5A623;
-  --color-sunset-600: #d6870d;
-  --color-sunset-700: #ac6507;
-  --color-amber-400: #f7b848;
-  --color-amber-500: #F5A623;
-  --color-amber-600: #d6870d;
-  --color-orange-500: #F5A623;
-  --color-orange-600: #d6870d;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
 
-  /* ── 4. Vibrant Lime Green / Chartreuse (From Swatch 2: #C8DB27) ── */
-  --color-lime-400: #d5e63e;
-  --color-lime-500: #C8DB27;
-  --color-lime-600: #afc216;
-  --color-emerald-400: #C8DB27;
-  --color-emerald-500: #9eb814;
-  --color-emerald-600: #81980a;
+  --color-navy-50: #f8fafc;
+  --color-navy-100: #f1f5f9;
+  --color-navy-200: #e2e8f0;
+  --color-navy-300: #cbd5e1;
+  --color-navy-400: #94a3b8;
+  --color-navy-500: #64748b;
+  --color-navy-600: #475569;
+  --color-navy-700: #334155;
+  --color-navy-800: #1e293b;
+  --color-navy-900: #0f172a;
+  --color-navy-950: #020617;
 
-  /* ── 5. Light Cool Grey (From Swatch 5: #E2E2E2) ── */
-  --color-slate-100: #f0f2f5;
-  --color-slate-200: #E2E2E2;
-  --color-slate-300: #cbd2dc;
-  --color-slate-800: #0d226b;
-  --color-slate-900: #08174f;
-  --color-slate-950: #050f38;
+  --color-primary-950: #082f49;
 
-  --color-primary-950: #050f38;
+  --color-sunset-900: #7c2d12;
+  --color-sunset-950: #451a03;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Lora", ui-serif, Georgia, serif;
@@ -82,41 +61,37 @@
 
 @layer utilities {
   .text-gradient-ocean {
-    background: linear-gradient(135deg, #3FA7EA 0%, #C8DB27 60%, #F5A623 100%);
+    background: linear-gradient(135deg, #0ea5e9, #0369a1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #F5A623 0%, #C8DB27 100%);
+  .text-gradient-sunset {
+    background: linear-gradient(135deg, #f97316, #ea580c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .bg-gradient-ocean {
-    background: linear-gradient(135deg, #0A2282 0%, #1b73bc 60%, #3FA7EA 100%);
+    background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0ea5e9 100%);
   }
 
   .bg-gradient-sunset {
-    background: linear-gradient(135deg, #d6870d 0%, #F5A623 50%, #f7b848 100%);
-  }
-
-  .bg-gradient-palette {
-    background: linear-gradient(135deg, #0A2282 0%, #3FA7EA 45%, #C8DB27 80%, #F5A623 100%);
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%);
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .glass-dark {
-    background: rgba(10, 34, 130, 0.7);
+    background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .card-hover {
