@@ -362,11 +362,11 @@ export default function AdminDashboardPage() {
       }
 
       if (successCount > 0) {
-        if (lastUploadedUrl && !formData.foto_url) {
-          setFormData((prev) => ({ ...prev, foto_url: lastUploadedUrl }));
+        if (lastUploadedUrl) {
+          setFormData((prev) => ({ ...prev, foto_url: lastUploadedUrl, foto: lastUploadedUrl }));
         }
         setUploadSuccessMsg(`✓ Berhasil mengunggah ${successCount} foto sekaligus!`);
-        if (editingId) {
+        if (editingId && activeTab === "updates") {
           fetchGaleriForUpdate(editingId);
         }
       }
@@ -1345,24 +1345,31 @@ export default function AdminDashboardPage() {
               {activeTab === "dokumentasi" && (
                 <>
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Nama Kegiatan / Folder</label>
+                    <label className="block text-xs text-slate-400 mb-1">Nama Kegiatan / Judul Foto <span className="text-rose-400">*</span></label>
                     <input
                       type="text"
-                      value={(formData.nama_kegiatan as string) || ""}
-                      onChange={(e) => setFormData({ ...formData, nama_kegiatan: e.target.value })}
+                      value={(formData.nama_kegiatan as string) || (formData.judul as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, nama_kegiatan: e.target.value, judul: e.target.value })}
                       required
+                      placeholder="Contoh: Praktik Higienis Produksi Abon Ikan"
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Kategori</label>
-                      <input
-                        type="text"
-                        value={(formData.kategori as string) || ""}
+                      <label className="block text-xs text-slate-400 mb-1">Kategori Galeri</label>
+                      <select
+                        value={(formData.kategori as string) || "Pelatihan"}
                         onChange={(e) => setFormData({ ...formData, kategori: e.target.value })}
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                      />
+                      >
+                        <option value="Pelatihan">Pelatihan</option>
+                        <option value="Produksi">Produksi</option>
+                        <option value="Desa">Desa</option>
+                        <option value="Produk">Produk</option>
+                        <option value="RND">RND</option>
+                        <option value="Lainnya">Lainnya</option>
+                      </select>
                     </div>
                     <div>
                       <label className="block text-xs text-slate-400 mb-1">Tanggal</label>
@@ -1370,17 +1377,131 @@ export default function AdminDashboardPage() {
                         type="text"
                         value={(formData.tanggal as string) || ""}
                         onChange={(e) => setFormData({ ...formData, tanggal: e.target.value })}
+                        placeholder="18 Juli 2026"
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                       />
                     </div>
                   </div>
+
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Link Google Drive</label>
+                    <label className="block text-xs text-slate-400 mb-1">Deskripsi Singkat Foto</label>
+                    <textarea
+                      rows={2}
+                      value={(formData.deskripsi as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, deskripsi: e.target.value })}
+                      placeholder="Penjelasan kegiatan / dokumentasi"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                    />
+                  </div>
+
+                  {/* ── Photo Uploader Dropzone for Dokumentasi ── */}
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDragging(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        processFilesAndUpload(e.dataTransfer.files);
+                      }
+                    }}
+                    className={`p-3.5 border-2 border-dashed rounded-2xl transition-all space-y-3 ${
+                      isDragging
+                        ? "border-indigo-400 bg-indigo-950/80 scale-[1.01]"
+                        : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs text-slate-300 font-semibold flex items-center gap-1.5">
+                        <ImageIcon className="w-3.5 h-3.5 text-sky-400" /> Foto Galeri (JPG, PNG, HEIC, DNG RAW)
+                      </label>
+                      {uploadSuccessMsg && (
+                        <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/50">
+                          {uploadSuccessMsg}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Live Image Preview Thumbnail */}
+                    {((formData.foto_url as string) || (formData.foto as string)) && (
+                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center group">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={(formData.foto_url as string) || (formData.foto as string)}
+                          alt="Preview Foto Galeri"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/images/galeri/pelatihan-1.png";
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-[10px] text-slate-300 font-mono text-center break-all">
+                          {(formData.foto_url as string) || (formData.foto as string)}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                      <input
+                        type="file"
+                        accept="image/*,.dng,.cr2,.nef,.arw,.tiff,.bmp,.heic,.heif,.raw"
+                        onChange={handleFileUpload}
+                        id="dokumentasi-file-input"
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor="dokumentasi-file-input"
+                        className={`flex flex-col items-center justify-center gap-1 p-3 rounded-xl border border-dashed text-xs font-bold cursor-pointer transition-all active:scale-[0.98] ${
+                          isDragging
+                            ? "bg-indigo-600 text-white border-indigo-300 shadow-lg"
+                            : uploadingImage
+                            ? "bg-slate-800 text-slate-400 border-slate-700 pointer-events-none"
+                            : "bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border-indigo-500/40 shadow-sm"
+                        }`}
+                      >
+                        {uploadingImage ? (
+                          <div className="flex items-center gap-2">
+                            <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
+                            Memproses &amp; Mengunggah Foto...
+                          </div>
+                        ) : (
+                          <>
+                            <div className="flex items-center gap-2 text-xs font-extrabold text-white">
+                              <Upload className="w-3.5 h-3.5 text-sky-400" />
+                              Drag &amp; Drop / Pilih Foto dari Komputer / HP
+                            </div>
+                            <span className="text-[9px] text-indigo-300 font-normal">
+                              JPG, PNG, HEIC, DNG RAW didukung
+                            </span>
+                          </>
+                        )}
+                      </label>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] text-slate-500 mb-1">URL foto / path manual:</label>
+                      <input
+                        type="text"
+                        value={(formData.foto_url as string) || (formData.foto as string) || ""}
+                        onChange={(e) => setFormData({ ...formData, foto_url: e.target.value, foto: e.target.value })}
+                        placeholder="https://... atau /images/galeri/..."
+                        className="w-full px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-300 font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Link Google Drive (Opsional)</label>
                     <input
                       type="url"
                       value={(formData.link_gdrive as string) || ""}
                       onChange={(e) => setFormData({ ...formData, link_gdrive: e.target.value })}
-                      required
+                      placeholder="https://drive.google.com/..."
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono"
                     />
                   </div>

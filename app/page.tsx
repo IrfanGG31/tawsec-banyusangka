@@ -71,22 +71,31 @@ const jelajahiCards = [
 
 export default function HomePage() {
   const [dampakList, setDampakList] = useState<DampakItem[]>(defaultDampak);
+  const [galeriCardImage, setGaleriCardImage] = useState("/images/galeri/display-1.png");
 
   useEffect(() => {
-    const fetchDampak = async () => {
+    const fetchDynamicData = async () => {
       const supabase = createClient();
       if (supabase) {
         try {
-          const { data, error } = await supabase.from("dampak").select("*");
-          if (!error && data && data.length > 0) {
-            setDampakList(data as DampakItem[]);
+          const { data: dData } = await supabase.from("dampak").select("*");
+          if (dData && dData.length > 0) setDampakList(dData as DampakItem[]);
+
+          const { data: gData } = await supabase
+            .from("dokumentasi")
+            .select("foto_url, foto")
+            .order("id", { ascending: false })
+            .limit(1);
+          if (gData && gData.length > 0) {
+            const latest = (gData[0].foto_url as string) || (gData[0].foto as string);
+            if (latest) setGaleriCardImage(latest);
           }
         } catch {
-          // Fallback to default
+          // Fallback
         }
       }
     };
-    fetchDampak();
+    fetchDynamicData();
   }, []);
 
   return (
@@ -175,7 +184,7 @@ export default function HomePage() {
                 <div>
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-100">
                     <Image
-                      src={card.image}
+                      src={card.href === "/galeri" ? galeriCardImage : card.image}
                       alt={card.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
