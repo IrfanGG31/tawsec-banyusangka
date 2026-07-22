@@ -3,12 +3,15 @@ import Image from "next/image";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import timData from "@/data/tim.json";
 import anggotaData from "@/data/anggota.json";
-import { Users, Anchor, Star, Building, Briefcase, Landmark, Camera, MapPin } from "lucide-react";
+import {
+  Users, Anchor, Star, Building, Briefcase, Landmark, Camera, MapPin,
+  MessageCircle, ShoppingBag, Clock
+} from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Tim & Mitra",
+  title: "Tim & Kontak",
   description:
-    "Tim pelaksana program TAWSEC Banyusangka: mahasiswa Universitas Airlangga, dosen pembimbing, dan kelembagaan mitra desa.",
+    "Tim pelaksana program TAWSEC Banyusangka (mahasiswa Universitas Airlangga, dosen pembimbing, mitra desa) serta informasi kontak & lokasi produksi.",
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -24,17 +27,16 @@ export default function TimMitraPage() {
   return (
     <div className="pt-16">
       {/* Header */}
-      <div className="bg-gradient-to-br from-navy-900 to-primary-900 text-white py-20">
+      <div className="bg-gradient-to-br from-navy-900 via-primary-900 to-emerald-900 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <FadeIn>
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-sm px-4 py-2 rounded-full mb-6">
               <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
               ACSES &amp; UNAIR Sustainability Program
             </div>
-            <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">Tim &amp; Mitra</h1>
+            <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">Tim &amp; Kontak TAWSEC</h1>
             <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              15 mahasiswa Universitas Airlangga yang turun langsung ke lapangan bersama
-              mitra kelembagaan Desa Banyusangka.
+              Kenali 15 mahasiswa Universitas Airlangga, dosen pembimbing, mitra kelembagaan, serta cara menghubungi kami langsung.
             </p>
           </FadeIn>
         </div>
@@ -250,6 +252,159 @@ export default function TimMitraPage() {
             </div>
           </div>
         </FadeIn>
+
+        {/* === SECTION BARU: KONTAK & PEMESANAN (id="kontak") === */}
+        <section id="kontak" className="pt-8 border-t border-gray-200 scroll-mt-24">
+          <FadeIn>
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Hubungi Kami
+              </span>
+              <h2 className="font-serif font-bold text-navy-950 text-3xl sm:text-4xl">
+                Kontak, Pemesanan &amp; Lokasi
+              </h2>
+              <p className="text-navy-600 text-sm mt-2">
+                Tertarik membeli produk olahan laut UMKM atau ingin berkolaborasi? Hubungi tim TAWSEC langsung via WhatsApp atau kunjungi lokasi produksi kami.
+              </p>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {/* Opsi Kontak */}
+            <div className="space-y-5">
+              {/* WhatsApp */}
+              <FadeIn delay={0.1}>
+                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                      <MessageCircle className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-navy-800 text-lg mb-1">WhatsApp (Utama)</h3>
+                      <p className="text-navy-600 text-sm mb-4">
+                        Cara tercepat untuk memesan produk, meminta penawaran B2B, dan bertanya stok.
+                      </p>
+                      <a
+                        href="https://wa.me/6285852278026?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="kontak-wa-button"
+                        className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl transition-all shadow hover:shadow-lg text-sm"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        Chat WhatsApp Sekarang
+                      </a>
+                      <p className="text-navy-400 text-xs mt-3 flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> Respons cepat jam kerja (08.00–17.00 WIB)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+
+              {/* Instagram */}
+              <FadeIn delay={0.2}>
+                <div className="bg-pink-50 border border-pink-200 rounded-2xl p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                      <Camera className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-navy-800 text-lg mb-1">Instagram Resmi</h3>
+                      <p className="text-navy-600 text-sm mb-3">Update dokumentasi kegiatan &amp; info produk terbaru di media sosial.</p>
+                      <span className="inline-flex items-center gap-2 bg-white text-navy-700 font-semibold px-4 py-2 rounded-xl text-xs border border-pink-200 shadow-sm">
+                        📸 @tawsec.banyusangka
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+
+              {/* Marketplace */}
+              <FadeIn delay={0.3}>
+                <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                      <ShoppingBag className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-navy-800 text-lg mb-1">Marketplace Online</h3>
+                      <p className="text-navy-600 text-sm mb-3">Toko resmi di platform e-commerce.</p>
+                      <div className="flex flex-wrap gap-2">
+                        {["🛒 Shopee", "🎵 TikTok Shop"].map((m) => (
+                          <span key={m} className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm">
+                            {m} (Onboarding)
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+
+              {/* Lokasi PPI */}
+              <FadeIn delay={0.4}>
+                <div className="bg-primary-50 border border-primary-200 rounded-2xl p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-navy-800 text-lg mb-1">Lokasi Produksi</h3>
+                      <p className="text-navy-700 font-medium text-sm">Desa Banyusangka, Kec. Tanjung Bumi</p>
+                      <p className="text-navy-500 text-sm">Kab. Bangkalan, Pulau Madura, Jawa Timur</p>
+                      <p className="text-primary-600 text-xs mt-2 font-semibold">
+                        📍 Dekat PPI Banyusangka (Pangkalan Pendaratan Ikan Tipe D)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+
+            {/* Google Maps Embed */}
+            <FadeIn direction="right">
+              <div>
+                <h3 className="font-serif font-bold text-navy-900 text-xl mb-4">Peta Lokasi Desa Banyusangka</h3>
+                <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-200 mb-4">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.5!2d113.02702!3d-6.88498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d0c6a8a4e7d1%3A0x1234567890abcdef!2sBanyusangka%2C%20Tanjung%20Bumi%2C%20Bangkalan%20Regency%2C%20East%20Java!5e0!3m2!1sen!2sid!4v1720000000000!5m2!1sen!2sid"
+                    width="100%"
+                    height="360"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Peta Lokasi Desa Banyusangka"
+                  />
+                </div>
+                <p className="text-navy-500 text-xs text-center mb-6">
+                  📍 6°53&apos;5.70&quot; LS, 113°1&apos;44.50&quot; BT — Desa Banyusangka, Bangkalan, Madura
+                </p>
+
+                {/* Info Box Program */}
+                <div className="bg-navy-950 rounded-2xl p-6 text-white shadow-md">
+                  <h4 className="font-semibold text-sm mb-3 text-sky-400">Tentang Program TAWSEC</h4>
+                  <div className="space-y-2.5 text-xs text-slate-300">
+                    <div className="flex items-start gap-2.5">
+                      <span className="flex-shrink-0">🏛️</span>
+                      <span>UKM-F Penalaran AcSES FEB Universitas Airlangga</span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <span className="flex-shrink-0">📍</span>
+                      <span>Desa Banyusangka, Kec. Tanjung Bumi, Kab. Bangkalan</span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <span className="flex-shrink-0">📅</span>
+                      <span>Program Aktif Pengabdian Masyarakat Tahun 2026</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+
       </div>
     </div>
   );

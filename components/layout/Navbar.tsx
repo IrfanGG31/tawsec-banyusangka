@@ -11,11 +11,9 @@ const navLinks = [
   { href: "/tentang-desa", label: "Tentang Desa" },
   { href: "/program-tawsec", label: "Program TAWSEC" },
   { href: "/katalog", label: "Katalog" },
-  { href: "/modul", label: "Modul" },
   { href: "/galeri", label: "Galeri" },
   { href: "/update", label: "Update" },
-  { href: "/tim-mitra", label: "Tim & Mitra" },
-  { href: "/kontak", label: "Kontak" },
+  { href: "/tim-mitra", label: "Tim & Kontak" },
 ];
 
 export default function Navbar() {
@@ -52,7 +50,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Nav Links (Indorelawan Style - Clean Crisp Dark Text) */}
+          {/* Desktop Nav Links (6 Crisp Menu Items) */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;

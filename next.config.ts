@@ -14,6 +14,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/kontak",
+        destination: "/tim-mitra#kontak",
+        permanent: true,
+      },
+      {
+        source: "/modul",
+        destination: "/program-tawsec#modul",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

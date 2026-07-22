@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
+import { FadeIn } from "@/components/ui/Animations";
 import modulData from "@/data/modul.json";
 import { ProgressTracker } from "@/components/ProgressTracker";
 import Timeline from "@/components/program/Timeline";
 import LuaranProgram from "@/components/program/LuaranProgram";
 import {
   TrendingUp, Leaf, Smartphone, Shield,
-  Recycle, Sparkles, CheckCircle2, Award, Target, BookOpen
+  Recycle, Award, BookOpen, Download, ChevronRight
 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -127,6 +128,58 @@ export default function ProgramTawsecPage() {
             </div>
           </motion.div>
         </AnimatePresence>
+      </section>
+
+      {/* ===== SECTION BARU: MODUL & PUSAT MATERI (id="modul") ===== */}
+      <section id="modul" className="max-w-6xl mx-auto px-4 sm:px-6 scroll-mt-24">
+        <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-800">
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2">
+                <BookOpen className="w-3.5 h-3.5" /> Modul &amp; Referensi Pelatihan
+              </span>
+              <h2 className="font-serif font-bold text-white text-2xl sm:text-3xl">
+                Arsip Panduan &amp; Download Modul 4 Pilar
+              </h2>
+              <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+                Materi kurikulum lengkap pemberdayaan UMKM Banyusangka — dapat diunduh versi PDF lengkap untuk referensi usaha mandiri.
+              </p>
+            </div>
+
+            <a
+              href="/modul/Modul-Lengkap-TAWSEC.pdf"
+              download
+              className="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all flex-shrink-0"
+            >
+              <Download className="w-4 h-4" />
+              Unduh Buku Modul Lengkap (PDF)
+            </a>
+          </div>
+
+          {/* Grid 4 Pilar Modules Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+            {modulData.map((p) => (
+              <div key={p.id} className="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-bold text-sky-400 bg-sky-950 px-2.5 py-1 rounded-lg border border-sky-800/60 uppercase tracking-wider">
+                    Pilar {p.nomor}
+                  </span>
+                  <span className="text-xs text-slate-400 font-medium">4 Sub-materi</span>
+                </div>
+                <h3 className="font-serif font-bold text-white text-base mb-1">{p.judul}</h3>
+                <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed mb-4">{p.ringkasan}</p>
+                <div className="space-y-1.5 pt-3 border-t border-slate-900">
+                  {p.materi.slice(0, 2).map((m, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-[11px] text-slate-300">
+                      <ChevronRight className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                      <span className="truncate">{m.judul}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ===== INOVASI ZERO WASTE ===== */}

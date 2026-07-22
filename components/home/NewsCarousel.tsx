@@ -10,6 +10,7 @@ import { createClient } from "@/lib/supabase/client";
 
 interface UpdateItem {
   id: string;
+  slug?: string;
   tanggal: string;
   judul: string;
   isi_singkat: string;
@@ -59,6 +60,7 @@ export default function NewsCarousel() {
   if (updates.length === 0) return null;
 
   const currentItem = updates[currentIndex];
+  const itemAnchor = `/update#${currentItem.slug || currentItem.id}`;
 
   return (
     <section
@@ -115,12 +117,12 @@ export default function NewsCarousel() {
               className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
             >
               {/* Photo Preview Column */}
-              <div className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-xl border border-slate-700 bg-slate-800">
+              <Link href={itemAnchor} className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-xl border border-slate-700 bg-slate-800 group">
                 <Image
                   src={currentItem.foto_url || "/images/galeri/display-1.png"}
                   alt={currentItem.judul}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
                 />
@@ -131,7 +133,7 @@ export default function NewsCarousel() {
                     {currentItem.kategori}
                   </span>
                 </div>
-              </div>
+              </Link>
 
               {/* Text Info Column */}
               <div className="lg:col-span-6 space-y-4">
@@ -140,8 +142,10 @@ export default function NewsCarousel() {
                   <span>{currentItem.tanggal}</span>
                 </div>
 
-                <h3 className="font-serif font-bold text-white text-2xl sm:text-3xl leading-snug">
-                  {currentItem.judul}
+                <h3 className="font-serif font-bold text-white text-2xl sm:text-3xl leading-snug hover:text-sky-300 transition-colors">
+                  <Link href={itemAnchor}>
+                    {currentItem.judul}
+                  </Link>
                 </h3>
 
                 <p className="text-slate-300 text-sm leading-relaxed">
@@ -150,7 +154,7 @@ export default function NewsCarousel() {
 
                 <div className="pt-4 flex items-center justify-between">
                   <Link
-                    href="/update"
+                    href={itemAnchor}
                     className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-white text-xs font-bold py-3 px-5 rounded-xl shadow-md transition-all active:scale-95"
                   >
                     <span>Baca Berita Selengkapnya</span>

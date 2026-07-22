@@ -9,9 +9,9 @@ const quickLinks = [
   { href: "/tentang-desa", label: "Tentang Desa" },
   { href: "/program-tawsec", label: "Program TAWSEC" },
   { href: "/katalog", label: "Katalog Produk" },
-  { href: "/modul", label: "Modul Pelatihan" },
+  { href: "/program-tawsec#modul", label: "Modul Pelatihan" },
   { href: "/galeri", label: "Galeri" },
-  { href: "/tim-mitra", label: "Tim & Mitra" },
+  { href: "/tim-mitra", label: "Tim & Kontak" },
 ];
 
 const produkLinks = [
@@ -110,7 +110,7 @@ export default function Footer() {
             <div className="mt-4 p-3 bg-navy-800 rounded-xl">
               <p className="text-xs text-navy-400 mb-1">Pesan via WhatsApp</p>
               <a
-                href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
+                href="https://wa.me/6285852278026?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-emerald-400 font-semibold text-sm hover:text-emerald-300 flex items-center gap-1"
