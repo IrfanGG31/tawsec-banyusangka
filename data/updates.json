@@ -2,6 +2,21 @@
   {
     "id": "e1a00000-0000-0000-0000-000000000001",
     "urutan": 1,
+    "tanggal": "April – Mei 2026",
+    "periode": "April – Mei 2026",
+    "judul": "Survei Kebutuhan & Pemetaan Potensi Perikanan Desa Banyusangka",
+    "kategori": "Survei & Riset",
+    "isi_singkat": "Pengumpulan data awal perikanan PPI Banyusangka, identifikasi 45+ pelaku ngojur, dan koordinasi tingkat desa bersama Pemdes & PKK Banyusangka.",
+    "deskripsi_lengkap": "Tim Field Ops TAWSEC AcSES FEB UNAIR melakukan pemetaan potensi hasil laut di PPI Banyusangka. Ditemukan bahwa 85% hasil tangkapan ikan layang dan tongkol dijual mentah tanpa olahan dengan risiko food loss hingga 35% saat puncak musim panen. Dihasilkan rekomendasi awal pembentukan 10 unit Kelompok Usaha Bersama (KUB).",
+    "foto_url": "/images/galeri/nelayan-1.png",
+    "slug": "survei-kebutuhan-pemetaan-potensi",
+    "pic": "Puguh Muqoddam & Tim Field Ops",
+    "status_kegiatan": "Selesai",
+    "is_timeline": true
+  },
+  {
+    "id": "e1a00000-0000-0000-0000-000000000002",
+    "urutan": 2,
     "tanggal": "7 Juni, 23 Juni, 4 Juli, & 13 Juli 2026",
     "periode": "7 Juni – 13 Juli 2026",
     "judul": "Research & Development (R&D) Tahap 1 hingga 4",
@@ -15,8 +30,8 @@
     "is_timeline": true
   },
   {
-    "id": "e1a00000-0000-0000-0000-000000000002",
-    "urutan": 2,
+    "id": "e1a00000-0000-0000-0000-000000000003",
+    "urutan": 3,
     "tanggal": "20 Juni 2026",
     "periode": "20 Juni 2026",
     "judul": "Sosialisasi SDGs & Program TAWSEC",
@@ -30,8 +45,8 @@
     "is_timeline": true
   },
   {
-    "id": "e1a00000-0000-0000-0000-000000000003",
-    "urutan": 3,
+    "id": "e1a00000-0000-0000-0000-000000000004",
+    "urutan": 4,
     "tanggal": "17–19 Juli 2026",
     "periode": "17–19 Juli 2026",
     "judul": "Pelatihan Pilar Produksi (Kerupuk, Abon, & Tepung Tulang Ikan)",
@@ -45,8 +60,8 @@
     "is_timeline": true
   },
   {
-    "id": "e1a00000-0000-0000-0000-000000000004",
-    "urutan": 4,
+    "id": "e1a00000-0000-0000-0000-000000000005",
+    "urutan": 5,
     "tanggal": "31 Juli – 2 Agustus 2026",
     "periode": "31 Juli – 2 Agustus 2026",
     "judul": "Pelatihan Pilar Kewirausahaan (KWU), Branding & Monev 1",
@@ -60,8 +75,8 @@
     "is_timeline": true
   },
   {
-    "id": "e1a00000-0000-0000-0000-000000000005",
-    "urutan": 5,
+    "id": "e1a00000-0000-0000-0000-000000000006",
+    "urutan": 6,
     "tanggal": "7 Agustus 2026",
     "periode": "7 Agustus 2026",
     "judul": "Pelatihan Pilar Digitalisasi, Foto Katalog & Marketplace",
@@ -75,8 +90,8 @@
     "is_timeline": true
   },
   {
-    "id": "e1a00000-0000-0000-0000-000000000006",
-    "urutan": 6,
+    "id": "e1a00000-0000-0000-0000-000000000007",
+    "urutan": 7,
     "tanggal": "8 Agustus 2026",
     "periode": "8 Agustus 2026",
     "judul": "Pelatihan Pilar Legalitas Usaha & Sertifikasi Halal (Serhal)",
