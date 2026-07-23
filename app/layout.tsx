@@ -19,6 +19,7 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tawsec.acses.udahhabisdomaingratis.web.id"),
   title: {
     default: "TAWSEC Banyusangka — Etalase UMKM Olahan Laut Desa Banyusangka",
     template: "%s | TAWSEC Banyusangka",
@@ -37,10 +38,32 @@ export const metadata: Metadata = {
     "kerupuk ikan",
     "Universitas Airlangga",
   ],
+  icons: {
+    icon: [
+      { url: "/icon.png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
     siteName: "TAWSEC Banyusangka",
+    images: [
+      {
+        url: "/images/logos/logo-tawsec.png",
+        width: 800,
+        height: 800,
+        alt: "Logo Resmi TAWSEC Banyusangka",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "TAWSEC Banyusangka — Etalase UMKM Olahan Laut Desa Banyusangka",
+    description: "Website resmi Desa Banyusangka dan program TAWSEC UNAIR SUSTAINACTION 2026.",
+    images: ["/images/logos/logo-tawsec.png"],
   },
 };
 
