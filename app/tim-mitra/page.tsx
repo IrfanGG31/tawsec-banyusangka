@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import timData from "@/data/tim.json";
-import anggotaData from "@/data/anggota.json";
+import { getSiteSettings } from "@/lib/supabase/settings";
 import {
   Users, Anchor, Star, Building, Briefcase, Landmark, Camera, MapPin,
   MessageCircle, ShoppingBag, Clock
@@ -23,7 +23,14 @@ const iconMap: Record<string, React.ReactNode> = {
   landmark: <Landmark className="w-6 h-6" />,
 };
 
-export default function TimMitraPage() {
+export default async function TimMitraPage() {
+  const settings = await getSiteSettings();
+  const { foto_tim, anggota, identitas, social_media } = settings;
+
+  const waNumber = identitas.wa_number || "6285852278026";
+  const waTemplate = encodeURIComponent(identitas.wa_template || "Halo, saya ingin memesan produk TAWSEC Banyusangka.");
+  const waUrl = `https://wa.me/${waNumber}?text=${waTemplate}`;
+
   return (
     <div className="pt-16">
       {/* Header */}
@@ -36,7 +43,7 @@ export default function TimMitraPage() {
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-4">Tim &amp; Kontak TAWSEC</h1>
             <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Kenali 15 mahasiswa Universitas Airlangga, dosen pembimbing, mitra kelembagaan, serta cara menghubungi kami langsung.
+              Kenali {anggota.length} mahasiswa Universitas Airlangga, dosen pembimbing, mitra kelembagaan, serta cara menghubungi kami langsung.
             </p>
           </FadeIn>
         </div>
@@ -57,8 +64,8 @@ export default function TimMitraPage() {
               <div className="relative group overflow-hidden rounded-3xl shadow-xl">
                 <div className="relative aspect-[4/3] w-full">
                   <Image
-                    src="/images/anggota/tim-group-1.jpg"
-                    alt="Tim TAWSEC — Sesi foto tim bersama sign TAWSEC Company"
+                    src={foto_tim.foto1_url || "/images/anggota/tim-group-1.jpg"}
+                    alt={foto_tim.foto1_caption}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -67,10 +74,10 @@ export default function TimMitraPage() {
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center gap-2 mb-2">
                       <Camera className="w-4 h-4 text-white/70" />
-                      <span className="text-white/70 text-xs">TAWSEC Company</span>
+                      <span className="text-white/70 text-xs">{foto_tim.foto1_tag || "TAWSEC Company"}</span>
                     </div>
                     <p className="text-white font-serif font-bold text-lg leading-tight">
-                      Tim TAWSEC — Building Ideas, Creating Impact
+                      {foto_tim.foto1_caption}
                     </p>
                   </div>
                 </div>
@@ -80,8 +87,8 @@ export default function TimMitraPage() {
               <div className="relative group overflow-hidden rounded-3xl shadow-xl">
                 <div className="relative aspect-[4/3] w-full">
                   <Image
-                    src="/images/anggota/tim-group-2.jpg"
-                    alt="Tim TAWSEC di Pasar Ikan Desa Banyusangka Bangkalan"
+                    src={foto_tim.foto2_url || "/images/anggota/tim-group-2.jpg"}
+                    alt={foto_tim.foto2_caption}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -90,10 +97,10 @@ export default function TimMitraPage() {
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center gap-2 mb-2">
                       <MapPin className="w-4 h-4 text-white/70" />
-                      <span className="text-white/70 text-xs">Pasar Ikan Desa Banyusangka, Bangkalan</span>
+                      <span className="text-white/70 text-xs">{foto_tim.foto2_tag || "Pasar Ikan Desa Banyusangka, Bangkalan"}</span>
                     </div>
                     <p className="text-white font-serif font-bold text-lg leading-tight">
-                      Terjun Langsung ke Pasar Ikan Banyusangka
+                      {foto_tim.foto2_caption}
                     </p>
                   </div>
                 </div>
@@ -102,17 +109,17 @@ export default function TimMitraPage() {
           </section>
         </FadeIn>
 
-        {/* === GRID 15 ANGGOTA === */}
+        {/* === GRID ANGGOTA === */}
         <section>
           <FadeIn>
             <div className="mb-8">
               <span className="text-sunset-500 font-semibold text-sm uppercase tracking-widest">Pelaksana</span>
-              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">15 Anggota Tim</h2>
+              <h2 className="font-serif font-bold text-navy-900 text-3xl mt-1">{anggota.length} Anggota Tim</h2>
               <p className="text-navy-500 mt-2">Mahasiswa lintas fakultas Universitas Airlangga yang menjalankan program di lapangan.</p>
             </div>
           </FadeIn>
           <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {anggotaData.map((a, i) => (
+            {anggota.map((a, i) => (
               <StaggerItem key={i}>
                 <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all text-center group">
                   <div className="relative w-16 h-16 mx-auto mb-3">
@@ -285,7 +292,7 @@ export default function TimMitraPage() {
                         Cara tercepat untuk memesan produk, meminta penawaran B2B, dan bertanya stok.
                       </p>
                       <a
-                        href="https://wa.me/6285852278026?text=Halo%2C%20saya%20ingin%20memesan%20produk%20TAWSEC%20Banyusangka."
+                        href={waUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         id="kontak-wa-button"
@@ -312,9 +319,14 @@ export default function TimMitraPage() {
                     <div>
                       <h3 className="font-bold text-navy-800 text-lg mb-1">Instagram Resmi</h3>
                       <p className="text-navy-600 text-sm mb-3">Update dokumentasi kegiatan &amp; info produk terbaru di media sosial.</p>
-                      <span className="inline-flex items-center gap-2 bg-white text-navy-700 font-semibold px-4 py-2 rounded-xl text-xs border border-pink-200 shadow-sm">
+                      <a
+                        href={social_media.instagram || "https://instagram.com/tawsec.banyusangka"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-white text-navy-700 font-semibold px-4 py-2 rounded-xl text-xs border border-pink-200 shadow-sm hover:bg-pink-100 transition-colors"
+                      >
                         📸 @tawsec.banyusangka
-                      </span>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -331,11 +343,24 @@ export default function TimMitraPage() {
                       <h3 className="font-bold text-navy-800 text-lg mb-1">Marketplace Online</h3>
                       <p className="text-navy-600 text-sm mb-3">Toko resmi di platform e-commerce.</p>
                       <div className="flex flex-wrap gap-2">
-                        {["🛒 Shopee", "🎵 TikTok Shop"].map((m) => (
-                          <span key={m} className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm">
-                            {m} (Onboarding)
+                        {social_media.shopee ? (
+                          <a href={social_media.shopee} target="_blank" rel="noreferrer" className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm hover:bg-orange-100">
+                            🛒 Shopee Store
+                          </a>
+                        ) : (
+                          <span className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm">
+                            🛒 Shopee (Onboarding)
                           </span>
-                        ))}
+                        )}
+                        {social_media.tiktok ? (
+                          <a href={social_media.tiktok} target="_blank" rel="noreferrer" className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm hover:bg-orange-100">
+                            🎵 TikTok Shop
+                          </a>
+                        ) : (
+                          <span className="bg-white text-navy-700 text-xs font-medium px-3 py-1.5 rounded-full border border-orange-200 shadow-sm">
+                            🎵 TikTok Shop (Onboarding)
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -388,7 +413,7 @@ export default function TimMitraPage() {
                   <div className="space-y-2.5 text-xs text-slate-300">
                     <div className="flex items-start gap-2.5">
                       <span className="flex-shrink-0">🏛️</span>
-                      <span>UKM-F Penalaran AcSES FEB Universitas Airlangga</span>
+                      <span>{identitas.penyelenggara || "UKM-F Penalaran AcSES FEB Universitas Airlangga"}</span>
                     </div>
                     <div className="flex items-start gap-2.5">
                       <span className="flex-shrink-0">📍</span>
@@ -396,7 +421,7 @@ export default function TimMitraPage() {
                     </div>
                     <div className="flex items-start gap-2.5">
                       <span className="flex-shrink-0">📅</span>
-                      <span>Program Aktif Pengabdian Masyarakat Tahun 2026</span>
+                      <span>Program Aktif Pengabdian Masyarakat Tahun {identitas.tahun || "2026"}</span>
                     </div>
                   </div>
                 </div>

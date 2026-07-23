@@ -8,8 +8,9 @@ import {
   Newspaper, Layers, FolderGit2, Check, X, Shield, RefreshCw,
   Upload, Image as ImageIcon, Loader2, Star, Settings
 } from "lucide-react";
+import SetupTab from "@/components/admin/SetupTab";
 
-type TabType = "progress" | "updates" | "dampak" | "dokumentasi";
+type TabType = "progress" | "updates" | "dampak" | "dokumentasi" | "setup";
 
 interface ProgressItem {
   id?: string;
@@ -255,7 +256,9 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    const tableMap: Record<TabType, string> = {
+    if (activeTab === "setup") return;
+
+    const tableMap: Record<Exclude<TabType, "setup">, string> = {
       progress: "progress_indicators",
       updates: "updates",
       dampak: "dampak",
@@ -461,7 +464,9 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    const tableMap: Record<TabType, string> = {
+    if (activeTab === "setup") return;
+
+    const tableMap: Record<Exclude<TabType, "setup">, string> = {
       progress: "progress_indicators",
       updates: "updates",
       dampak: "dampak",
@@ -577,6 +582,18 @@ export default function AdminDashboardPage() {
               <FolderGit2 className="w-4 h-4" />
               Dokumentasi Kegiatan
             </button>
+
+            <button
+              onClick={() => setActiveTab("setup")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                activeTab === "setup"
+                  ? "bg-amber-600 text-white shadow-lg"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              Setup Website
+            </button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -588,13 +605,15 @@ export default function AdminDashboardPage() {
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             </button>
 
-            <button
-              onClick={handleOpenAdd}
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-all active:scale-95"
-            >
-              <Plus className="w-4 h-4" />
-              Tambah Baru
-            </button>
+            {activeTab !== "setup" && (
+              <button
+                onClick={handleOpenAdd}
+                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-all active:scale-95"
+              >
+                <Plus className="w-4 h-4" />
+                Tambah Baru
+              </button>
+            )}
           </div>
         </div>
 
@@ -873,6 +892,11 @@ export default function AdminDashboardPage() {
               </table>
             </div>
           </div>
+        )}
+
+        {/* ================= TAB 5: SETUP WEBSITE ================= */}
+        {activeTab === "setup" && (
+          <SetupTab dbConnected={dbConnected} />
         )}
       </main>
 
