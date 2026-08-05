@@ -3,12 +3,13 @@ import produkData from "@/data/produk.json";
 import updatesData from "@/data/updates.json";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://tawsec-banyusangka.vercel.app";
+  const base = "https://tawsec.acses.udahhabisdomaingratis.web.id";
 
   const staticRoutes = [
     { url: `${base}/`, lastModified: new Date() },
     { url: `${base}/tentang-desa`, lastModified: new Date() },
     { url: `${base}/program-tawsec`, lastModified: new Date() },
+    { url: `${base}/program-tawsec/challenge`, lastModified: new Date() },
     { url: `${base}/katalog`, lastModified: new Date() },
     { url: `${base}/update`, lastModified: new Date() },
     { url: `${base}/tim-mitra`, lastModified: new Date() },

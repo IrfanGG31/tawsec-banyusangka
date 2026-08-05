@@ -138,6 +138,24 @@ export default function ProgramTawsecPage() {
                 </div>
               ))}
             </div>
+
+            {/* CTA Challenge Pilar 3 */}
+            {activePilar.nomor === 3 && (
+              <div className="mt-6 bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <h4 className="font-serif font-bold text-navy-900 text-base">Challenge Digitalisasi &amp; Branding</h4>
+                  <p className="text-navy-600 text-xs mt-1">Ikuti challenge Brand Make Over &amp; Video Promosi untuk mengasah skill branding produk olahan laut.</p>
+                </div>
+                <Link
+                  href="/program-tawsec/challenge"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-bold px-5 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 text-xs sm:text-sm whitespace-nowrap"
+                >
+                  <Smartphone className="w-4 h-4" />
+                  Ikuti Challenge Branding &amp; Video Promosi
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </section>
