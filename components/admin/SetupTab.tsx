@@ -40,6 +40,197 @@ interface Member {
   foto: string;
 }
 
+// --- Top-level Subcomponents (Defined OUTSIDE parent to prevent focus loss & unmounting on state updates) ---
+
+function InputGroup({ label, id, value, onChange, placeholder, type = "text" }: { label: string; id: string; value: string | number; onChange: (val: string) => void; placeholder?: string; type?: string }) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-xs font-medium text-slate-400 mb-1.5">
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
+      />
+    </div>
+  );
+}
+
+function TextareaGroup({ label, id, value, onChange, placeholder, rows = 3 }: { label: string; id: string; value: string; onChange: (val: string) => void; placeholder?: string; rows?: number }) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-xs font-medium text-slate-400 mb-1.5">
+        {label}
+      </label>
+      <textarea
+        id={id}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        rows={rows}
+        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none resize-none"
+      />
+    </div>
+  );
+}
+
+function ImageUploader({
+  label,
+  folder,
+  url,
+  onUrlChange,
+  onUpload,
+  showToast
+}: {
+  label: string;
+  folder: string;
+  url: string;
+  onUrlChange: (url: string) => void;
+  onUpload: (file: File, folder: string) => Promise<string | null>;
+  showToast: (msg: string, type: "success" | "error") => void;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const uploadedUrl = await onUpload(file, folder);
+    setIsUploading(false);
+
+    if (uploadedUrl) {
+      onUrlChange(uploadedUrl);
+      showToast("Gambar berhasil diunggah", "success");
+    } else {
+      showToast("Gagal mengunggah gambar", "error");
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div>
+      <label className="block text-xs font-medium text-slate-400 mb-1.5">{label}</label>
+      <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+        {url ? (
+          <img src={url} alt="Preview" className="h-10 w-10 rounded-lg object-cover border border-slate-700 bg-slate-900" />
+        ) : (
+          <div className="h-10 w-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500">
+            <ImageIcon className="w-5 h-5" />
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          className="flex items-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm rounded-xl border border-slate-700 transition-colors disabled:opacity-50 shrink-0"
+        >
+          <Upload className="w-4 h-4" />
+          {isUploading ? "Mengunggah..." : "Pilih File"}
+        </button>
+
+        <input
+          type="text"
+          value={url ?? ""}
+          onChange={(e) => onUrlChange(e.target.value)}
+          placeholder="Atau masukkan URL gambar..."
+          className="flex-1 min-w-[200px] bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
+        />
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept="image/*"
+          className="hidden"
+        />
+      </div>
+    </div>
+  );
+}
+
+function AccordionSection({
+  id,
+  title,
+  description,
+  icon: Icon,
+  children,
+  isOpen,
+  onToggle,
+  onSave,
+  isSaving
+}: {
+  id: string;
+  title: string;
+  description: string;
+  icon: any;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+  onSave: () => void;
+  isSaving?: boolean;
+}) {
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between p-5 hover:bg-slate-800/50 transition-colors text-left"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-400 border border-sky-500/20">
+            <Icon className="w-5 h-5" />
+          </div>
+          <div className="text-left">
+            <h3 className="font-semibold text-white text-sm">{title}</h3>
+            <p className="text-xs text-slate-400 mt-0.5">{description}</p>
+          </div>
+        </div>
+        <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <div className="p-5 pt-0 border-t border-slate-800">
+          <div className="space-y-4 py-4">
+            {children}
+          </div>
+          <div className="flex justify-end pt-4 border-t border-slate-800">
+            <button
+              type="button"
+              onClick={onSave}
+              disabled={isSaving}
+              className="flex items-center gap-2 px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-50"
+            >
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  Menyimpan...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  Simpan Perubahan
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --- Main Component ---
+
 export default function SetupTab({ dbConnected }: SetupTabProps) {
   const [openSection, setOpenSection] = useState<string | null>("identitas");
   const [toast, setToast] = useState<ToastMessage | null>(null);
@@ -216,164 +407,6 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
     return true;
   };
 
-  // --- Subcomponents for Forms ---
-  
-  const InputGroup = ({ label, id, value, onChange, placeholder, type = "text" }: any) => (
-    <div>
-      <label htmlFor={id} className="block text-xs font-medium text-slate-400 mb-1.5">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
-      />
-    </div>
-  );
-
-  const TextareaGroup = ({ label, id, value, onChange, placeholder, rows = 3 }: any) => (
-    <div>
-      <label htmlFor={id} className="block text-xs font-medium text-slate-400 mb-1.5">
-        {label}
-      </label>
-      <textarea
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        rows={rows}
-        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none resize-none"
-      />
-    </div>
-  );
-
-  const ImageUploader = ({ label, folder, url, onUrlChange }: { label: string; folder: string; url: string; onUrlChange: (url: string) => void }) => {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [isUploading, setIsUploading] = useState(false);
-
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      
-      setIsUploading(true);
-      const uploadedUrl = await uploadImage(file, folder);
-      setIsUploading(false);
-      
-      if (uploadedUrl) {
-        onUrlChange(uploadedUrl);
-        showToast("Gambar berhasil diunggah", "success");
-      } else {
-        showToast("Gagal mengunggah gambar", "error");
-      }
-      
-      // Reset input so the same file can be selected again if needed
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    };
-
-    return (
-      <div>
-        <label className="block text-xs font-medium text-slate-400 mb-1.5">{label}</label>
-        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-          {url ? (
-            <img src={url} alt="Preview" className="h-10 w-10 rounded-lg object-cover border border-slate-700 bg-slate-900" />
-          ) : (
-            <div className="h-10 w-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500">
-              <ImageIcon className="w-5 h-5" />
-            </div>
-          )}
-          
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
-            className="flex items-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm rounded-xl border border-slate-700 transition-colors disabled:opacity-50 shrink-0"
-          >
-            <Upload className="w-4 h-4" />
-            {isUploading ? "Mengunggah..." : "Pilih File"}
-          </button>
-          
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => onUrlChange(e.target.value)}
-            placeholder="Atau masukkan URL gambar..."
-            className="flex-1 min-w-[200px] bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
-          />
-          
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            className="hidden"
-          />
-        </div>
-      </div>
-    );
-  };
-
-  const AccordionSection = ({ 
-    id, title, description, icon: Icon, children, onSave 
-  }: { 
-    id: string, title: string, description: string, icon: any, children: React.ReactNode, onSave: () => void 
-  }) => {
-    const isOpen = openSection === id;
-    const isSaving = savingState[id];
-
-    return (
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-        <button
-          onClick={() => toggleSection(id)}
-          className="w-full flex items-center justify-between p-5 hover:bg-slate-800/50 transition-colors"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-400 border border-sky-500/20">
-              <Icon className="w-5 h-5" />
-            </div>
-            <div className="text-left">
-              <h3 className="font-semibold text-white text-sm">{title}</h3>
-              <p className="text-xs text-slate-400 mt-0.5">{description}</p>
-            </div>
-          </div>
-          <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-        </button>
-        
-        {isOpen && (
-          <div className="p-5 pt-0 border-t border-slate-800">
-            <div className="space-y-4 py-4">
-              {children}
-            </div>
-            <div className="flex justify-end pt-4 border-t border-slate-800">
-              <button
-                type="button"
-                onClick={onSave}
-                disabled={isSaving}
-                className="flex items-center gap-2 px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-50"
-              >
-                {isSaving ? (
-                  <>
-                    <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                    Menyimpan...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4" />
-                    Simpan Perubahan
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
   if (!dbConnected) {
     return (
       <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl flex items-center gap-4 text-slate-300">
@@ -419,7 +452,10 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
         title="Identitas & Kontak Situs"
         description="Pengaturan nama program, tahun, penyelenggara, dan info kontak"
         icon={Settings}
+        isOpen={openSection === "identitas"}
+        onToggle={() => toggleSection("identitas")}
         onSave={() => saveSetting("identitas", identitas)}
+        isSaving={savingState["identitas"]}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputGroup
@@ -449,26 +485,22 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
           <InputGroup
             label="Email Kontak"
             id="email"
-            type="email"
             value={identitas.email}
             onChange={(v: string) => setIdentitas({ ...identitas, email: v })}
           />
           <InputGroup
-            label="Nomor WhatsApp (Tanpa +, contoh: 628123456789)"
+            label="Nomor WhatsApp Admin (Format 628xxx)"
             id="wa_number"
             value={identitas.wa_number}
             onChange={(v: string) => setIdentitas({ ...identitas, wa_number: v })}
           />
-          <div className="md:col-span-2">
-            <TextareaGroup
-              label="Template Pesan WhatsApp (Otomatis terisi saat tombol diklik)"
-              id="wa_template"
-              value={identitas.wa_template}
-              onChange={(v: string) => setIdentitas({ ...identitas, wa_template: v })}
-              rows={4}
-            />
-          </div>
         </div>
+        <TextareaGroup
+          label="Template Pesan WhatsApp Otomatis"
+          id="wa_template"
+          value={identitas.wa_template}
+          onChange={(v: string) => setIdentitas({ ...identitas, wa_template: v })}
+        />
       </AccordionSection>
 
       {/* Section 2: Hero Banner */}
@@ -477,150 +509,156 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
         title="Hero Banner Beranda"
         description="Konten utama pada bagian atas halaman beranda (Headline & Gambar)"
         icon={ImageIcon}
+        isOpen={openSection === "hero"}
+        onToggle={() => toggleSection("hero")}
         onSave={() => saveSetting("hero", hero)}
+        isSaving={savingState["hero"]}
       >
-        <div className="space-y-4">
+        <InputGroup
+          label="Judul Utama (H1)"
+          id="hero_judul"
+          value={hero.judul}
+          onChange={(v: string) => setHero({ ...hero, judul: v })}
+        />
+        <TextareaGroup
+          label="Sub-judul / Deskripsi Hero"
+          id="hero_subtitle"
+          value={hero.subtitle}
+          onChange={(v: string) => setHero({ ...hero, subtitle: v })}
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputGroup
-            label="Judul Utama (H1)"
-            id="hero_judul"
-            value={hero.judul}
-            onChange={(v: string) => setHero({ ...hero, judul: v })}
+            label="Tombol 1 Label"
+            id="cta1_label"
+            value={hero.cta1_label}
+            onChange={(v: string) => setHero({ ...hero, cta1_label: v })}
           />
-          <TextareaGroup
-            label="Deskripsi Pendek (Subtitle)"
-            id="hero_subtitle"
-            value={hero.subtitle}
-            onChange={(v: string) => setHero({ ...hero, subtitle: v })}
+          <InputGroup
+            label="Tombol 1 Link (HREF)"
+            id="cta1_href"
+            value={hero.cta1_href}
+            onChange={(v: string) => setHero({ ...hero, cta1_href: v })}
           />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-800 bg-slate-950/50 rounded-xl p-4">
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-slate-300 border-b border-slate-800 pb-2">Call to Action Utama</h4>
-              <InputGroup
-                label="Label Tombol 1"
-                id="cta1_label"
-                value={hero.cta1_label}
-                onChange={(v: string) => setHero({ ...hero, cta1_label: v })}
-              />
-              <InputGroup
-                label="Link Tombol 1"
-                id="cta1_href"
-                value={hero.cta1_href}
-                onChange={(v: string) => setHero({ ...hero, cta1_href: v })}
-              />
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-slate-300 border-b border-slate-800 pb-2">Call to Action Sekunder</h4>
-              <InputGroup
-                label="Label Tombol 2"
-                id="cta2_label"
-                value={hero.cta2_label}
-                onChange={(v: string) => setHero({ ...hero, cta2_label: v })}
-              />
-              <InputGroup
-                label="Link Tombol 2"
-                id="cta2_href"
-                value={hero.cta2_href}
-                onChange={(v: string) => setHero({ ...hero, cta2_href: v })}
-              />
-            </div>
-          </div>
-
-          <ImageUploader
-            label="Gambar Latar / Background Hero"
-            folder="hero"
-            url={hero.bg_image}
-            onUrlChange={(url) => setHero({ ...hero, bg_image: url })}
+          <InputGroup
+            label="Tombol 2 Label"
+            id="cta2_label"
+            value={hero.cta2_label}
+            onChange={(v: string) => setHero({ ...hero, cta2_label: v })}
+          />
+          <InputGroup
+            label="Tombol 2 Link (HREF)"
+            id="cta2_href"
+            value={hero.cta2_href}
+            onChange={(v: string) => setHero({ ...hero, cta2_href: v })}
           />
         </div>
+        <ImageUploader
+          label="Gambar Background Hero"
+          folder="hero"
+          url={hero.bg_image}
+          onUrlChange={(url) => setHero({ ...hero, bg_image: url })}
+          onUpload={uploadImage}
+          showToast={showToast}
+        />
       </AccordionSection>
 
-      {/* Section 3: Testimonial */}
+      {/* Section 3: Testimonial / Sambutan */}
       <AccordionSection
         id="testimonial"
         title="Testimonial & Kata Sambutan"
         description="Quote atau sambutan tokoh (Misal: Kepala Desa)"
         icon={MessageSquare}
+        isOpen={openSection === "testimonial"}
+        onToggle={() => toggleSection("testimonial")}
         onSave={() => saveSetting("testimonial", testimonial)}
+        isSaving={savingState["testimonial"]}
       >
-        <div className="space-y-4">
-          <TextareaGroup
-            label="Isi Kutipan / Quote"
-            id="testimonial_quote"
-            value={testimonial.quote}
-            onChange={(v: string) => setTestimonial({ ...testimonial, quote: v })}
-            rows={4}
+        <TextareaGroup
+          label="Kutipan / Quote"
+          id="testi_quote"
+          value={testimonial.quote}
+          onChange={(v: string) => setTestimonial({ ...testimonial, quote: v })}
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InputGroup
+            label="Nama Tokoh"
+            id="testi_nama"
+            value={testimonial.nama}
+            onChange={(v: string) => setTestimonial({ ...testimonial, nama: v })}
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputGroup
-              label="Nama Tokoh"
-              id="testimonial_nama"
-              value={testimonial.nama}
-              onChange={(v: string) => setTestimonial({ ...testimonial, nama: v })}
-            />
-            <InputGroup
-              label="Jabatan"
-              id="testimonial_jabatan"
-              value={testimonial.jabatan}
-              onChange={(v: string) => setTestimonial({ ...testimonial, jabatan: v })}
-            />
-          </div>
-          <ImageUploader
-            label="Foto Tokoh"
-            folder="testimonial"
-            url={testimonial.foto}
-            onUrlChange={(url) => setTestimonial({ ...testimonial, foto: url })}
+          <InputGroup
+            label="Jabatan / Peran"
+            id="testi_jabatan"
+            value={testimonial.jabatan}
+            onChange={(v: string) => setTestimonial({ ...testimonial, jabatan: v })}
           />
         </div>
+        <ImageUploader
+          label="Foto Tokoh"
+          folder="testimonial"
+          url={testimonial.foto}
+          onUrlChange={(url) => setTestimonial({ ...testimonial, foto: url })}
+          onUpload={uploadImage}
+          showToast={showToast}
+        />
       </AccordionSection>
 
-      {/* Section 4: Foto Tim */}
+      {/* Section 4: Dokumentasi Lapangan */}
       <AccordionSection
         id="foto_tim"
         title="Dokumentasi Lapangan"
         description="Foto-foto kegiatan tim atau mahasiswa di lapangan"
         icon={ImageIcon}
+        isOpen={openSection === "foto_tim"}
+        onToggle={() => toggleSection("foto_tim")}
         onSave={() => saveSetting("foto_tim", fotoTim)}
+        isSaving={savingState["foto_tim"]}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="p-4 border border-slate-800 bg-slate-950/50 rounded-xl space-y-4">
-            <h4 className="text-sm font-medium text-slate-300">Dokumentasi 1</h4>
-            <ImageUploader
-              label="Foto Kegiatan 1"
-              folder="kegiatan"
-              url={fotoTim.foto1_url}
-              onUrlChange={(url) => setFotoTim({ ...fotoTim, foto1_url: url })}
-            />
+        <div className="space-y-4 p-4 bg-slate-950 rounded-xl border border-slate-800">
+          <h4 className="font-medium text-white text-xs uppercase tracking-wider text-sky-400">Foto Lapangan 1</h4>
+          <ImageUploader
+            label="Upload Foto 1"
+            folder="tim"
+            url={fotoTim.foto1_url}
+            onUrlChange={(url) => setFotoTim({ ...fotoTim, foto1_url: url })}
+            onUpload={uploadImage}
+            showToast={showToast}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputGroup
-              label="Keterangan / Caption"
+              label="Caption Foto 1"
               id="foto1_caption"
               value={fotoTim.foto1_caption}
               onChange={(v: string) => setFotoTim({ ...fotoTim, foto1_caption: v })}
             />
             <InputGroup
-              label="Tag / Label"
+              label="Tag / Lokasi 1"
               id="foto1_tag"
               value={fotoTim.foto1_tag}
               onChange={(v: string) => setFotoTim({ ...fotoTim, foto1_tag: v })}
             />
           </div>
+        </div>
 
-          <div className="p-4 border border-slate-800 bg-slate-950/50 rounded-xl space-y-4">
-            <h4 className="text-sm font-medium text-slate-300">Dokumentasi 2</h4>
-            <ImageUploader
-              label="Foto Kegiatan 2"
-              folder="kegiatan"
-              url={fotoTim.foto2_url}
-              onUrlChange={(url) => setFotoTim({ ...fotoTim, foto2_url: url })}
-            />
+        <div className="space-y-4 p-4 bg-slate-950 rounded-xl border border-slate-800 mt-4">
+          <h4 className="font-medium text-white text-xs uppercase tracking-wider text-sky-400">Foto Lapangan 2</h4>
+          <ImageUploader
+            label="Upload Foto 2"
+            folder="tim"
+            url={fotoTim.foto2_url}
+            onUrlChange={(url) => setFotoTim({ ...fotoTim, foto2_url: url })}
+            onUpload={uploadImage}
+            showToast={showToast}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputGroup
-              label="Keterangan / Caption"
+              label="Caption Foto 2"
               id="foto2_caption"
               value={fotoTim.foto2_caption}
               onChange={(v: string) => setFotoTim({ ...fotoTim, foto2_caption: v })}
             />
             <InputGroup
-              label="Tag / Label"
+              label="Tag / Lokasi 2"
               id="foto2_tag"
               value={fotoTim.foto2_tag}
               onChange={(v: string) => setFotoTim({ ...fotoTim, foto2_tag: v })}
@@ -629,42 +667,45 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
         </div>
       </AccordionSection>
 
-      {/* Section 5: Social Media */}
+      {/* Section 5: Media Sosial */}
       <AccordionSection
         id="social_media"
-        title="Media Sosial & Eksternal"
+        title="Media Sosial &amp; Eksternal"
         description="Tautan menuju halaman profil media sosial dan toko online"
         icon={LinkIcon}
+        isOpen={openSection === "social_media"}
+        onToggle={() => toggleSection("social_media")}
         onSave={() => saveSetting("social_media", socialMedia)}
+        isSaving={savingState["social_media"]}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputGroup
-            label="Instagram URL"
-            id="soc_ig"
+            label="URL Instagram"
+            id="instagram"
             value={socialMedia.instagram}
             onChange={(v: string) => setSocialMedia({ ...socialMedia, instagram: v })}
           />
           <InputGroup
-            label="TikTok URL"
-            id="soc_tiktok"
+            label="URL TikTok"
+            id="tiktok"
             value={socialMedia.tiktok}
             onChange={(v: string) => setSocialMedia({ ...socialMedia, tiktok: v })}
           />
           <InputGroup
-            label="YouTube Channel URL"
-            id="soc_yt"
+            label="URL YouTube"
+            id="youtube"
             value={socialMedia.youtube}
             onChange={(v: string) => setSocialMedia({ ...socialMedia, youtube: v })}
           />
           <InputGroup
-            label="Shopee Store URL"
-            id="soc_shopee"
+            label="URL Shopee"
+            id="shopee"
             value={socialMedia.shopee}
             onChange={(v: string) => setSocialMedia({ ...socialMedia, shopee: v })}
           />
           <InputGroup
-            label="Tokopedia Store URL"
-            id="soc_tokopedia"
+            label="URL Tokopedia"
+            id="tokopedia"
             value={socialMedia.tokopedia}
             onChange={(v: string) => setSocialMedia({ ...socialMedia, tokopedia: v })}
           />
@@ -677,28 +718,32 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
         title="Anggota Tim Mahasiswa"
         description="Daftar pengurus atau mahasiswa yang tergabung dalam program"
         icon={Users}
+        isOpen={openSection === "anggota"}
+        onToggle={() => toggleSection("anggota")}
         onSave={() => saveSetting("anggota", anggota)}
+        isSaving={savingState["anggota"]}
       >
-        <div className="space-y-4">
+        <div className="space-y-6">
           {anggota.map((member, index) => (
-            <div key={member.id} className="relative p-4 md:p-5 border border-slate-800 bg-slate-950 rounded-xl">
-              <button
-                type="button"
-                onClick={() => {
-                  const newAnggota = [...anggota];
-                  newAnggota.splice(index, 1);
-                  setAnggota(newAnggota);
-                }}
-                className="absolute top-4 right-4 p-2 text-slate-500 hover:text-rose-400 bg-slate-900 hover:bg-rose-500/10 rounded-lg transition-colors"
-                title="Hapus Anggota"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-              
-              <div className="pr-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div key={member.id || index} className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <span className="font-semibold text-white text-xs uppercase tracking-wider text-sky-400">
+                  Anggota #{index + 1}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAnggota(anggota.filter((_, i) => i !== index))}
+                  className="p-1 text-slate-400 hover:text-rose-400 transition-colors"
+                  title="Hapus Anggota"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InputGroup
-                  label="Nama Anggota"
-                  id={`anggota_nama_${member.id}`}
+                  label="Nama Lengkap"
+                  id={`mem_nama_${index}`}
                   value={member.nama}
                   onChange={(v: string) => {
                     const newAnggota = [...anggota];
@@ -707,8 +752,8 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
                   }}
                 />
                 <InputGroup
-                  label="Program Studi"
-                  id={`anggota_prodi_${member.id}`}
+                  label="Program Studi / Fakultas"
+                  id={`mem_prodi_${index}`}
                   value={member.prodi}
                   onChange={(v: string) => {
                     const newAnggota = [...anggota];
@@ -717,8 +762,8 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
                   }}
                 />
                 <InputGroup
-                  label="Peran / Divisi"
-                  id={`anggota_peran_${member.id}`}
+                  label="Peran Dalam Tim"
+                  id={`mem_peran_${index}`}
                   value={member.peran}
                   onChange={(v: string) => {
                     const newAnggota = [...anggota];
@@ -736,6 +781,8 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
                       newAnggota[index].foto = url;
                       setAnggota(newAnggota);
                     }}
+                    onUpload={uploadImage}
+                    showToast={showToast}
                   />
                 </div>
               </div>
@@ -773,10 +820,13 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
       {/* Section 7: Challenge & Praktik Offline */}
       <AccordionSection
         id="challenge"
-        title="Challenge & Praktik Offline Pilar 3"
+        title="Challenge &amp; Praktik Offline Pilar 3"
         description="Atur judul, instruksi praktik langsung, info fasilitator, dan foto visualisasi referensi"
         icon={Target}
+        isOpen={openSection === "challenge"}
+        onToggle={() => toggleSection("challenge")}
         onSave={() => saveSetting("challenge", challenge)}
+        isSaving={savingState["challenge"]}
       >
         <div className="space-y-4">
           <InputGroup
@@ -822,12 +872,16 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
               folder="challenge"
               url={challenge.ref_brand_image}
               onUrlChange={(url) => setChallenge({ ...challenge, ref_brand_image: url })}
+              onUpload={uploadImage}
+              showToast={showToast}
             />
             <ImageUploader
               label="Foto Visualisasi Referensi Video Promosi"
               folder="challenge"
               url={challenge.ref_video_image}
               onUrlChange={(url) => setChallenge({ ...challenge, ref_video_image: url })}
+              onUpload={uploadImage}
+              showToast={showToast}
             />
           </div>
         </div>
@@ -836,10 +890,13 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
       {/* Section 8: Katalog & Produk UMKM */}
       <AccordionSection
         id="produk"
-        title="Katalog & Produk UMKM (Varian, Harga, & Foto)"
+        title="Katalog &amp; Produk UMKM (Varian, Harga, &amp; Foto)"
         description="Kelola daftar produk, varian ukuran, harga, foto, status halal, dan ketersediaan stok"
         icon={ShoppingBag}
+        isOpen={openSection === "produk"}
+        onToggle={() => toggleSection("produk")}
         onSave={() => saveSetting("produk", produkList)}
+        isSaving={savingState["produk"]}
       >
         <div className="space-y-6">
           {produkList.map((prod, index) => (
@@ -1010,6 +1067,8 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
                   updated[index].foto = [url, ...(updated[index].foto?.slice(1) || [])];
                   setProdukList(updated);
                 }}
+                onUpload={uploadImage}
+                showToast={showToast}
               />
             </div>
           ))}
