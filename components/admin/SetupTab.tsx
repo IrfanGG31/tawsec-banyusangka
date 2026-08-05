@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   XCircle,
   Save,
-  Info
+  Info,
+  Target
 } from "lucide-react";
 
 interface SetupTabProps {
@@ -88,6 +89,16 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
 
   const [anggota, setAnggota] = useState<Member[]>([]);
 
+  const [challenge, setChallenge] = useState({
+    judul_challenge: "Challenge Digitalisasi & Branding",
+    sub_judul: "Media Panduan Praktik Lapangan (Offline)",
+    deskripsi_challenge: "Tunjukkan kreativitas timmu dalam membangun brand dan membuat konten promosi produk olahan laut Desa Banyusangka secara langsung di lapangan!",
+    info_praktik: "Praktik langsung (offline) dilaksanakan di Balai Desa Banyusangka didampingi oleh Fasilitator TAWSEC. Setiap tim mengolah 1 produk studi kasus.",
+    kontak_fasilitator: "6285852278026",
+    ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
+    ref_video_image: "/images/challenge/video-promosi-ref.jpg",
+  });
+
   const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
@@ -130,6 +141,9 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
               if (Array.isArray(row.value)) {
                 setAnggota(row.value);
               }
+              break;
+            case "challenge":
+              setChallenge((prev) => ({ ...prev, ...row.value }));
               break;
           }
         });
@@ -742,6 +756,69 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
             <Plus className="w-4 h-4" />
             Tambah Anggota
           </button>
+        </div>
+      </AccordionSection>
+
+      {/* Section 7: Challenge & Praktik Offline */}
+      <AccordionSection
+        id="challenge"
+        title="Challenge & Praktik Offline Pilar 3"
+        description="Atur judul, instruksi praktik langsung, info fasilitator, dan foto visualisasi referensi"
+        icon={Target}
+        onSave={() => saveSetting("challenge", challenge)}
+      >
+        <div className="space-y-4">
+          <InputGroup
+            id="ch_judul"
+            label="Judul Challenge"
+            value={challenge.judul_challenge}
+            onChange={(v: string) => setChallenge({ ...challenge, judul_challenge: v })}
+            placeholder="Challenge Digitalisasi & Branding"
+          />
+          <InputGroup
+            id="ch_sub"
+            label="Sub-judul Badge"
+            value={challenge.sub_judul}
+            onChange={(v: string) => setChallenge({ ...challenge, sub_judul: v })}
+            placeholder="Media Panduan Praktik Lapangan (Offline)"
+          />
+          <TextareaGroup
+            id="ch_desc"
+            label="Deskripsi Ringkas Challenge"
+            value={challenge.deskripsi_challenge}
+            onChange={(v: string) => setChallenge({ ...challenge, deskripsi_challenge: v })}
+            placeholder="Tunjukkan kreativitas timmu dalam membangun brand..."
+            rows={2}
+          />
+          <TextareaGroup
+            id="ch_info"
+            label="Pengumuman / Info Praktik Offline"
+            value={challenge.info_praktik}
+            onChange={(v: string) => setChallenge({ ...challenge, info_praktik: v })}
+            placeholder="Praktik langsung dilaksanakan di Balai Desa Banyusangka..."
+            rows={3}
+          />
+          <InputGroup
+            id="ch_wa"
+            label="Nomor WA Fasilitator (Format 628xxx)"
+            value={challenge.kontak_fasilitator}
+            onChange={(v: string) => setChallenge({ ...challenge, kontak_fasilitator: v })}
+            placeholder="6285852278026"
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ImageUploader
+              label="Foto Visualisasi Referensi Brand Make Over"
+              folder="challenge"
+              url={challenge.ref_brand_image}
+              onUrlChange={(url) => setChallenge({ ...challenge, ref_brand_image: url })}
+            />
+            <ImageUploader
+              label="Foto Visualisasi Referensi Video Promosi"
+              folder="challenge"
+              url={challenge.ref_video_image}
+              onUrlChange={(url) => setChallenge({ ...challenge, ref_video_image: url })}
+            />
+          </div>
         </div>
       </AccordionSection>
     </div>

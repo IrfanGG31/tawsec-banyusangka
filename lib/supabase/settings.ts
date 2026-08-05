@@ -52,6 +52,16 @@ export interface AnggotaMember {
   foto: string;
 }
 
+export interface ChallengeSettings {
+  judul_challenge: string;
+  sub_judul: string;
+  deskripsi_challenge: string;
+  info_praktik: string;
+  kontak_fasilitator: string;
+  ref_brand_image: string;
+  ref_video_image: string;
+}
+
 export interface AllSettings {
   identitas: IdentitasSettings;
   hero: HeroSettings;
@@ -59,6 +69,7 @@ export interface AllSettings {
   foto_tim: FotoTimSettings;
   social_media: SocialMediaSettings;
   anggota: AnggotaMember[];
+  challenge: ChallengeSettings;
 }
 
 export const defaultSettings: AllSettings = {
@@ -104,6 +115,15 @@ export const defaultSettings: AllSettings = {
     tokopedia: "",
   },
   anggota: anggotaDefault as AnggotaMember[],
+  challenge: {
+    judul_challenge: "Challenge Digitalisasi & Branding",
+    sub_judul: "Media Panduan Praktik Lapangan (Offline)",
+    deskripsi_challenge: "Tunjukkan kreativitas timmu dalam membangun brand dan membuat konten promosi produk olahan laut Desa Banyusangka secara langsung di lapangan!",
+    info_praktik: "Praktik langsung (offline) dilaksanakan di Balai Desa Banyusangka didampingi oleh Fasilitator TAWSEC. Setiap tim mengolah 1 produk studi kasus.",
+    kontak_fasilitator: "6285852278026",
+    ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
+    ref_video_image: "/images/challenge/video-promosi-ref.jpg",
+  },
 };
 
 export async function getSiteSettings(): Promise<AllSettings> {
@@ -123,6 +143,7 @@ export async function getSiteSettings(): Promise<AllSettings> {
       if (row.key === "foto_tim") settings.foto_tim = { ...defaultSettings.foto_tim, ...(row.value as Partial<FotoTimSettings>) };
       if (row.key === "social_media") settings.social_media = { ...defaultSettings.social_media, ...(row.value as Partial<SocialMediaSettings>) };
       if (row.key === "anggota" && Array.isArray(row.value) && row.value.length > 0) settings.anggota = row.value as AnggotaMember[];
+      if (row.key === "challenge") settings.challenge = { ...defaultSettings.challenge, ...(row.value as Partial<ChallengeSettings>) };
     });
 
     return settings;
