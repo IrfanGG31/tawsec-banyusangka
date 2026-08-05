@@ -1,5 +1,6 @@
 import { createServerSupabaseClient } from "./server";
 import anggotaDefault from "@/data/anggota.json";
+import produkDefault from "@/data/produk.json";
 
 export interface IdentitasSettings {
   nama_program: string;
@@ -62,6 +63,29 @@ export interface ChallengeSettings {
   ref_video_image: string;
 }
 
+export interface VarianItem {
+  ukuran: string;
+  harga: number;
+}
+
+export interface ProdukItem {
+  id: string;
+  nama: string;
+  kategori: string;
+  tagline: string;
+  deskripsi: string;
+  varian: VarianItem[];
+  komposisi: string[];
+  cara_penyimpanan: string;
+  produsen: string;
+  status_halal: string;
+  berat_bersih: string;
+  foto: string[];
+  kontak_wa: string;
+  pesan_wa: string;
+  tersedia: boolean;
+}
+
 export interface AllSettings {
   identitas: IdentitasSettings;
   hero: HeroSettings;
@@ -70,6 +94,7 @@ export interface AllSettings {
   social_media: SocialMediaSettings;
   anggota: AnggotaMember[];
   challenge: ChallengeSettings;
+  produk: ProdukItem[];
 }
 
 export const defaultSettings: AllSettings = {
@@ -124,6 +149,7 @@ export const defaultSettings: AllSettings = {
     ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
     ref_video_image: "/images/challenge/video-promosi-ref.jpg",
   },
+  produk: produkDefault as ProdukItem[],
 };
 
 export async function getSiteSettings(): Promise<AllSettings> {
@@ -144,6 +170,7 @@ export async function getSiteSettings(): Promise<AllSettings> {
       if (row.key === "social_media") settings.social_media = { ...defaultSettings.social_media, ...(row.value as Partial<SocialMediaSettings>) };
       if (row.key === "anggota" && Array.isArray(row.value) && row.value.length > 0) settings.anggota = row.value as AnggotaMember[];
       if (row.key === "challenge") settings.challenge = { ...defaultSettings.challenge, ...(row.value as Partial<ChallengeSettings>) };
+      if (row.key === "produk" && Array.isArray(row.value) && row.value.length > 0) settings.produk = row.value as ProdukItem[];
     });
 
     return settings;

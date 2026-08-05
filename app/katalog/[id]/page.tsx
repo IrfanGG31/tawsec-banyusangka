@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import produkData from "@/data/produk.json";
+import { getSiteSettings } from "@/lib/supabase/settings";
 import { formatRupiah, buildWaLink } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/Animations";
 import {
@@ -16,12 +17,16 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return produkData.map((p) => ({ id: p.id }));
+  const settings = await getSiteSettings();
+  const list = settings.produk || produkData;
+  return list.map((p) => ({ id: p.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const produk = produkData.find((p) => p.id === id);
+  const settings = await getSiteSettings();
+  const list = settings.produk || produkData;
+  const produk = list.find((p) => p.id === id);
   if (!produk) return { title: "Produk Tidak Ditemukan" };
   return {
     title: produk.nama,
@@ -36,13 +41,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProdukDetailPage({ params }: Props) {
   const { id } = await params;
-  const produk = produkData.find((p) => p.id === id);
+  const settings = await getSiteSettings();
+  const list = settings.produk || produkData;
+  const produk = list.find((p) => p.id === id);
   if (!produk) notFound();
 
   const waLink = buildWaLink(produk.kontak_wa, produk.pesan_wa);
   const hargaMin = Math.min(...produk.varian.map((v) => v.harga));
   const hargaMax = Math.max(...produk.varian.map((v) => v.harga));
-  const otherProducts = produkData.filter((p) => p.id !== produk.id);
+  const otherProducts = list.filter((p) => p.id !== produk.id);
 
   return (
     <div className="pt-16 min-h-screen bg-gray-50">

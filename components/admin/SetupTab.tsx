@@ -16,8 +16,12 @@ import {
   XCircle,
   Save,
   Info,
-  Target
+  Target,
+  ShoppingBag,
+  Package
 } from "lucide-react";
+import produkDefault from "@/data/produk.json";
+import type { ProdukItem } from "@/lib/supabase/settings";
 
 interface SetupTabProps {
   dbConnected: boolean;
@@ -99,6 +103,8 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
     ref_video_image: "/images/challenge/video-promosi-ref.jpg",
   });
 
+  const [produkList, setProdukList] = useState<ProdukItem[]>(produkDefault as ProdukItem[]);
+
   const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
@@ -144,6 +150,11 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
               break;
             case "challenge":
               setChallenge((prev) => ({ ...prev, ...row.value }));
+              break;
+            case "produk":
+              if (Array.isArray(row.value) && row.value.length > 0) {
+                setProdukList(row.value);
+              }
               break;
           }
         });
@@ -819,6 +830,223 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
               onUrlChange={(url) => setChallenge({ ...challenge, ref_video_image: url })}
             />
           </div>
+        </div>
+      </AccordionSection>
+
+      {/* Section 8: Katalog & Produk UMKM */}
+      <AccordionSection
+        id="produk"
+        title="Katalog & Produk UMKM (Varian, Harga, & Foto)"
+        description="Kelola daftar produk, varian ukuran, harga, foto, status halal, dan ketersediaan stok"
+        icon={ShoppingBag}
+        onSave={() => saveSetting("produk", produkList)}
+      >
+        <div className="space-y-6">
+          {produkList.map((prod, index) => (
+            <div
+              key={prod.id || index}
+              className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 relative"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <Package className="w-5 h-5 text-sky-400" />
+                  <span className="font-bold text-white text-sm">
+                    {prod.nama || `Produk #${index + 1}`}
+                  </span>
+                  <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">
+                    ID: {prod.id}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = [...produkList];
+                      updated[index].tersedia = !updated[index].tersedia;
+                      setProdukList(updated);
+                    }}
+                    className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors ${
+                      prod.tersedia !== false
+                        ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
+                        : "bg-rose-500/20 text-rose-400 border border-rose-500/40"
+                    }`}
+                  >
+                    {prod.tersedia !== false ? "✓ Tersedia" : "✕ Stok Habis"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (confirm(`Yakin ingin menghapus produk "${prod.nama}"?`)) {
+                        setProdukList(produkList.filter((_, i) => i !== index));
+                      }
+                    }}
+                    className="p-1.5 text-slate-400 hover:text-rose-400 transition-colors"
+                    title="Hapus Produk"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputGroup
+                  id={`prod_nama_${index}`}
+                  label="Nama Produk"
+                  value={prod.nama}
+                  onChange={(v: string) => {
+                    const updated = [...produkList];
+                    updated[index].nama = v;
+                    setProdukList(updated);
+                  }}
+                  placeholder="Nama Produk"
+                />
+                <InputGroup
+                  id={`prod_kat_${index}`}
+                  label="Kategori (misal: Abon, Kerupuk, Tepung)"
+                  value={prod.kategori}
+                  onChange={(v: string) => {
+                    const updated = [...produkList];
+                    updated[index].kategori = v;
+                    setProdukList(updated);
+                  }}
+                  placeholder="Kategori Produk"
+                />
+              </div>
+
+              <InputGroup
+                id={`prod_tagline_${index}`}
+                label="Tagline Singkat"
+                value={prod.tagline}
+                onChange={(v: string) => {
+                  const updated = [...produkList];
+                  updated[index].tagline = v;
+                  setProdukList(updated);
+                }}
+                placeholder="Gurih, renyah, khas nelayan..."
+              />
+
+              <TextareaGroup
+                id={`prod_desc_${index}`}
+                label="Deskripsi Lengkap Produk"
+                value={prod.deskripsi}
+                onChange={(v: string) => {
+                  const updated = [...produkList];
+                  updated[index].deskripsi = v;
+                  setProdukList(updated);
+                }}
+                placeholder="Deskripsi bahan dan keunggulan..."
+                rows={3}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputGroup
+                  id={`prod_halal_${index}`}
+                  label="Status Halal"
+                  value={prod.status_halal || "Dalam proses sertifikasi"}
+                  onChange={(v: string) => {
+                    const updated = [...produkList];
+                    updated[index].status_halal = v;
+                    setProdukList(updated);
+                  }}
+                  placeholder="Halal / Dalam proses sertifikasi"
+                />
+                <InputGroup
+                  id={`prod_wa_${index}`}
+                  label="Nomor WA Pesanan (Format 628xxx)"
+                  value={prod.kontak_wa || "6285852278026"}
+                  onChange={(v: string) => {
+                    const updated = [...produkList];
+                    updated[index].kontak_wa = v;
+                    setProdukList(updated);
+                  }}
+                  placeholder="6285852278026"
+                />
+              </div>
+
+              {/* Varian & Harga */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+                <label className="block text-xs font-semibold text-sky-400 uppercase tracking-wider mb-3">
+                  Varian Ukuran &amp; Harga (Rp)
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {(prod.varian || []).map((varItem, vIdx) => (
+                    <div key={vIdx} className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                      <InputGroup
+                        id={`var_uk_${index}_${vIdx}`}
+                        label={`Varian ${vIdx + 1} Ukuran`}
+                        value={varItem.ukuran}
+                        onChange={(v: string) => {
+                          const updated = [...produkList];
+                          updated[index].varian[vIdx].ukuran = v;
+                          setProdukList(updated);
+                        }}
+                        placeholder="100g / 250g"
+                      />
+                      <InputGroup
+                        id={`var_hg_${index}_${vIdx}`}
+                        label="Harga (Rp)"
+                        type="number"
+                        value={varItem.harga}
+                        onChange={(v: string) => {
+                          const updated = [...produkList];
+                          updated[index].varian[vIdx].harga = parseInt(v) || 0;
+                          setProdukList(updated);
+                        }}
+                        placeholder="25000"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Image Uploader for Product Photo */}
+              <ImageUploader
+                label="Foto Produk Utama"
+                folder="produk"
+                url={prod.foto?.[0] || ""}
+                onUrlChange={(url) => {
+                  const updated = [...produkList];
+                  updated[index].foto = [url, ...(updated[index].foto?.slice(1) || [])];
+                  setProdukList(updated);
+                }}
+              />
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => {
+              const newId = `produk-${Date.now().toString(36)}`;
+              setProdukList([
+                ...produkList,
+                {
+                  id: newId,
+                  nama: "Produk Baru UMKM",
+                  kategori: "Olahan Laut",
+                  tagline: "Produk olahan laut khas nelayan Banyusangka",
+                  deskripsi: "Deskripsi lengkap produk olahan laut khas Desa Banyusangka.",
+                  varian: [
+                    { ukuran: "100g", harga: 25000 },
+                    { ukuran: "250g", harga: 55000 }
+                  ],
+                  komposisi: ["Ikan Segar", "Bumbu Tradisional"],
+                  cara_penyimpanan: "Simpan di tempat kering.",
+                  produsen: "KUB Perempuan Banyusangka",
+                  status_halal: "Dalam proses sertifikasi",
+                  berat_bersih: "Sesuai varian",
+                  foto: ["/images/produk/abon-ikan-1.png"],
+                  kontak_wa: "6285852278026",
+                  pesan_wa: "Halo, saya ingin memesan produk dari TAWSEC Banyusangka.",
+                  tersedia: true
+                }
+              ]);
+            }}
+            className="w-full flex items-center justify-center gap-2 py-3 border border-slate-700 border-dashed rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:border-slate-500 hover:bg-slate-800/50 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Tambah Produk Baru
+          </button>
         </div>
       </AccordionSection>
     </div>

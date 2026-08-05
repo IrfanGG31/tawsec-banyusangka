@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Animations";
 import ProductCard from "@/components/katalog/ProductCard";
-import produkData from "@/data/produk.json";
+import { getSiteSettings } from "@/lib/supabase/settings";
 import { ShoppingBag, FileDown, Heart, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { config } from "@/lib/config";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Katalog Produk UMKM Olahan Laut Banyusangka",
@@ -12,7 +14,10 @@ export const metadata: Metadata = {
     "Katalog produk olahan laut UMKM Banyusangka: Abon Ikan Tongkol, Kerupuk Kulit Ikan, dan Tepung Tulang Ikan. Pesan eceran & grosir B2B.",
 };
 
-export default function KatalogPage() {
+export default async function KatalogPage() {
+  const settings = await getSiteSettings();
+  const produkList = settings.produk || [];
+
   const waB2B = `https://wa.me/${config.WA_NUMBER}?text=${encodeURIComponent(
     "Halo Tim TAWSEC Banyusangka, saya berminat untuk kemitraan grosir/B2B ritel produk olahan laut."
   )}`;
@@ -62,7 +67,7 @@ export default function KatalogPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-gray-100">
             <div>
               <h2 className="font-serif font-bold text-navy-950 text-2xl">
-                Semua Produk ({produkData.length} Varian Utama)
+                Semua Produk ({produkList.length} Varian Utama)
               </h2>
               <p className="text-navy-600 text-xs sm:text-sm mt-0.5 flex items-center gap-1.5 font-medium">
                 <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
@@ -79,7 +84,7 @@ export default function KatalogPage() {
 
         {/* Product Grid */}
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {produkData.map((produk) => (
+          {produkList.map((produk) => (
             <StaggerItem key={produk.id}>
               <ProductCard produk={produk} />
             </StaggerItem>
