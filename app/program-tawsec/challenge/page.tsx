@@ -30,10 +30,11 @@ import {
   PenTool,
   Eye,
   MapPin,
-  HelpCircle,
   ImageIcon,
   Bot,
-  Terminal
+  Copy,
+  Layers,
+  ArrowUpRight
 } from 'lucide-react';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 import { getSiteSettings } from '@/lib/supabase/settings';
@@ -45,42 +46,45 @@ export const metadata: Metadata = {
 
 const brandSteps = [
   {
-    num: 1,
+    num: "01",
     icon: Tag,
     title: "Tentukan Nama Merek (Brand Name)",
+    subtitle: "Inovasi Identitas Produk Olahan Laut",
     desc: "Buat konsep ide nama brand khas olahan laut milik kelompokmu, lalu gunakan Google Gemini AI untuk memberikan ide variasi nama yang unik dan berkesan modern.",
     tips: [
       "Coba kombinasi kata: daerah/bahasa Madura + nama produk (misal: \"BanyuBon\", \"SangkaRasa\")",
       "Pastikan nama mudah diucapkan, dieja, dan tidak berkonotasi negatif",
       "Cek di Google apakah nama tersebut sudah digunakan oleh brand lain",
     ],
-    example: "Contoh nama merek: \"Sari Laut Nusantara\", \"Crispy Pesisir\", \"TulangMas\"",
-    refLabel: "Panduan Membuat Nama Brand",
+    example: "\"Sari Laut Nusantara\" • \"Crispy Pesisir\" • \"TulangMas\"",
+    refLabel: "Panduan Memilih Nama Merek (Canva)",
     refUrl: "https://www.canva.com/id_id/belajar/cara-membuat-nama-brand/",
     promptRumus: "[Jenis Produk Olahan] + [Bahan Dasar/Keunggulan] + [Nuansa Kesan: Lokal / Modern / Gurih / Mewah]",
     promptExample: "Berikan 5 ide nama brand yang unik dan berkesan modern untuk produk [Abon Ikan Tongkol / Kerupuk Kulit Ikan] khas Desa Banyusangka. Nama harus singkat, mudah diingat, bernuansa [lokal & profesional], dan belum pernah dipakai.",
   },
   {
-    num: 2,
+    num: "02",
     icon: MessageSquare,
     title: "Buat Slogan / Tagline yang Menarik",
+    subtitle: "Pesan Utama yang Menggugah Pembeli",
     desc: "Susun pesan utama produkmu, lalu gunakan Google Gemini AI untuk memformulasikan slogan pendek yang berkesan dan persuasif.",
     tips: [
       "Maksimal 5-8 kata, gampang diingat dalam sekali dengar",
       "Tonjolkan manfaat utama: \"Dari Laut Banyusangka, Untuk Keluarga Indonesia\"",
       "Gunakan teknik rima atau pengulangan bunyi yang menyenangkan",
     ],
-    example: "\"Renyah Alami dari Pesisir\" — \"Gurih Tanpa Pengawet\" — \"Olahan Laut, Rasa Rumahan\"",
-    refLabel: "Tips Menulis Tagline yang Menarik",
+    example: "\"Renyah Alami dari Pesisir\" • \"Gurih Tanpa Pengawet\" • \"Olahan Laut, Rasa Rumahan\"",
+    refLabel: "Tips Menulis Tagline Persuasif",
     refUrl: "https://www.canva.com/id_id/belajar/tagline-adalah/",
     promptRumus: "[Nama Brand] + [Produk] + [Keunggulan Utama: Tanpa Pengawet / Kalsium Tinggi / Gurih Alami] + [Kesan untuk Pembeli]",
     promptExample: "Buatkan 5 pilihan slogan/tagline pendek dan catchy (maksimal 6 kata) untuk brand '[Nama Brand]' yang menjual [Kerupuk Kulit Ikan Crispy]. Keunggulan utama produk kami: [renyah alami, tanpa pengawet, hasil nelayan Banyusangka].",
   },
   {
-    num: 3,
+    num: "03",
     icon: Sparkles,
     title: "Desain Logo Menggunakan Google Gemini AI",
-    desc: "Tentukan konsep visual (elemen laut, warna, dan gaya), lalu minta Google Gemini AI (gemini.google.com) membuatkan draf gambar logo.",
+    subtitle: "Visualisasi Draf Logo & Ikonik Merek",
+    desc: "Tentukan konsep visual (elemen laut, warna, dan gaya), lalu minta Google Gemini AI (gemini.google.com) membuatkan draf gambar logo visual.",
     tips: [
       "Buka gemini.google.com, gunakan prompt deskriptif warna dan ikon secara mendetail",
       "Sebutkan gaya desain: minimalis, vektor modern, atau ilustrasi mascot",
@@ -93,49 +97,52 @@ const brandSteps = [
     promptExample: "Buatkan gambar logo minimalis dan modern untuk brand olahan laut bernama '[Nama Brand]'. Gunakan ikon [ikan tongkol / gelombang laut / kemasan], warna utama [biru navy dan oranye emas], latar belakang putih bersih, gaya vektor profesional tanpa teks yang terlalu rumit.",
   },
   {
-    num: 4,
+    num: "04",
     icon: Camera,
-    title: "Foto Produk & Ide Visual (Teknik, Pencahayaan, Komposisi)",
+    title: "Foto Produk & Styling Visual HP",
+    subtitle: "Pengambilan Gambar Menggiurkan & Propesional",
     desc: "Gunakan HP untuk memfoto kemasan produk. Gunakan Google Gemini AI untuk mendapatkan ide penataan alas (styling), properti, dan sudut foto terbaik.",
     tips: [
       "Gunakan cahaya alami matahari (dekat jendela, jam 8-10 pagi)",
       "Latar belakang putih polos, alas kayu, atau kain berserat bersih",
       "Ambil minimal 3 angle: 90° Flat Lay (atas), 45° Eye Level (depan), & Close-up tekstur produk",
     ],
-    example: "Ambil minimal 3 angle: tampak atas (flat lay), tampak depan, dan detail isi produk",
-    refLabel: "Tutorial Foto Produk di HP",
+    example: "3 Angle Wajib: Tampak Atas (Flat lay), Tampak Depan, & Detail Tekstur Produk",
+    refLabel: "Tutorial Foto Produk Makanan di HP (YouTube)",
     refUrl: "https://www.youtube.com/results?search_query=tutorial+foto+produk+makanan+hp",
     promptRumus: "[Jenis Produk] + [Kemasan: Pouch/Toples] + [Properti Latar] + [Lighting Alami] + [Rekomendasi 3 Angle Kamera HP]",
     promptExample: "Berikan ide konsep food styling dan susunan foto produk jualan untuk [Abon Ikan / Kerupuk Ikan] dalam [pouch transparan]. Jelaskan latar belakang yang cocok, properti pendukung (seperti daun salam, piring kayu, potongan cabai), serta 3 sudut pengambilan foto HP yang paling terlihat lezat.",
   },
   {
-    num: 5,
+    num: "05",
     icon: FileText,
     title: "Susun Caption Medsos Penjualan",
+    subtitle: "Naskah Promosi Penjualan Membakar Minat Beli",
     desc: "Gabungkan keunggulan produk dan kontak pemesanan, lalu minta Google Gemini AI merangkai caption promosi yang membakar minat beli.",
     tips: [
-      "Baris 1 (Hook): Kalimat pembuka yang memancing rasa ingin tahu",
-      "Baris 2-3 (Value): Keunggulan nutrisi & kelezatan produk",
-      "Baris Akhir (CTA): Ajakan pemesanan langsung via WhatsApp / marketplace",
+      "Baris 1 (Hook): Kalimat pembuka yang memancing rasa ingin tahu atau selera",
+      "Baris 2-3 (Value): Keunggulan nutrisi & kelezatan khas Banyusangka",
+      "Baris Akhir (CTA): Ajakan pemesanan langsung via WhatsApp / Marketplace",
     ],
-    example: "\"Gurih, renyah, bikin nagih! Kerupuk kulit ikan asli Banyusangka — tanpa MSG, langsung dari nelayan. Pesan sekarang! WA 08xx\"",
-    refLabel: "Contoh Caption Produk Makanan",
+    example: "\"Gurih, renyah, bikin nagih! Kerupuk kulit ikan asli Banyusangka — tanpa MSG. Pesan WA 08xx\"",
+    refLabel: "Contoh Caption Penjualan Makanan (Canva)",
     refUrl: "https://www.canva.com/id_id/belajar/caption-jualan-makanan/",
     promptRumus: "[Hook Penasaran] + [Keunggulan Produk] + [Harga/Promo] + [Call to Action WA + 5 Hashtag Relevan]",
     promptExample: "Buatkan caption Instagram dan TikTok yang menjual untuk produk [Kerupuk Kulit Ikan / Abon Ikan]. Mulai dengan kalimat pembuka (hook) yang memancing rasa lapar, sebutkan keunggulan [tanpa pengawet & kaya kalsium], lalu beri ajakan beli via WhatsApp [Nomor WA]. Tambahkan 5 hashtag jualan populer.",
   },
   {
-    num: 6,
+    num: "06",
     icon: Share2,
     title: "Posting & Presentasi Hasil Karya",
+    subtitle: "Uji Publikasi & Umpan Balik Tim",
     desc: "Unggah karya kelompok ke media sosial (IG/TikTok) dan presentasikan konsep branding yang telah dibuat kepada peserta pelatihan & panitia.",
     tips: [
       "Unggah postingan dengan hashtag resmi #TAWSECBanyusangka #DigitalisasiPesisir",
       "Siapkan presentasi singkat (2-3 menit) tentang perjalanan konsep brand kelompokmu",
       "Tunjukkan: Nama Brand, Slogan, Gambar Logo AI, Foto Produk HP, dan Caption Jualan",
     ],
-    example: "Urutan Presentasi: Nama Brand → Slogan → Logo AI → Foto Produk → Caption Jualan",
-    refLabel: "Tips Presentasi Singkat",
+    example: "Alur Presentasi: Nama Brand → Slogan → Logo AI → Foto Produk → Caption WA",
+    refLabel: "Tips Presentasi Singkat Produk UMKM",
     refUrl: "https://www.youtube.com/results?search_query=tips+presentasi+singkat+produk+umkm",
     promptRumus: "[Nama Brand] + [Konsep Branding] + [Target Pembeli] + [Minta Feedback Perbaikan dari Gemini AI]",
     promptExample: "Saya telah membuat konsep brand '[Nama Brand]' untuk [Abon Ikan Tongkol] dengan slogan '[Slogan]'. Target pembeli kami adalah [ibu rumah tangga & anak muda]. Berikan masukan perbaikan singkat untuk strategi pemasaran online kami.",
@@ -143,25 +150,25 @@ const brandSteps = [
 ];
 
 const videoAnalysis = [
-  { num: 1, question: "Siapa target pembeli produk ini?", hint: "Ibu rumah tangga? Anak muda? Wisatawan?" },
-  { num: 2, question: "Apa keunggulan dibanding produk lain?", hint: "Bahan alami, tanpa pengawet, rasa unik?" },
-  { num: 3, question: "Apa pesan utama yang ingin disampaikan?", hint: "Kualitas, keaslian, harga terjangkau?" },
-  { num: 4, question: "Platform yang dituju?", hint: "IG Reels, TikTok, WA Status, YouTube Shorts?" },
+  { num: "01", question: "Siapa Target Pembeli Produk Ini?", hint: "Ibu rumah tangga? Anak muda? Wisatawan toko oleh-oleh?" },
+  { num: "02", question: "Apa Keunggulan Utama Dibanding Produk Lain?", hint: "100% bahan alami, tanpa pengawet buatan, gurih khas Madura?" },
+  { num: "03", question: "Apa Pesan Utama yang Ingin Disampaikan?", hint: "Kualitas higienis, nutrisi tinggi kalsium, harga terjangkau?" },
+  { num: "04", question: "Platform Media Sosial Mana yang Dituju?", hint: "Instagram Reels, TikTok, WhatsApp Status, YouTube Shorts?" },
 ];
 
 const videoSteps = [
-  { icon: BookOpen, title: "Isi Lembar Analisis Produk", desc: "Jawab 4 pertanyaan analisis untuk menentukan arah konten video" },
-  { icon: PenTool, title: "Susun Script / Storyboard Sederhana", desc: "Tulis narasi singkat & urutan adegan (opening → isi → CTA)" },
-  { icon: Play, title: "Rekam Video 15-30 Detik", desc: "Gunakan HP dengan kamera terbaik, pastikan pencahayaan cukup" },
-  { icon: Megaphone, title: "Posting & Presentasi", desc: "Upload ke platform pilihan dan presentasikan strategi konten" },
+  { num: "01", icon: BookOpen, title: "Isi Lembar Analisis Produk", desc: "Jawab 4 pertanyaan analisis dasar untuk menentukan arah pesan & karakter video" },
+  { num: "02", icon: PenTool, title: "Susun Script & Storyboard", desc: "Tulis alur naskah singkat (3 dtk Opening → 7 dtk Solusi/Keunggulan → 5 dtk Call to Action Beli)" },
+  { num: "03", icon: Play, title: "Rekam Video Vertikal (9:16)", desc: "Ambil gambar dengan HP (15-30 detik), pastikan pencahayaan terang & suara jelas" },
+  { num: "04", icon: Megaphone, title: "Edit & Posting Medsos", desc: "Edit di CapCut/Canva, tambahkan teks pendukung, dan unggah ke media sosial" },
 ];
 
 const winners = [
-  { icon: Eye, title: "Visual Konten Terbaik", desc: "Desain branding & foto produk paling menarik secara visual", color: "sky" },
-  { icon: Banknote, title: "Ajakan Membeli Paling Meyakinkan", desc: "CTA dan caption paling efektif mengajak pembelian", color: "amber" },
-  { icon: Flame, title: "Potensi Viral Terbaik", desc: "Konten yang paling berpotensi menyebar luas di medsos", color: "rose" },
-  { icon: Users, title: "Kolaborasi Tim Terbaik", desc: "Tim yang paling kompak dan saling melengkapi", color: "emerald" },
-  { icon: Star, title: "Konten Promosi Terbaik", desc: "Kombinasi terbaik dari semua aspek challenge", color: "violet" },
+  { icon: Eye, title: "Visual Konten Terbaik", desc: "Desain branding & estetika foto produk paling menawan", color: "sky" },
+  { icon: Banknote, title: "Ajakan Beli Paling Persuasif", desc: "Formulasi CTA & caption paling membakar minat pembeli", color: "amber" },
+  { icon: Flame, title: "Potensi Viral Terbaik", desc: "Konten video yang paling menarik & berpotensi fyp", color: "rose" },
+  { icon: Users, title: "Kolaborasi Tim Terbaik", desc: "Kekompakan tim paling solid dari awal hingga presentasi", color: "emerald" },
+  { icon: Star, title: "Konten Promosi Terbaik", desc: "Kombinasi nilai tertinggi dari seluruh aspek challenge", color: "violet" },
 ];
 
 const colorMap: Record<string, { bg: string; iconBg: string; text: string; border: string }> = {
@@ -187,61 +194,61 @@ export default async function ChallengePage() {
   const waFasilitatorLink = `https://wa.me/${challenge.kontak_fasilitator || "6285852278026"}?text=Halo%20Fasilitator%20TAWSEC,%20saya%20ingin%20bertanya%20mengenai%20instruksi%20Challenge%20Digitalisasi%20%26%20Branding.`;
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-slate-50 pb-24">
 
-      {/* ================ HERO BANNER (ATTRACTIVE & DYNAMIC) ================ */}
-      <section className="relative pt-24 pb-24 sm:pt-28 sm:pb-28 overflow-hidden text-white">
-        {/* Background Image */}
+      {/* ================ HERO BANNER (ATTRACTIVE & PROMINENT TYPOGRAPHY) ================ */}
+      <section className="relative pt-24 pb-24 sm:pt-32 sm:pb-32 overflow-hidden text-white">
+        {/* Background Image with Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/galeri/pelatihan-1.png"
             alt="Pelatihan Pemberdayaan TAWSEC Banyusangka"
             fill
-            className="object-cover object-center brightness-[0.3] scale-105"
+            className="object-cover object-center brightness-[0.25] scale-105"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-indigo-950/85 to-navy-950/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-indigo-950/90 to-navy-950/80" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent" />
         </div>
 
-        {/* Decorative Glow */}
-        <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-sky-500/15 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-10 w-60 h-60 rounded-full bg-amber-500/15 blur-3xl pointer-events-none" />
+        {/* Dynamic Glow Accents */}
+        <div className="absolute top-10 right-10 w-96 h-96 rounded-full bg-sky-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
           <FadeIn>
-            {/* Breadcrumb */}
-            <div className="flex flex-wrap items-center text-sm font-medium text-slate-400 mb-8 gap-1.5">
+            {/* Breadcrumb Navigation */}
+            <div className="flex flex-wrap items-center text-sm font-medium text-slate-400 mb-8 gap-2">
               <Link href="/program-tawsec" className="hover:text-white transition-colors">Program TAWSEC</Link>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+              <ChevronRight className="w-4 h-4 text-slate-600" />
               <span>Pilar 3</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-              <span className="text-white font-semibold">Challenge</span>
+              <ChevronRight className="w-4 h-4 text-slate-600" />
+              <span className="text-amber-400 font-semibold">Challenge Branding &amp; AI</span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              {/* Left Content (8 cols) */}
-              <div className="lg:col-span-7">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 px-4 py-1.5 rounded-full mb-6">
+              {/* Left Column (Main Title & Sub-heading) */}
+              <div className="lg:col-span-7 space-y-6">
+                <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 backdrop-blur-md px-4 py-1.5 rounded-full">
                   <Zap className="w-4 h-4 text-amber-400" />
-                  <span className="text-amber-300 text-xs font-bold uppercase tracking-wider">{challenge.sub_judul}</span>
+                  <span className="text-amber-300 text-xs sm:text-sm font-bold uppercase tracking-widest">{challenge.sub_judul}</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white leading-[1.1] mb-6">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-black text-white leading-[1.08] tracking-tight">
                   {challenge.judul_challenge}
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8 max-w-xl">
+                <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-xl font-normal">
                   {challenge.deskripsi_challenge}
                 </p>
 
-                {/* Offline Mode & Gemini AI Badge */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <div className="inline-flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md px-5 py-3 rounded-2xl text-emerald-200 text-xs sm:text-sm font-medium">
+                {/* Badges & Direct AI Hub Button */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                  <div className="inline-flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md px-5 py-3.5 rounded-2xl text-emerald-200 text-xs sm:text-sm font-semibold">
                     <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
                     <span>
-                      <strong>Praktik Lapangan Direct:</strong> Pendampingan langsung oleh Fasilitator TAWSEC.
+                      <strong>Praktik Lapangan Direct:</strong> Pendampingan oleh Fasilitator TAWSEC.
                     </span>
                   </div>
 
@@ -249,45 +256,47 @@ export default async function ChallengePage() {
                     href="https://gemini.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm shadow-lg transition-all active:scale-95 border border-blue-400/30 shrink-0"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 hover:from-blue-500 hover:to-sky-400 text-white font-extrabold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all active:scale-95 border border-blue-300/30 shrink-0"
                   >
-                    <Sparkles className="w-4 h-4 text-blue-300" />
+                    <Sparkles className="w-4.5 h-4.5 text-sky-200" />
                     Buka Google Gemini AI ↗
                   </a>
                 </div>
               </div>
 
-              {/* Right Stats & Offline Card (5 cols) */}
+              {/* Right Column (Info Card & Quick Specs) */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="bg-white/[0.08] backdrop-blur-md border border-white/15 rounded-3xl p-6 shadow-2xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center">
-                      <BookOpen className="w-5 h-5 text-amber-400" />
+                <div className="bg-white/[0.07] backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-7 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/15">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg">
+                      <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-white text-lg">Modul Challenge Praktik</h3>
-                      <p className="text-slate-400 text-xs">Acuan kerja kelompok peserta</p>
+                      <h3 className="font-serif font-bold text-white text-xl">Modul Praktik Kelompok</h3>
+                      <p className="text-slate-300 text-xs">Acuan kerja peserta pelatihan</p>
                     </div>
                   </div>
 
-                  <div className="space-y-3 pt-3 border-t border-white/10">
-                    <div className="flex items-center justify-between text-xs text-slate-300">
-                      <span className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-sky-400" /> Format Kelompok
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-200 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                      <span className="flex items-center gap-2 font-medium">
+                        <Users className="w-4.5 h-4.5 text-sky-400" /> Format Kelompok
                       </span>
-                      <span className="font-bold text-white">5 Tim Peserta</span>
+                      <span className="font-bold text-white bg-sky-500/20 text-sky-300 px-3 py-1 rounded-xl">5 Tim Peserta</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-slate-300">
-                      <span className="flex items-center gap-2">
-                        <UserIcon className="w-4 h-4 text-emerald-400" /> Komposisi Tim
+
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-200 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                      <span className="flex items-center gap-2 font-medium">
+                        <UserIcon className="w-4.5 h-4.5 text-emerald-400" /> Komposisi Tim
                       </span>
-                      <span className="font-bold text-white">3 Peserta + 1 Fasilitator</span>
+                      <span className="font-bold text-white bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-xl">3 Peserta + 1 Fasilitator</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-slate-300">
-                      <span className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-blue-400" /> Powered by AI
+
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-200 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                      <span className="flex items-center gap-2 font-medium">
+                        <Sparkles className="w-4.5 h-4.5 text-blue-400" /> Engine AI Utama
                       </span>
-                      <span className="font-bold text-blue-300">Google Gemini AI</span>
+                      <span className="font-bold text-blue-300 bg-blue-500/20 px-3 py-1 rounded-xl">Google Gemini AI</span>
                     </div>
                   </div>
                 </div>
@@ -298,21 +307,21 @@ export default async function ChallengePage() {
       </section>
 
       {/* ================ NOTICE BANNER: PRAKTIK OFFLINE FIELDWORK ================ */}
-      <section className="-mt-8 relative z-20 max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="-mt-10 relative z-20 max-w-6xl mx-auto px-4 sm:px-6">
         <FadeIn>
-          <div className="bg-gradient-to-r from-sky-900 via-indigo-900 to-navy-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-sky-700/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="bg-gradient-to-r from-navy-900 via-indigo-900 to-sky-950 rounded-3xl p-6 sm:p-8 text-white shadow-2xl border border-sky-600/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center shrink-0 text-sky-300 mt-1">
-                <MapPin className="w-6 h-6" />
+              <div className="w-14 h-14 rounded-2xl bg-sky-500/20 border border-sky-400/50 flex items-center justify-center shrink-0 text-sky-300 mt-1 shadow-inner">
+                <MapPin className="w-7 h-7" />
               </div>
               <div>
-                <div className="inline-flex items-center gap-2 bg-sky-400/20 text-sky-300 px-3 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider mb-1">
-                  Praktik Langsung di Lapangan
+                <div className="inline-flex items-center gap-2 bg-sky-400/20 text-sky-300 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2 border border-sky-400/30">
+                  Praktik Langsung di Lapangan (Offline)
                 </div>
-                <h3 className="font-serif font-bold text-white text-lg sm:text-xl">
-                  Challenge Diuji &amp; Dipraktikkan Secara Offline
+                <h3 className="font-serif font-black text-white text-xl sm:text-2xl">
+                  Challenge Diuji &amp; Dipraktikkan Langsung di Lapangan
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm mt-1 leading-relaxed max-w-2xl">
+                <p className="text-slate-300 text-xs sm:text-base mt-1.5 leading-relaxed max-w-2xl font-normal">
                   {challenge.info_praktik}
                 </p>
               </div>
@@ -322,9 +331,9 @@ export default async function ChallengePage() {
               href={waFasilitatorLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-navy-950 font-bold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-lg transition-all shrink-0 whitespace-nowrap active:scale-95"
+              className="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-navy-950 font-extrabold px-7 py-4 rounded-2xl text-xs sm:text-sm shadow-xl transition-all shrink-0 whitespace-nowrap active:scale-95"
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-5 h-5" />
               Tanya Fasilitator TAWSEC
             </a>
           </div>
@@ -332,38 +341,41 @@ export default async function ChallengePage() {
       </section>
 
       {/* ================ SECTION: 2 CHALLENGE, 1 TUJUAN ================ */}
-      <section className="py-16 sm:py-20">
+      <section className="py-16 sm:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          {/* Main Section Header */}
           <FadeIn>
-            <div className="text-center mb-12">
-              <span className="text-sky-700 font-semibold text-xs uppercase tracking-widest bg-sky-50 px-3.5 py-1 rounded-full border border-sky-200">
-                Instruksi Praktik Mandiri &amp; Kelompok
+            <div className="text-center mb-14">
+              <span className="text-sky-700 font-extrabold text-xs uppercase tracking-widest bg-sky-100 px-4 py-1.5 rounded-full border border-sky-200">
+                Panduan Praktik Kelompok &amp; AI Scripting
               </span>
-              <h2 className="font-serif font-bold text-navy-900 text-3xl sm:text-4xl mt-3">
+              <h2 className="font-serif font-black text-navy-950 text-3xl sm:text-5xl mt-3 tracking-tight">
                 2 Challenge Utama, 1 Tujuan Pemberdayaan
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mt-2">
-                Bantu UMKM lokal meningkatkan daya tarik produk olahan laut melalui branding yang kuat dan strategi promosi digital yang efektif.
+              <p className="text-slate-600 text-base sm:text-lg max-w-3xl mx-auto mt-3 leading-relaxed">
+                Bantu UMKM lokal meningkatkan daya saing produk olahan laut melalui branding yang kuat, desain visual modern, dan naskah promosi digital yang efektif.
               </p>
             </div>
           </FadeIn>
 
           {/* ================ GOOGLE GEMINI AI HUB BANNER ================ */}
           <FadeIn delay={0.08}>
-            <div className="mb-14 bg-gradient-to-r from-blue-900 via-indigo-900 to-navy-950 text-white rounded-3xl p-6 sm:p-8 border border-blue-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center shrink-0 shadow-lg text-white mt-1">
-                  <Sparkles className="w-6 h-6" />
+            <div className="mb-16 bg-gradient-to-r from-blue-950 via-indigo-900 to-navy-950 text-white rounded-3xl p-7 sm:p-10 border border-blue-500/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="flex items-start gap-5 relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center shrink-0 shadow-xl text-white mt-1">
+                  <Sparkles className="w-8 h-8 text-sky-200" />
                 </div>
                 <div>
-                  <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 px-3 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider mb-1">
-                    Mesin Utama AI: Google Gemini AI
+                  <div className="inline-flex items-center gap-2 bg-blue-500/25 text-blue-300 border border-blue-400/40 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2">
+                    Mesin Utama AI: Google Gemini AI (gemini.google.com)
                   </div>
-                  <h3 className="font-serif font-bold text-white text-xl">
-                    Eksplorasi Ide &amp; Branding Menggunakan Google Gemini AI
+                  <h3 className="font-serif font-black text-white text-2xl sm:text-3xl">
+                    Panduan &amp; Formulasi Prompt Google Gemini AI
                   </h3>
-                  <p className="text-slate-300 text-xs sm:text-sm mt-1 leading-relaxed max-w-2xl">
-                    Seluruh formulasi prompt di bawah ini dirancang khusus dan paling optimal digunakan pada <strong>Google Gemini AI</strong> (gratis &amp; tanpa perlu install aplikasi). Salin template prompt dan langsung coba di Google Gemini!
+                  <p className="text-slate-300 text-xs sm:text-base mt-2 leading-relaxed max-w-2xl">
+                    Seluruh formulasi prompt di bawah ini dirancang khusus dan paling optimal digunakan pada <strong>Google Gemini AI</strong> (gratis &amp; tanpa perlu install aplikasi). Salin template prompt dan langsung praktikkan di Google Gemini!
                   </p>
                 </div>
               </div>
@@ -372,9 +384,9 @@ export default async function ChallengePage() {
                 href="https://gemini.google.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-500 hover:to-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all shrink-0 active:scale-95 group"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-500 hover:to-indigo-700 text-white font-extrabold px-7 py-4 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all shrink-0 active:scale-95 group relative z-10"
               >
-                <Bot className="w-4.5 h-4.5" />
+                <Bot className="w-5 h-5 text-sky-100" />
                 Buka Google Gemini AI
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </a>
@@ -382,137 +394,157 @@ export default async function ChallengePage() {
           </FadeIn>
 
           {/* ================ CHALLENGE 1: BRAND MAKE OVER ================ */}
-          <div className="mb-20">
+          <div className="mb-24">
+            
+            {/* Header Challenge 1 */}
             <FadeIn>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-5 border-b-2 border-slate-200">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center shadow-sm">
-                    <Palette className="w-7 h-7 text-sky-600" />
+                  <div className="w-16 h-16 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-lg">
+                    <Palette className="w-8 h-8" />
                   </div>
                   <div>
-                    <span className="inline-block bg-sky-100 text-sky-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-1">
-                      Challenge 1
+                    <span className="inline-block bg-sky-100 text-sky-800 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider mb-1 border border-sky-300">
+                      CHALLENGE 1
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-navy-900">Brand Make Over</h3>
+                    <h3 className="text-3xl sm:text-4xl font-serif font-black text-navy-950">Brand Make Over</h3>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-3.5 py-1.5 rounded-full">
-                  Studi Kasus: Abon Ikan / Amplang / Tepung Tulang
+                <span className="text-xs sm:text-sm font-bold text-slate-700 bg-white border border-slate-300 px-4 py-2 rounded-2xl shadow-sm">
+                  🎯 Studi Kasus: Abon Ikan / Amplang / Tepung Tulang
                 </span>
               </div>
             </FadeIn>
 
             {/* Visual Reference Photo Showcase Card */}
             <FadeIn delay={0.1}>
-              <div className="mb-10 bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-md overflow-hidden">
-                <div className="flex items-center gap-2 mb-4">
-                  <ImageIcon className="w-5 h-5 text-sky-600" />
-                  <h4 className="font-bold text-navy-900 text-base">Visualisasi Referensi Packaging &amp; Brand Make Over</h4>
+              <div className="mb-12 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md overflow-hidden">
+                <div className="flex items-center gap-3 mb-4">
+                  <ImageIcon className="w-6 h-6 text-sky-600" />
+                  <h4 className="font-serif font-black text-navy-950 text-lg sm:text-xl">Visualisasi Referensi Packaging &amp; Brand Make Over</h4>
                 </div>
-                <div className="relative w-full h-[240px] sm:h-[360px] rounded-2xl overflow-hidden shadow-inner">
+                <div className="relative w-full h-[260px] sm:h-[400px] rounded-2xl overflow-hidden shadow-inner">
                   <Image
                     src={challenge.ref_brand_image || "/images/challenge/brand-makeover-ref.jpg"}
                     alt="Visualisasi Referensi Brand Make Over"
                     fill
                     className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white text-xs sm:text-sm font-medium drop-shadow">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5 text-white text-xs sm:text-base font-semibold drop-shadow-md">
                     📸 <strong>Visual Reference Guide:</strong> Contoh mockup stiker logo modern, kemasan pouch higienis, dan foto produk flatlay pencahayaan alami.
                   </div>
                 </div>
               </div>
             </FadeIn>
 
-            {/* Stepper Steps with Formulasi Prompt AI */}
-            <div className="relative ml-2 sm:ml-6">
+            {/* ================ STEPPER INSTRUCTIONS (PROMINENT TYPOGRAPHY & CARD HIERARCHY) ================ */}
+            <div className="space-y-8">
               {brandSteps.map((step, idx) => {
                 const IconComp = step.icon;
-                const isLast = idx === brandSteps.length - 1;
                 return (
-                  <FadeIn key={step.num} delay={idx * 0.06}>
-                    <div className="flex gap-4 sm:gap-6">
-                      {/* Timeline Column */}
-                      <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-sky-500 to-sky-700 text-white flex items-center justify-center font-bold text-sm shadow-lg z-10 shrink-0 ring-4 ring-sky-100">
-                          {step.num}
+                  <FadeIn key={step.num} delay={idx * 0.05}>
+                    <div className="bg-white border-2 border-slate-200 hover:border-sky-300 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                      
+                      {/* Top Bar: Number Badge + Step Title */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-700 text-white flex items-center justify-center font-black text-xl shadow-lg shrink-0">
+                            {step.num}
+                          </div>
+                          <div>
+                            <div className="text-xs font-extrabold text-sky-600 uppercase tracking-widest mb-0.5">
+                              {step.subtitle}
+                            </div>
+                            <h4 className="font-serif font-black text-navy-950 text-xl sm:text-2xl leading-snug">
+                              {step.title}
+                            </h4>
+                          </div>
                         </div>
-                        {!isLast && <div className="w-0.5 flex-1 bg-gradient-to-b from-sky-300 to-sky-100 mt-1" />}
+
+                        <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-3.5 py-1.5 rounded-xl">
+                          <IconComp className="w-4 h-4 text-sky-600" />
+                          <span>Tahap {step.num} / 06</span>
+                        </div>
                       </div>
 
-                      {/* Content Card */}
-                      <div className={`bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex-1 ${isLast ? 'mb-0' : 'mb-5'}`}>
-                        <div className="flex items-center gap-2.5 mb-2">
-                          <IconComp className="w-5 h-5 text-sky-600" />
-                          <h4 className="font-bold text-navy-900 text-base">{step.title}</h4>
-                        </div>
-                        <p className="text-slate-600 text-sm leading-relaxed mb-4">{step.desc}</p>
+                      {/* Description */}
+                      <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-6 font-normal">
+                        {step.desc}
+                      </p>
 
-                        {/* Formulasi Prompt Google Gemini AI Box */}
-                        {step.promptRumus && (
-                          <div className="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 mb-4 border border-slate-800 shadow-md">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800">
-                              <div className="flex items-center gap-2">
-                                <Bot className="w-4.5 h-4.5 text-sky-400" />
-                                <span className="text-sky-300 font-bold text-xs uppercase tracking-wider">Formulasi Prompt Google Gemini AI</span>
+                      {/* Formulasi Prompt Google Gemini AI Box */}
+                      {step.promptRumus && (
+                        <div className="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 mb-6 border border-slate-800 shadow-xl">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-sky-500/20 flex items-center justify-center text-sky-400">
+                                <Bot className="w-5 h-5" />
                               </div>
-                              <a
-                                href="https://gemini.google.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[10px] font-bold bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded-lg transition-colors w-fit shadow-sm"
-                              >
-                                <span>Buka Google Gemini</span>
-                                <ExternalLink className="w-3 h-3" />
-                              </a>
+                              <span className="text-sky-300 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+                                Formulasi Prompt Google Gemini AI
+                              </span>
                             </div>
-
-                            <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3 rounded-xl border border-slate-800 mb-3">
-                              <span className="text-amber-400 font-bold">📌 Rumus Formulasi: </span>{step.promptRumus}
-                            </div>
-
-                            <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-3.5 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
-                              <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Siap Pakai di Google Gemini (Salin &amp; Sesuaikan Idemu):</span>
-                              &ldquo;{step.promptExample}&rdquo;
-                            </div>
+                            
+                            <a
+                              href="https://gemini.google.com/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-extrabold bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-1.5 rounded-xl transition-all shadow-md w-fit"
+                            >
+                              <span>Buka Google Gemini</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
                           </div>
-                        )}
 
-                        {/* Tips Box */}
-                        <div className="bg-sky-50 border border-sky-100 rounded-xl p-4 mb-3">
-                          <div className="flex items-center gap-2 mb-2.5">
-                            <Lightbulb className="w-4 h-4 text-sky-600" />
-                            <span className="text-sky-800 font-bold text-xs uppercase tracking-wider">Tips &amp; Tutorial Praktis</span>
+                          {/* Rumus Formulasi */}
+                          <div className="text-xs sm:text-sm text-slate-200 font-mono bg-slate-900 p-3.5 rounded-xl border border-slate-800 mb-3 leading-relaxed">
+                            <strong className="text-amber-400 uppercase tracking-wider font-sans block mb-1">📌 RUMUS FORMULASI:</strong>
+                            {step.promptRumus}
                           </div>
-                          <ul className="space-y-1.5">
-                            {step.tips.map((tip, i) => (
-                              <li key={i} className="flex items-start gap-2 text-xs sm:text-sm text-sky-900">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-sky-500 mt-0.5 shrink-0" />
-                                <span>{tip}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
 
-                        {/* Example */}
-                        <div className="bg-slate-50 border border-slate-100 rounded-lg px-4 py-2.5 mb-3">
-                          <p className="text-xs text-slate-700 italic">
-                            <span className="font-semibold text-navy-800 not-italic">Contoh Hasil: </span>{step.example}
-                          </p>
+                          {/* Prompt Siap Pakai */}
+                          <div className="text-sm sm:text-base text-emerald-300 bg-emerald-950/40 p-4 rounded-xl border border-emerald-800/60 leading-relaxed">
+                            <strong className="text-emerald-400 font-bold block mb-1">💬 PROMPT SIAP PAKAI DI GOOGLE GEMINI:</strong>
+                            &ldquo;{step.promptExample}&rdquo;
+                          </div>
                         </div>
+                      )}
 
-                        {/* Reference Link */}
-                        <a
-                          href={step.refUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 hover:text-sky-800 transition-colors group"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          {step.refLabel}
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                        </a>
+                      {/* Tips & Instructions List */}
+                      <div className="bg-sky-50/80 border border-sky-150 rounded-2xl p-5 mb-5">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Lightbulb className="w-5 h-5 text-sky-600" />
+                          <span className="text-sky-900 font-extrabold text-xs uppercase tracking-wider">Tips &amp; Panduan Praktis</span>
+                        </div>
+                        <ul className="space-y-2">
+                          {step.tips.map((tip, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-navy-900 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-sky-600 mt-1 shrink-0" />
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
+
+                      {/* Concrete Example */}
+                      <div className="bg-amber-50/80 border border-amber-200 rounded-xl px-4 py-3 mb-4">
+                        <p className="text-xs sm:text-sm text-amber-900 font-medium">
+                          <strong className="text-amber-950 font-bold">Contoh Konkrit Hasil: </strong>{step.example}
+                        </p>
+                      </div>
+
+                      {/* External Reference Button */}
+                      <a
+                        href={step.refUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-sky-600 hover:text-sky-800 transition-colors group pt-2"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        {step.refLabel}
+                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </a>
                     </div>
                   </FadeIn>
                 );
@@ -522,63 +554,63 @@ export default async function ChallengePage() {
 
           {/* ================ CHALLENGE 2: VIDEO PROMOSI ================ */}
           <div>
+            
+            {/* Header Challenge 2 */}
             <FadeIn>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-5 border-b-2 border-slate-200">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center shadow-sm">
-                    <Video className="w-7 h-7 text-amber-600" />
+                  <div className="w-16 h-16 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-lg">
+                    <Video className="w-8 h-8" />
                   </div>
                   <div>
-                    <span className="inline-block bg-amber-100 text-amber-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-1">
-                      Challenge 2
+                    <span className="inline-block bg-amber-100 text-amber-800 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider mb-1 border border-amber-300">
+                      CHALLENGE 2
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-navy-900">Video Promosi Produk</h3>
+                    <h3 className="text-3xl sm:text-4xl font-serif font-black text-navy-950">Video Promosi Produk</h3>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-3.5 py-1.5 rounded-full">
-                  Format Shorts / Reels 15-30 Detik
+                <span className="text-xs sm:text-sm font-bold text-amber-900 bg-amber-50 border border-amber-300 px-4 py-2 rounded-2xl shadow-sm">
+                  🎥 Format Shorts / Reels (15-30 Detik)
                 </span>
               </div>
             </FadeIn>
 
             {/* Visual Reference Photo Showcase Card for Video */}
             <FadeIn delay={0.1}>
-              <div className="mb-10 bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-md overflow-hidden">
-                <div className="flex items-center gap-2 mb-4">
-                  <ImageIcon className="w-5 h-5 text-amber-600" />
-                  <h4 className="font-bold text-navy-900 text-base">Visualisasi Referensi Produksi Video Promosi (9:16)</h4>
+              <div className="mb-12 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md overflow-hidden">
+                <div className="flex items-center gap-3 mb-4">
+                  <ImageIcon className="w-6 h-6 text-amber-600" />
+                  <h4 className="font-serif font-black text-navy-950 text-lg sm:text-xl">Visualisasi Referensi Produksi Video Promosi (9:16)</h4>
                 </div>
-                <div className="relative w-full h-[240px] sm:h-[360px] rounded-2xl overflow-hidden shadow-inner">
+                <div className="relative w-full h-[260px] sm:h-[400px] rounded-2xl overflow-hidden shadow-inner">
                   <Image
                     src={challenge.ref_video_image || "/images/challenge/video-promosi-ref.jpg"}
                     alt="Visualisasi Referensi Video Promosi"
                     fill
                     className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white text-xs sm:text-sm font-medium drop-shadow">
-                    🎥 <strong>Visual Video Guide:</strong> Pengambilan gambar vertikal 9:16 menggunakan tripod HP, pencahayaan terang, dan penataan storytelling yang menarik.
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5 text-white text-xs sm:text-base font-semibold drop-shadow-md">
+                    🎥 <strong>Visual Video Guide:</strong> Pengambilan gambar vertikal 9:16 menggunakan tripod HP, pencahayaan terang, dan penataan alur adegan yang menarik selera.
                   </div>
                 </div>
               </div>
             </FadeIn>
 
-            {/* 4 Step Flow */}
+            {/* 4 Step Flow Cards */}
             <FadeIn delay={0.15}>
-              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
                 {videoSteps.map((vs, idx) => {
                   const VIcon = vs.icon;
                   return (
                     <StaggerItem key={idx}>
-                      <div className="bg-gradient-to-b from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 h-full relative">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                            {idx + 1}
-                          </div>
+                      <div className="bg-gradient-to-b from-amber-50 to-orange-50/60 border-2 border-amber-200 rounded-3xl p-6 h-full relative hover:shadow-lg transition-all">
+                        <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-base mb-4 shadow-md">
+                          {vs.num}
                         </div>
-                        <VIcon className="w-5 h-5 text-amber-600 mb-2" />
-                        <h4 className="font-bold text-navy-900 text-sm mb-1">{vs.title}</h4>
-                        <p className="text-slate-600 text-xs leading-relaxed">{vs.desc}</p>
+                        <VIcon className="w-6 h-6 text-amber-600 mb-3" />
+                        <h4 className="font-serif font-black text-navy-950 text-lg mb-2">{vs.title}</h4>
+                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{vs.desc}</p>
                       </div>
                     </StaggerItem>
                   );
@@ -588,15 +620,19 @@ export default async function ChallengePage() {
 
             {/* Formulasi Prompt AI Scripting Video */}
             <FadeIn delay={0.18}>
-              <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 mb-12 border border-slate-800 shadow-xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
-                      <Bot className="w-5 h-5" />
+              <div className="bg-slate-950 text-white rounded-3xl p-7 sm:p-10 mb-14 border border-slate-800 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                      <Bot className="w-7 h-7" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-base">Formulasi Prompt Google Gemini AI — Penulisan Script Video Promosi</h4>
-                      <p className="text-slate-400 text-xs">Gunakan Google Gemini AI untuk membuat naskah &amp; ide adegan video 15-30 detik secara otomatis</p>
+                      <h4 className="font-serif font-black text-white text-xl sm:text-2xl">
+                        Formulasi Prompt Google Gemini AI — Naskah Video Promosi
+                      </h4>
+                      <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
+                        Gunakan Google Gemini AI untuk menyusun naskah &amp; ide alur adegan video 15-30 detik secara otomatis
+                      </p>
                     </div>
                   </div>
 
@@ -604,20 +640,20 @@ export default async function ChallengePage() {
                     href="https://gemini.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-xl transition-colors w-fit shadow-md shrink-0"
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl transition-all shadow-md shrink-0 w-fit"
                   >
                     <span>Buka Google Gemini AI</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>
 
-                <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3.5 rounded-xl border border-slate-800 mb-3">
-                  <span className="text-amber-400 font-bold">📌 Rumus Naskah Video: </span>
-                  [Durasi 15-30 Detik] + [Produk] + [Target Pembeli] + [Struktur: 3 dtk Hook → 7 dtk Solusi/Keunggulan → 5 dtk CTA Beli]
+                <div className="text-xs sm:text-sm text-slate-200 font-mono bg-slate-900 p-4 rounded-xl border border-slate-800 mb-4 leading-relaxed">
+                  <strong className="text-amber-400 uppercase tracking-wider font-sans block mb-1">📌 RUMUS NASKAH VIDEO:</strong>
+                  [Durasi 15-30 Detik] + [Produk] + [Target Pembeli] + [Struktur: 3 dtk Hook → 7 dtk Solusi/Keunggulan → 5 dtk Call to Action Beli]
                 </div>
 
-                <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-4 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
-                  <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Script Video Siap Pakai di Google Gemini:</span>
+                <div className="text-sm sm:text-base text-emerald-300 bg-emerald-950/40 p-5 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
+                  <strong className="text-emerald-400 font-bold block mb-1">💬 PROMPT SCRIPT VIDEO SIAP PAKAI DI GOOGLE GEMINI:</strong>
                   &ldquo;Buatkan naskah dan alur adegan video pendek 15 detik (format Reels/TikTok) untuk promosi produk [Abon Ikan Tongkol / Kerupuk Kulit Ikan]. Struktur video: 3 detik pertama hook pembuka yang memancing selera makan, 7 detik penjelasan keunggulan rasa &amp; gizi, dan 5 detik ajakan pesan via WhatsApp [Nomor WA]. Sertakan juga ide visual adegan per detiknya.&rdquo;
                 </div>
               </div>
@@ -625,18 +661,25 @@ export default async function ChallengePage() {
 
             {/* Lembar Analisis Produk */}
             <FadeIn delay={0.2}>
-              <div className="mb-12">
-                <div className="flex items-center gap-2 mb-6">
-                  <FileText className="w-5 h-5 text-amber-500" />
-                  <h3 className="font-bold text-navy-900 text-lg">Lembar Analisis Produk</h3>
-                  <span className="text-slate-400 text-xs ml-2">( Jawab sebelum mulai pengambilan video )</span>
+              <div className="mb-14">
+                <div className="flex items-center gap-3 mb-6">
+                  <FileText className="w-6 h-6 text-amber-500" />
+                  <h3 className="font-serif font-black text-navy-950 text-xl sm:text-2xl">Lembar Analisis Produk</h3>
+                  <span className="text-slate-500 text-xs font-semibold">( Isi sebelum rekam video )</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {videoAnalysis.map((q) => (
-                    <div key={q.num} className="bg-amber-50/70 border border-amber-200 rounded-2xl p-5 hover:shadow-md transition-shadow">
-                      <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs mb-3 shadow-sm">{q.num}</div>
-                      <p className="text-navy-900 text-sm font-semibold mb-1">{q.question}</p>
-                      <p className="text-amber-700 text-xs italic">{q.hint}</p>
+                    <div key={q.num} className="bg-amber-50/80 border-2 border-amber-200 rounded-3xl p-6 hover:shadow-md transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-sm mb-4 shadow-md">
+                        {q.num}
+                      </div>
+                      <h4 className="font-serif font-black text-navy-950 text-base sm:text-lg mb-2">
+                        {q.question}
+                      </h4>
+                      <p className="text-amber-900 text-xs sm:text-sm italic font-medium bg-amber-100/60 p-2.5 rounded-xl border border-amber-200/60">
+                        💡 Hint: {q.hint}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -645,58 +688,58 @@ export default async function ChallengePage() {
 
             {/* Spesifikasi Video & Link Referensi */}
             <FadeIn delay={0.25}>
-              <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-300 rounded-3xl p-6 sm:p-8">
-                <div className="flex items-center gap-2 mb-5">
-                  <Sparkles className="w-5 h-5 text-amber-600" />
-                  <h3 className="font-bold text-navy-900 text-lg">Spesifikasi &amp; Tutorial Pengeditan Video</h3>
+              <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-300 rounded-3xl p-7 sm:p-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <Sparkles className="w-6 h-6 text-amber-600" />
+                  <h3 className="font-serif font-black text-navy-950 text-xl sm:text-2xl">Spesifikasi &amp; Tutorial Pengeditan Video</h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-white rounded-2xl p-4 border border-amber-200 text-center shadow-sm">
-                    <Clock className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                    <div className="font-bold text-navy-900 text-lg">15-30 detik</div>
-                    <p className="text-slate-500 text-xs">Durasi ideal Reels / Shorts</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+                  <div className="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-sm">
+                    <Clock className="w-8 h-8 text-amber-500 mx-auto mb-2" />
+                    <div className="font-serif font-black text-navy-950 text-xl">15-30 Detik</div>
+                    <p className="text-slate-500 text-xs mt-0.5">Durasi ideal Reels / Shorts</p>
                   </div>
-                  <div className="bg-white rounded-2xl p-4 border border-amber-200 text-center shadow-sm">
-                    <Camera className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                    <div className="font-bold text-navy-900 text-lg">Vertikal 9:16</div>
-                    <p className="text-slate-500 text-xs">Rasio penuh layar HP</p>
+                  <div className="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-sm">
+                    <Camera className="w-8 h-8 text-amber-500 mx-auto mb-2" />
+                    <div className="font-serif font-black text-navy-950 text-xl">Vertikal 9:16</div>
+                    <p className="text-slate-500 text-xs mt-0.5">Rasio penuh layar HP</p>
                   </div>
-                  <div className="bg-white rounded-2xl p-4 border border-amber-200 text-center shadow-sm">
-                    <Megaphone className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                    <div className="font-bold text-navy-900 text-lg">Wajib CTA</div>
-                    <p className="text-slate-500 text-xs">Ajakan beli / hubungi WA</p>
+                  <div className="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-sm">
+                    <Megaphone className="w-8 h-8 text-amber-500 mx-auto mb-2" />
+                    <div className="font-serif font-black text-navy-950 text-xl">Wajib CTA Beli</div>
+                    <p className="text-slate-500 text-xs mt-0.5">Ajakan pesan WhatsApp</p>
                   </div>
                 </div>
 
                 {/* Tutorial Links */}
-                <div className="mt-5 flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3">
                   <a
                     href="https://gemini.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-900 bg-blue-100 hover:bg-blue-200 px-3.5 py-2 rounded-xl transition-colors"
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-blue-950 bg-blue-100 hover:bg-blue-200 px-4 py-2.5 rounded-xl transition-colors border border-blue-200"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-4 h-4" />
                     Buat Naskah Video via Google Gemini AI
                   </a>
                   <a
                     href="https://www.youtube.com/results?search_query=tutorial+video+promosi+produk+makanan+hp"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-100 hover:bg-amber-200 px-3.5 py-2 rounded-xl transition-colors"
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-amber-950 bg-amber-100 hover:bg-amber-200 px-4 py-2.5 rounded-xl transition-colors border border-amber-200"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-4 h-4" />
                     Tutorial Video Promosi di HP (YouTube)
                   </a>
                   <a
                     href="https://www.capcut.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-100 hover:bg-amber-200 px-3.5 py-2 rounded-xl transition-colors"
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-amber-950 bg-amber-100 hover:bg-amber-200 px-4 py-2.5 rounded-xl transition-colors border border-amber-200"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    Unduh / Buka CapCut (Aplikasi Edit Gratis)
+                    <ExternalLink className="w-4 h-4" />
+                    Unduh CapCut (Aplikasi Edit Gratis)
                   </a>
                 </div>
               </div>
@@ -706,35 +749,35 @@ export default async function ChallengePage() {
       </section>
 
       {/* ================ 5 KATEGORI JUARA ================ */}
-      <section className="py-16 sm:py-20 bg-white border-y border-slate-100">
+      <section className="py-20 sm:py-24 bg-white border-y border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <FadeIn>
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-                <Trophy className="w-4 h-4" />
-                Apresiasi Hasil Karya
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 border border-amber-300 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-4">
+                <Trophy className="w-4 h-4 text-amber-600" />
+                Apresiasi &amp; Penghargaan
               </div>
-              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-navy-900 mb-3">
-                5 Kategori Juara Praktik
+              <h2 className="text-3xl sm:text-5xl font-serif font-black text-navy-950 mb-3">
+                5 Kategori Juara Praktik Kelompok
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
-                Setiap kelompok peserta memiliki peluang menang sesuai dengan keunggulan karya branding masing-masing.
+              <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg">
+                Setiap kelompok peserta memiliki kesempatan memenangkan penghargaan sesuai dengan aspek keunggulan karya masing-masing.
               </p>
             </div>
           </FadeIn>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8 max-w-6xl mx-auto">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
             {winners.map((w, idx) => {
               const WIcon = w.icon;
               const c = colorMap[w.color];
               return (
                 <StaggerItem key={idx}>
-                  <div className={`${c.bg} border ${c.border} rounded-2xl p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all h-full`}>
-                    <div className={`w-14 h-14 rounded-2xl ${c.iconBg} flex items-center justify-center mx-auto mb-3`}>
-                      <WIcon className={`w-7 h-7 ${c.text}`} />
+                  <div className={`${c.bg} border-2 ${c.border} rounded-3xl p-6 text-center hover:shadow-xl hover:-translate-y-1.5 transition-all h-full`}>
+                    <div className={`w-16 h-16 rounded-2xl ${c.iconBg} flex items-center justify-center mx-auto mb-4 shadow-sm`}>
+                      <WIcon className={`w-8 h-8 ${c.text}`} />
                     </div>
-                    <h3 className="font-serif font-bold text-navy-900 text-sm mb-1.5">{w.title}</h3>
-                    <p className="text-slate-500 text-xs leading-relaxed">{w.desc}</p>
+                    <h3 className="font-serif font-black text-navy-950 text-base sm:text-lg mb-2">{w.title}</h3>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{w.desc}</p>
                   </div>
                 </StaggerItem>
               );
@@ -744,19 +787,22 @@ export default async function ChallengePage() {
       </section>
 
       {/* ================ BOTTOM: HASIL KARYA ================ */}
-      <section className="py-12">
+      <section className="py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <FadeIn>
-            <div className="bg-slate-100 rounded-3xl p-8 text-center border border-slate-200 shadow-sm">
-              <p className="text-navy-900 font-semibold mb-3 text-base">
-                Ingin melihat publikasi &amp; galeri karya peserta challenge sebelumnya?
+            <div className="bg-gradient-to-r from-slate-100 to-slate-200 rounded-3xl p-8 sm:p-10 text-center border border-slate-300 shadow-md">
+              <h4 className="font-serif font-black text-navy-950 text-xl sm:text-2xl mb-2">
+                Dokumentasi &amp; Hasil Karya Peserta
+              </h4>
+              <p className="text-slate-600 mb-6 text-sm sm:text-base">
+                Ingin melihat publikasi kegiatan &amp; galeri hasil karya peserta challenge sebelumnya?
               </p>
               <Link 
                 href="/update"
-                className="inline-flex items-center gap-2 text-sky-600 font-bold hover:text-sky-700 transition-colors text-sm bg-white px-5 py-2.5 rounded-xl border border-sky-100 shadow-sm"
+                className="inline-flex items-center gap-2.5 text-sky-700 font-extrabold hover:text-sky-800 transition-colors text-sm sm:text-base bg-white px-6 py-3.5 rounded-2xl border border-sky-200 shadow-md hover:shadow-lg"
               >
                 Lihat di Halaman Update &amp; Berita
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5 text-sky-600" />
               </Link>
             </div>
           </FadeIn>
