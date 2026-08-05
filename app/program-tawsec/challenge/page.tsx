@@ -31,7 +31,9 @@ import {
   Eye,
   MapPin,
   HelpCircle,
-  ImageIcon
+  ImageIcon,
+  Bot,
+  Terminal
 } from 'lucide-react';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 import { getSiteSettings } from '@/lib/supabase/settings';
@@ -46,87 +48,97 @@ const brandSteps = [
     num: 1,
     icon: Tag,
     title: "Tentukan Nama Merek (Brand Name)",
-    desc: "Pilih nama yang mudah diingat, unik, dan mencerminkan produk olahan laut. Nama merek yang baik bisa berupa gabungan kata lokal + modern.",
+    desc: "Buat konsep ide nama brand khas olahan laut milik kelompokmu, lalu minta AI memberikan variasi nama yang unik dan berkesan modern.",
     tips: [
-      "Coba kombinasi kata: daerah + produk (misal: \"BanyuBon\", \"SangkaRasa\")",
-      "Pastikan nama mudah diucapkan & dieja",
-      "Cek Google apakah nama sudah dipakai brand lain",
+      "Coba kombinasi kata: daerah/bahasa Madura + nama produk (misal: \"BanyuBon\", \"SangkaRasa\")",
+      "Pastikan nama mudah diucapkan, dieja, dan tidak berkonotasi negatif",
+      "Cek di Google apakah nama tersebut sudah digunakan oleh brand lain",
     ],
     example: "Contoh nama merek: \"Sari Laut Nusantara\", \"Crispy Pesisir\", \"TulangMas\"",
     refLabel: "Panduan Membuat Nama Brand",
     refUrl: "https://www.canva.com/id_id/belajar/cara-membuat-nama-brand/",
+    promptRumus: "[Jenis Produk Olahan] + [Bahan Dasar/Keunggulan] + [Nuansa Kesan: Lokal / Modern / Gurih / Mewah]",
+    promptExample: "Berikan 5 ide nama brand yang unik dan berkesan modern untuk produk [Abon Ikan Tongkol / Kerupuk Kulit Ikan] khas Desa Banyusangka. Nama harus singkat, mudah diingat, bernuansa [lokal & profesional], dan belum pernah dipakai.",
   },
   {
     num: 2,
     icon: MessageSquare,
     title: "Buat Slogan / Tagline yang Menarik",
-    desc: "Tagline yang catchy membuat konsumen langsung ingat produkmu. Gunakan kalimat pendek, berirama, dan mengandung value produk.",
+    desc: "Susun pesan utama produkmu, lalu gunakan AI untuk memformulasikan slogan pendek yang berkesan dan persuasif.",
     tips: [
-      "Maksimal 5-8 kata, mudah diingat",
-      "Tonjolkan keunggulan: \"Dari Laut, Untuk Keluarga\"",
-      "Gunakan rima atau pengulangan bunyi",
+      "Maksimal 5-8 kata, gampang diingat dalam sekali dengar",
+      "Tonjolkan manfaat utama: \"Dari Laut Banyusangka, Untuk Keluarga Indonesia\"",
+      "Gunakan teknik rima atau pengulangan bunyi yang menyenangkan",
     ],
     example: "\"Renyah Alami dari Pesisir\" — \"Gurih Tanpa Pengawet\" — \"Olahan Laut, Rasa Rumahan\"",
     refLabel: "Tips Menulis Tagline yang Menarik",
     refUrl: "https://www.canva.com/id_id/belajar/tagline-adalah/",
+    promptRumus: "[Nama Brand] + [Produk] + [Keunggulan Utama: Tanpa Pengawet / Kalsium Tinggi / Gurih Alami] + [Kesan untuk Pembeli]",
+    promptExample: "Buatkan 5 pilihan slogan/tagline pendek dan catchy (maksimal 6 kata) untuk brand '[Nama Brand]' yang menjual [Kerupuk Kulit Ikan Crispy]. Keunggulan utama produk kami: [renyah alami, tanpa pengawet, hasil nelayan Banyusangka].",
   },
   {
     num: 3,
     icon: Sparkles,
-    title: "Desain Logo Menggunakan AI (Gemini)",
-    desc: "Gunakan Google Gemini (gratis!) untuk membuat logo. Berikan prompt yang spesifik mengenai warna, gaya, dan elemen visual yang diinginkan.",
+    title: "Desain Logo Menggunakan AI (Google Gemini)",
+    desc: "Tentukan konsep visual (elemen laut, warna, dan gaya), lalu minta AI Google Gemini atau Canva AI membuatkan draf gambar logo.",
     tips: [
-      "Buka gemini.google.com, ketik prompt desain logo",
-      "Contoh prompt: \"Buatkan logo minimalis untuk brand kerupuk ikan bernama [Nama], warna biru laut dan emas, bergaya modern\"",
-      "Download hasil, bisa diedit lagi di Canva jika perlu",
+      "Buka gemini.google.com, gunakan prompt deskriptif warna dan ikon",
+      "Sebutkan gaya desain: minimalis, vektor modern, atau ilustrasi mascot",
+      "Hasil gambar bisa di-download dan dirapikan kembali menggunakan aplikasi Canva",
     ],
-    example: "Prompt: \"Logo modern untuk abon ikan 'SariLaut', warna navy dan oranye, bentuk bulat dengan ikon ikan\"",
-    refLabel: "Buka Google Gemini",
+    example: "Prompt Gemini: \"Logo modern untuk abon ikan 'SariLaut', warna navy dan oranye, bentuk bulat dengan ikon ikan\"",
+    refLabel: "Buka Google Gemini (Gratis)",
     refUrl: "https://gemini.google.com/",
+    promptRumus: "Logo [Gaya Desain] + [Ikon Utama: Ikan / Laut / Mangkok] + [Nama Brand] + [Kombinasi Warna] + [Background Putih Clean]",
+    promptExample: "Buatkan gambar logo minimalis dan modern untuk brand olahan laut bernama '[Nama Brand]'. Gunakan ikon [ikan tongkol / gelombang laut / kemasan], warna utama [biru navy dan oranye emas], latar belakang putih bersih, gaya vektor profesional tanpa teks yang terlalu rumit.",
   },
   {
     num: 4,
     icon: Camera,
-    title: "Foto Produk (Teknik, Pencahayaan, Komposisi)",
-    desc: "Foto produk yang bagus bisa meningkatkan ketertarikan pembeli hingga 3x lipat. Gunakan pencahayaan alami dan background bersih.",
+    title: "Foto Produk & Ide Visual (Teknik, Pencahayaan, Komposisi)",
+    desc: "Gunakan HP untuk memfoto kemasan produk. Gunakan AI untuk mendapatkan ide penataan alas (styling), properti, dan sudut foto terbaik.",
     tips: [
-      "Gunakan cahaya alami (dekat jendela, jam 8-10 pagi)",
-      "Background putih polos atau kain bersih",
-      "Ambil dari beberapa sudut: atas, samping, 45 derajat",
-      "Tambahkan properti pendukung: daun, piring cantik",
+      "Gunakan cahaya alami matahari (dekat jendela, jam 8-10 pagi)",
+      "Latar belakang putih polos, alas kayu, atau kain berserat bersih",
+      "Ambil minimal 3 angle: 90° Flat Lay (atas), 45° Eye Level (depan), & Close-up tekstur produk",
     ],
-    example: "Ambil minimal 3 angle: tampak atas (flat lay), tampak samping (eye level), dan close-up detail produk",
+    example: "Ambil minimal 3 angle: tampak atas (flat lay), tampak depan, dan detail isi produk",
     refLabel: "Tutorial Foto Produk di HP",
     refUrl: "https://www.youtube.com/results?search_query=tutorial+foto+produk+makanan+hp",
+    promptRumus: "[Jenis Produk] + [Kemasan: Pouch/Toples] + [Properti Latar] + [Lighting Alami] + [Rekomendasi 3 Angle Kamera HP]",
+    promptExample: "Berikan ide konsep food styling dan susunan foto produk jualan untuk [Abon Ikan / Kerupuk Ikan] dalam [pouch transparan]. Jelaskan latar belakang yang cocok, properti pendukung (seperti daun salam, piring kayu, potongan cabai), serta 3 sudut pengambilan foto HP yang paling terlihat lezat.",
   },
   {
     num: 5,
     icon: FileText,
-    title: "Susun Caption Medsos",
-    desc: "Caption yang baik berisi: deskripsi produk, keunggulan, target pasar, dan Call to Action (CTA) yang jelas.",
+    title: "Susun Caption Medsos Penjualan",
+    desc: "Gabungkan keunggulan produk dan kontak pemesanan, lalu minta AI merangkai caption promosi yang membakar minat beli.",
     tips: [
-      "Baris 1: Hook — kalimat pembuka yang menarik perhatian",
-      "Baris 2-3: Keunggulan produk (bahan alami, tanpa pengawet, dll)",
-      "Baris akhir: CTA — \"Pesan sekarang via WA di bio!\"",
-      "Tambahkan hashtag relevan: #OlahanLaut #UMKM #BanyuSangka",
+      "Baris 1 (Hook): Kalimat pembuka yang memancing rasa ingin tahu",
+      "Baris 2-3 (Value): Keunggulan nutrisi & kelezatan produk",
+      "Baris Akhir (CTA): Ajakan pemesanan langsung via WhatsApp / marketplace",
     ],
     example: "\"Gurih, renyah, bikin nagih! Kerupuk kulit ikan asli Banyusangka — tanpa MSG, langsung dari nelayan. Pesan sekarang! WA 08xx\"",
     refLabel: "Contoh Caption Produk Makanan",
     refUrl: "https://www.canva.com/id_id/belajar/caption-jualan-makanan/",
+    promptRumus: "[Hook Penasaran] + [Keunggulan Produk] + [Harga/Promo] + [Call to Action WA + 5 Hashtag Relevan]",
+    promptExample: "Buatkan caption Instagram dan TikTok yang menjual untuk produk [Kerupuk Kulit Ikan / Abon Ikan]. Mulai dengan kalimat pembuka (hook) yang memancing rasa lapar, sebutkan keunggulan [tanpa pengawet & kaya kalsium], lalu beri ajakan beli via WhatsApp [Nomor WA]. Tambahkan 5 hashtag jualan populer.",
   },
   {
     num: 6,
     icon: Share2,
-    title: "Posting & Presentasi ke Panitia",
-    desc: "Posting hasil branding ke media sosial (IG/TikTok) dan presentasikan strategi branding-mu ke panitia untuk mendapat feedback langsung.",
+    title: "Posting & Presentasi Hasil Karya",
+    desc: "Unggah karya kelompok ke media sosial (IG/TikTok) dan presentasikan konsep branding yang telah dibuat kepada peserta pelatihan & panitia.",
     tips: [
-      "Posting di IG Feed/Reels atau TikTok dengan hashtag #TAWSECBanyusangka",
-      "Siapkan presentasi singkat (2-3 menit) tentang konsep brand-mu",
-      "Jelaskan: mengapa nama ini? siapa target? apa keunggulan?",
+      "Unggah postingan dengan hashtag resmi #TAWSECBanyusangka #DigitalisasiPesisir",
+      "Siapkan presentasi singkat (2-3 menit) tentang perjalanan konsep brand kelompokmu",
+      "Tunjukkan: Nama Brand, Slogan, Gambar Logo AI, Foto Produk HP, dan Caption Jualan",
     ],
-    example: "Format presentasi: Nama Brand > Tagline > Logo > Foto Produk > Caption > Strategi Penjualan",
+    example: "Urutan Presentasi: Nama Brand → Slogan → Logo AI → Foto Produk → Caption Jualan",
     refLabel: "Tips Presentasi Singkat",
     refUrl: "https://www.youtube.com/results?search_query=tips+presentasi+singkat+produk+umkm",
+    promptRumus: "[Nama Brand] + [Konsep Branding] + [Target Pembeli] + [Minta Feedback Perbaikan dari AI]",
+    promptExample: "Saya telah membuat konsep brand '[Nama Brand]' untuk [Abon Ikan Tongkol] dengan slogan '[Slogan]'. Target pembeli kami adalah [ibu rumah tangga & anak muda]. Berikan masukan perbaikan singkat untuk strategi pemasaran online kami.",
   },
 ];
 
@@ -367,7 +379,7 @@ export default async function ChallengePage() {
               </div>
             </FadeIn>
 
-            {/* Stepper Steps */}
+            {/* Stepper Steps with Formulasi Prompt AI */}
             <div className="relative ml-2 sm:ml-6">
               {brandSteps.map((step, idx) => {
                 const IconComp = step.icon;
@@ -391,6 +403,28 @@ export default async function ChallengePage() {
                         </div>
                         <p className="text-slate-600 text-sm leading-relaxed mb-4">{step.desc}</p>
 
+                        {/* Formulasi Prompt AI Box */}
+                        {step.promptRumus && (
+                          <div className="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 mb-4 border border-slate-800 shadow-md">
+                            <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+                              <div className="flex items-center gap-2">
+                                <Bot className="w-4 h-4 text-sky-400" />
+                                <span className="text-sky-300 font-bold text-xs uppercase tracking-wider">Formulasi Prompt AI (Google Gemini / ChatGPT)</span>
+                              </div>
+                              <span className="text-[10px] bg-sky-950 border border-sky-800 text-sky-300 px-2.5 py-0.5 rounded-full font-mono">Rumus &amp; Template</span>
+                            </div>
+
+                            <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3 rounded-xl border border-slate-800 mb-3">
+                              <span className="text-amber-400 font-bold">📌 Rumus Formulasi: </span>{step.promptRumus}
+                            </div>
+
+                            <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-3.5 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
+                              <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Siap Pakai (Salin &amp; Sesuaikan Idemu):</span>
+                              &ldquo;{step.promptExample}&rdquo;
+                            </div>
+                          </div>
+                        )}
+
                         {/* Tips Box */}
                         <div className="bg-sky-50 border border-sky-100 rounded-xl p-4 mb-3">
                           <div className="flex items-center gap-2 mb-2.5">
@@ -410,7 +444,7 @@ export default async function ChallengePage() {
                         {/* Example */}
                         <div className="bg-slate-50 border border-slate-100 rounded-lg px-4 py-2.5 mb-3">
                           <p className="text-xs text-slate-700 italic">
-                            <span className="font-semibold text-navy-800 not-italic">Contoh: </span>{step.example}
+                            <span className="font-semibold text-navy-800 not-italic">Contoh Hasil: </span>{step.example}
                           </p>
                         </div>
 
@@ -497,6 +531,31 @@ export default async function ChallengePage() {
                   );
                 })}
               </StaggerContainer>
+            </FadeIn>
+
+            {/* Formulasi Prompt AI Scripting Video */}
+            <FadeIn delay={0.18}>
+              <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 mb-12 border border-slate-800 shadow-xl">
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-800">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                    <Bot className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-base">Formulasi Prompt AI — Penulisan Script Video Promosi</h4>
+                    <p className="text-slate-400 text-xs">Gunakan AI untuk membuat naskah &amp; ide adegan video 15-30 detik secara otomatis</p>
+                  </div>
+                </div>
+
+                <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3.5 rounded-xl border border-slate-800 mb-3">
+                  <span className="text-amber-400 font-bold">📌 Rumus Naskah Video: </span>
+                  [Durasi 15-30 Detik] + [Produk] + [Target Pembeli] + [Struktur: 3 dtk Hook → 7 dtk Solusi/Keunggulan → 5 dtk CTA Beli]
+                </div>
+
+                <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-4 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
+                  <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Script Video Siap Pakai:</span>
+                  &ldquo;Buatkan naskah dan alur adegan video pendek 15 detik (format Reels/TikTok) untuk promosi produk [Abon Ikan Tongkol / Kerupuk Kulit Ikan]. Struktur video: 3 detik pertama hook pembuka yang memancing selera makan, 7 detik penjelasan keunggulan rasa &amp; gizi, dan 5 detik ajakan pesan via WhatsApp [Nomor WA]. Sertakan juga ide visual adegan per detiknya.&rdquo;
+                </div>
+              </div>
             </FadeIn>
 
             {/* Lembar Analisis Produk */}
