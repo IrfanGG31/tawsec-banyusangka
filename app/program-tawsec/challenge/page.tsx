@@ -40,7 +40,7 @@ import { getSiteSettings } from '@/lib/supabase/settings';
 
 export const metadata: Metadata = {
   title: "Challenge Digitalisasi & Branding — Pilar 3 TAWSEC",
-  description: "Media panduan instruksi praktik langsung Challenge Digitalisasi & Branding Pilar 3 TAWSEC — Brand Make Over dan Video Promosi produk olahan laut Desa Banyusangka.",
+  description: "Media panduan instruksi praktik langsung Challenge Digitalisasi & Branding Pilar 3 TAWSEC — Brand Make Over dan Video Promosi produk olahan laut Desa Banyusangka menggunakan Google Gemini AI.",
 };
 
 const brandSteps = [
@@ -48,7 +48,7 @@ const brandSteps = [
     num: 1,
     icon: Tag,
     title: "Tentukan Nama Merek (Brand Name)",
-    desc: "Buat konsep ide nama brand khas olahan laut milik kelompokmu, lalu minta AI memberikan variasi nama yang unik dan berkesan modern.",
+    desc: "Buat konsep ide nama brand khas olahan laut milik kelompokmu, lalu gunakan Google Gemini AI untuk memberikan ide variasi nama yang unik dan berkesan modern.",
     tips: [
       "Coba kombinasi kata: daerah/bahasa Madura + nama produk (misal: \"BanyuBon\", \"SangkaRasa\")",
       "Pastikan nama mudah diucapkan, dieja, dan tidak berkonotasi negatif",
@@ -64,7 +64,7 @@ const brandSteps = [
     num: 2,
     icon: MessageSquare,
     title: "Buat Slogan / Tagline yang Menarik",
-    desc: "Susun pesan utama produkmu, lalu gunakan AI untuk memformulasikan slogan pendek yang berkesan dan persuasif.",
+    desc: "Susun pesan utama produkmu, lalu gunakan Google Gemini AI untuk memformulasikan slogan pendek yang berkesan dan persuasif.",
     tips: [
       "Maksimal 5-8 kata, gampang diingat dalam sekali dengar",
       "Tonjolkan manfaat utama: \"Dari Laut Banyusangka, Untuk Keluarga Indonesia\"",
@@ -79,15 +79,15 @@ const brandSteps = [
   {
     num: 3,
     icon: Sparkles,
-    title: "Desain Logo Menggunakan AI (Google Gemini)",
-    desc: "Tentukan konsep visual (elemen laut, warna, dan gaya), lalu minta AI Google Gemini atau Canva AI membuatkan draf gambar logo.",
+    title: "Desain Logo Menggunakan Google Gemini AI",
+    desc: "Tentukan konsep visual (elemen laut, warna, dan gaya), lalu minta Google Gemini AI (gemini.google.com) membuatkan draf gambar logo.",
     tips: [
-      "Buka gemini.google.com, gunakan prompt deskriptif warna dan ikon",
+      "Buka gemini.google.com, gunakan prompt deskriptif warna dan ikon secara mendetail",
       "Sebutkan gaya desain: minimalis, vektor modern, atau ilustrasi mascot",
       "Hasil gambar bisa di-download dan dirapikan kembali menggunakan aplikasi Canva",
     ],
     example: "Prompt Gemini: \"Logo modern untuk abon ikan 'SariLaut', warna navy dan oranye, bentuk bulat dengan ikon ikan\"",
-    refLabel: "Buka Google Gemini (Gratis)",
+    refLabel: "Buka Google Gemini AI (gemini.google.com)",
     refUrl: "https://gemini.google.com/",
     promptRumus: "Logo [Gaya Desain] + [Ikon Utama: Ikan / Laut / Mangkok] + [Nama Brand] + [Kombinasi Warna] + [Background Putih Clean]",
     promptExample: "Buatkan gambar logo minimalis dan modern untuk brand olahan laut bernama '[Nama Brand]'. Gunakan ikon [ikan tongkol / gelombang laut / kemasan], warna utama [biru navy dan oranye emas], latar belakang putih bersih, gaya vektor profesional tanpa teks yang terlalu rumit.",
@@ -96,7 +96,7 @@ const brandSteps = [
     num: 4,
     icon: Camera,
     title: "Foto Produk & Ide Visual (Teknik, Pencahayaan, Komposisi)",
-    desc: "Gunakan HP untuk memfoto kemasan produk. Gunakan AI untuk mendapatkan ide penataan alas (styling), properti, dan sudut foto terbaik.",
+    desc: "Gunakan HP untuk memfoto kemasan produk. Gunakan Google Gemini AI untuk mendapatkan ide penataan alas (styling), properti, dan sudut foto terbaik.",
     tips: [
       "Gunakan cahaya alami matahari (dekat jendela, jam 8-10 pagi)",
       "Latar belakang putih polos, alas kayu, atau kain berserat bersih",
@@ -112,7 +112,7 @@ const brandSteps = [
     num: 5,
     icon: FileText,
     title: "Susun Caption Medsos Penjualan",
-    desc: "Gabungkan keunggulan produk dan kontak pemesanan, lalu minta AI merangkai caption promosi yang membakar minat beli.",
+    desc: "Gabungkan keunggulan produk dan kontak pemesanan, lalu minta Google Gemini AI merangkai caption promosi yang membakar minat beli.",
     tips: [
       "Baris 1 (Hook): Kalimat pembuka yang memancing rasa ingin tahu",
       "Baris 2-3 (Value): Keunggulan nutrisi & kelezatan produk",
@@ -137,7 +137,7 @@ const brandSteps = [
     example: "Urutan Presentasi: Nama Brand → Slogan → Logo AI → Foto Produk → Caption Jualan",
     refLabel: "Tips Presentasi Singkat",
     refUrl: "https://www.youtube.com/results?search_query=tips+presentasi+singkat+produk+umkm",
-    promptRumus: "[Nama Brand] + [Konsep Branding] + [Target Pembeli] + [Minta Feedback Perbaikan dari AI]",
+    promptRumus: "[Nama Brand] + [Konsep Branding] + [Target Pembeli] + [Minta Feedback Perbaikan dari Gemini AI]",
     promptExample: "Saya telah membuat konsep brand '[Nama Brand]' untuk [Abon Ikan Tongkol] dengan slogan '[Slogan]'. Target pembeli kami adalah [ibu rumah tangga & anak muda]. Berikan masukan perbaikan singkat untuk strategi pemasaran online kami.",
   },
 ];
@@ -236,12 +236,24 @@ export default async function ChallengePage() {
                   {challenge.deskripsi_challenge}
                 </p>
 
-                {/* Offline Mode Badge */}
-                <div className="inline-flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md px-5 py-3 rounded-2xl text-emerald-200 text-xs sm:text-sm font-medium">
-                  <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
-                  <span>
-                    <strong>Praktik Lapangan Direct:</strong> Pendampingan langsung oleh Fasilitator TAWSEC di lokasi pelatihan.
-                  </span>
+                {/* Offline Mode & Gemini AI Badge */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <div className="inline-flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md px-5 py-3 rounded-2xl text-emerald-200 text-xs sm:text-sm font-medium">
+                    <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
+                    <span>
+                      <strong>Praktik Lapangan Direct:</strong> Pendampingan langsung oleh Fasilitator TAWSEC.
+                    </span>
+                  </div>
+
+                  <a
+                    href="https://gemini.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm shadow-lg transition-all active:scale-95 border border-blue-400/30 shrink-0"
+                  >
+                    <Sparkles className="w-4 h-4 text-blue-300" />
+                    Buka Google Gemini AI ↗
+                  </a>
                 </div>
               </div>
 
@@ -273,9 +285,9 @@ export default async function ChallengePage() {
                     </div>
                     <div className="flex items-center justify-between text-xs text-slate-300">
                       <span className="flex items-center gap-2">
-                        <Award className="w-4 h-4 text-amber-400" /> Apresiasi
+                        <Sparkles className="w-4 h-4 text-blue-400" /> Powered by AI
                       </span>
-                      <span className="font-bold text-white">5 Kategori Juara</span>
+                      <span className="font-bold text-blue-300">Google Gemini AI</span>
                     </div>
                   </div>
                 </div>
@@ -323,7 +335,7 @@ export default async function ChallengePage() {
       <section className="py-16 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <FadeIn>
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <span className="text-sky-700 font-semibold text-xs uppercase tracking-widest bg-sky-50 px-3.5 py-1 rounded-full border border-sky-200">
                 Instruksi Praktik Mandiri &amp; Kelompok
               </span>
@@ -333,6 +345,39 @@ export default async function ChallengePage() {
               <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mt-2">
                 Bantu UMKM lokal meningkatkan daya tarik produk olahan laut melalui branding yang kuat dan strategi promosi digital yang efektif.
               </p>
+            </div>
+          </FadeIn>
+
+          {/* ================ GOOGLE GEMINI AI HUB BANNER ================ */}
+          <FadeIn delay={0.08}>
+            <div className="mb-14 bg-gradient-to-r from-blue-900 via-indigo-900 to-navy-950 text-white rounded-3xl p-6 sm:p-8 border border-blue-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center shrink-0 shadow-lg text-white mt-1">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 px-3 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider mb-1">
+                    Mesin Utama AI: Google Gemini AI
+                  </div>
+                  <h3 className="font-serif font-bold text-white text-xl">
+                    Eksplorasi Ide &amp; Branding Menggunakan Google Gemini AI
+                  </h3>
+                  <p className="text-slate-300 text-xs sm:text-sm mt-1 leading-relaxed max-w-2xl">
+                    Seluruh formulasi prompt di bawah ini dirancang khusus dan paling optimal digunakan pada <strong>Google Gemini AI</strong> (gratis &amp; tanpa perlu install aplikasi). Salin template prompt dan langsung coba di Google Gemini!
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://gemini.google.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-500 hover:to-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all shrink-0 active:scale-95 group"
+              >
+                <Bot className="w-4.5 h-4.5" />
+                Buka Google Gemini AI
+                <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
             </div>
           </FadeIn>
 
@@ -403,15 +448,23 @@ export default async function ChallengePage() {
                         </div>
                         <p className="text-slate-600 text-sm leading-relaxed mb-4">{step.desc}</p>
 
-                        {/* Formulasi Prompt AI Box */}
+                        {/* Formulasi Prompt Google Gemini AI Box */}
                         {step.promptRumus && (
                           <div className="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 mb-4 border border-slate-800 shadow-md">
-                            <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800">
                               <div className="flex items-center gap-2">
-                                <Bot className="w-4 h-4 text-sky-400" />
-                                <span className="text-sky-300 font-bold text-xs uppercase tracking-wider">Formulasi Prompt AI (Google Gemini / ChatGPT)</span>
+                                <Bot className="w-4.5 h-4.5 text-sky-400" />
+                                <span className="text-sky-300 font-bold text-xs uppercase tracking-wider">Formulasi Prompt Google Gemini AI</span>
                               </div>
-                              <span className="text-[10px] bg-sky-950 border border-sky-800 text-sky-300 px-2.5 py-0.5 rounded-full font-mono">Rumus &amp; Template</span>
+                              <a
+                                href="https://gemini.google.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[10px] font-bold bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded-lg transition-colors w-fit shadow-sm"
+                              >
+                                <span>Buka Google Gemini</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
                             </div>
 
                             <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3 rounded-xl border border-slate-800 mb-3">
@@ -419,7 +472,7 @@ export default async function ChallengePage() {
                             </div>
 
                             <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-3.5 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
-                              <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Siap Pakai (Salin &amp; Sesuaikan Idemu):</span>
+                              <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Siap Pakai di Google Gemini (Salin &amp; Sesuaikan Idemu):</span>
                               &ldquo;{step.promptExample}&rdquo;
                             </div>
                           </div>
@@ -536,14 +589,26 @@ export default async function ChallengePage() {
             {/* Formulasi Prompt AI Scripting Video */}
             <FadeIn delay={0.18}>
               <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 mb-12 border border-slate-800 shadow-xl">
-                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-800">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
-                    <Bot className="w-5 h-5" />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                      <Bot className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base">Formulasi Prompt Google Gemini AI — Penulisan Script Video Promosi</h4>
+                      <p className="text-slate-400 text-xs">Gunakan Google Gemini AI untuk membuat naskah &amp; ide adegan video 15-30 detik secara otomatis</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white text-base">Formulasi Prompt AI — Penulisan Script Video Promosi</h4>
-                    <p className="text-slate-400 text-xs">Gunakan AI untuk membuat naskah &amp; ide adegan video 15-30 detik secara otomatis</p>
-                  </div>
+
+                  <a
+                    href="https://gemini.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-xl transition-colors w-fit shadow-md shrink-0"
+                  >
+                    <span>Buka Google Gemini AI</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
 
                 <div className="text-xs text-slate-300 font-mono bg-slate-950 p-3.5 rounded-xl border border-slate-800 mb-3">
@@ -552,7 +617,7 @@ export default async function ChallengePage() {
                 </div>
 
                 <div className="text-xs sm:text-sm text-emerald-300 bg-emerald-950/40 p-4 rounded-xl border border-emerald-800/60 leading-relaxed font-sans">
-                  <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Script Video Siap Pakai:</span>
+                  <span className="text-emerald-400 font-bold block mb-1">💬 Prompt Script Video Siap Pakai di Google Gemini:</span>
                   &ldquo;Buatkan naskah dan alur adegan video pendek 15 detik (format Reels/TikTok) untuk promosi produk [Abon Ikan Tongkol / Kerupuk Kulit Ikan]. Struktur video: 3 detik pertama hook pembuka yang memancing selera makan, 7 detik penjelasan keunggulan rasa &amp; gizi, dan 5 detik ajakan pesan via WhatsApp [Nomor WA]. Sertakan juga ide visual adegan per detiknya.&rdquo;
                 </div>
               </div>
@@ -607,6 +672,15 @@ export default async function ChallengePage() {
                 {/* Tutorial Links */}
                 <div className="mt-5 flex flex-wrap gap-3">
                   <a
+                    href="https://gemini.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-900 bg-blue-100 hover:bg-blue-200 px-3.5 py-2 rounded-xl transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Buat Naskah Video via Google Gemini AI
+                  </a>
+                  <a
                     href="https://www.youtube.com/results?search_query=tutorial+video+promosi+produk+makanan+hp"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -623,15 +697,6 @@ export default async function ChallengePage() {
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     Unduh / Buka CapCut (Aplikasi Edit Gratis)
-                  </a>
-                  <a
-                    href="https://www.canva.com/id_id/belajar/cara-edit-video/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-100 hover:bg-amber-200 px-3.5 py-2 rounded-xl transition-colors"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    Panduan Edit Video di Canva
                   </a>
                 </div>
               </div>
