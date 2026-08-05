@@ -243,14 +243,24 @@ export default async function ChallengePage() {
                   {challenge.deskripsi_challenge}
                 </p>
 
-                {/* Badges & Direct AI Hub Button */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                {/* Badges & Action Buttons */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
                   <div className="inline-flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md px-5 py-3.5 rounded-2xl text-emerald-200 text-xs sm:text-sm font-semibold">
                     <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
                     <span>
                       <strong>Praktik Lapangan Direct:</strong> Pendampingan oleh Fasilitator TAWSEC.
                     </span>
                   </div>
+
+                  <a
+                    href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-extrabold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all active:scale-95 border border-amber-300/40 shrink-0"
+                  >
+                    <BookOpen className="w-4.5 h-4.5 text-amber-100" />
+                    Buka Materi Tutor (Canva) ↗
+                  </a>
 
                   <a
                     href="https://gemini.google.com/"
@@ -298,6 +308,16 @@ export default async function ChallengePage() {
                       </span>
                       <span className="font-bold text-blue-300 bg-blue-500/20 px-3 py-1 rounded-xl">Google Gemini AI</span>
                     </div>
+
+                    <a
+                      href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-extrabold py-3.5 rounded-2xl text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all border border-amber-300/40 active:scale-95"
+                    >
+                      <BookOpen className="w-4.5 h-4.5" />
+                      Buka Slide Materi Tutor (Canva) ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -327,15 +347,27 @@ export default async function ChallengePage() {
               </div>
             </div>
 
-            <a
-              href={waFasilitatorLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-navy-950 font-extrabold px-7 py-4 rounded-2xl text-xs sm:text-sm shadow-xl transition-all shrink-0 whitespace-nowrap active:scale-95"
-            >
-              <MessageSquare className="w-5 h-5" />
-              Tanya Fasilitator TAWSEC
-            </a>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <a
+                href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-navy-950 font-extrabold px-6 py-4 rounded-2xl text-xs sm:text-sm shadow-xl transition-all active:scale-95"
+              >
+                <BookOpen className="w-5 h-5" />
+                Materi Tutor (Canva)
+              </a>
+
+              <a
+                href={waFasilitatorLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-navy-950 font-extrabold px-7 py-4 rounded-2xl text-xs sm:text-sm shadow-xl transition-all active:scale-95"
+              >
+                <MessageSquare className="w-5 h-5" />
+                Tanya Fasilitator TAWSEC
+              </a>
+            </div>
           </div>
         </FadeIn>
       </section>

@@ -59,6 +59,7 @@ export interface ChallengeSettings {
   deskripsi_challenge: string;
   info_praktik: string;
   kontak_fasilitator: string;
+  link_materi_tutor: string;
   ref_brand_image: string;
   ref_video_image: string;
 }
@@ -146,6 +147,7 @@ export const defaultSettings: AllSettings = {
     deskripsi_challenge: "Tunjukkan kreativitas timmu dalam membangun brand dan membuat konten promosi produk olahan laut Desa Banyusangka secara langsung di lapangan!",
     info_praktik: "Praktik langsung (offline) dilaksanakan di Balai Desa Banyusangka didampingi oleh Fasilitator TAWSEC. Setiap tim mengolah 1 produk studi kasus.",
     kontak_fasilitator: "6285852278026",
+    link_materi_tutor: "https://canva.link/de2smsdgdgkp0so",
     ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
     ref_video_image: "/images/challenge/video-promosi-ref.jpg",
   },
