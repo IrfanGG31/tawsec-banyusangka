@@ -113,20 +113,32 @@ export default function UploadChallengePage() {
       const supabase = createClient();
       if (!supabase) throw new Error('Database connection failed');
 
-      // 1. Upload Image
-      const extension = file.name.split('.').pop();
+      // 1. Upload Image (Try 'challenge-uploads' first, fallback to 'galeri' bucket if not found)
+      const extension = file.name.split('.').pop() || 'jpg';
       const filename = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${extension}`;
-      const filePath = filename; // Using flat structure in bucket
+      
+      let targetBucket = 'challenge-uploads';
+      let filePath = filename;
 
-      const { error: uploadError } = await supabase.storage
-        .from('challenge-uploads')
-        .upload(filePath, file);
+      let { error: uploadError } = await supabase.storage
+        .from(targetBucket)
+        .upload(filePath, file, { cacheControl: '3600', upsert: true });
+
+      // Fallback to 'galeri' bucket if 'challenge-uploads' bucket is missing/not found
+      if (uploadError && (uploadError.message.toLowerCase().includes('not found') || uploadError.message.toLowerCase().includes('bucket'))) {
+        targetBucket = 'galeri';
+        filePath = `challenge/${filename}`;
+        const fallbackRes = await supabase.storage
+          .from(targetBucket)
+          .upload(filePath, file, { cacheControl: '3600', upsert: true });
+        uploadError = fallbackRes.error;
+      }
 
       if (uploadError) throw new Error('Gagal mengupload gambar: ' + uploadError.message);
 
       // 2. Get Public URL
       const { data: urlData } = supabase.storage
-        .from('challenge-uploads')
+        .from(targetBucket)
         .getPublicUrl(filePath);
 
       const publicUrl = urlData.publicUrl;
