@@ -293,6 +293,11 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
     link_materi_tutor: "https://canva.link/de2smsdgdgkp0so",
     ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
     ref_video_image: "/images/challenge/video-promosi-ref.jpg",
+    live_wall_aktif: true,
+    live_wall_judul: "Live Showcase Wall",
+    live_wall_deskripsi: "Karya peserta Challenge Digitalisasi & Branding ditampilkan secara realtime. Upload bukti karya kamu dan lihat hasilnya langsung di sini!",
+    kode_akses_event: "TAWSEC2026",
+    form_upload_aktif: true,
   });
 
   const [produkList, setProdukList] = useState<ProdukItem[]>(produkDefault as ProdukItem[]);
@@ -891,6 +896,79 @@ export default function SetupTab({ dbConnected }: SetupTabProps) {
               onUpload={uploadImage}
               showToast={showToast}
             />
+          </div>
+
+          {/* Live Wall Controls */}
+          <div className="mt-6 pt-6 border-t border-slate-800">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">⚡ Live Showcase Wall</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {/* Toggle Live Wall */}
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-xl px-4 py-3">
+                <div>
+                  <span className="text-xs font-medium text-slate-300">Live Wall Aktif</span>
+                  <p className="text-[10px] text-slate-500">Tampilkan section Live Wall di halaman Challenge</p>
+                </div>
+                <button
+                  onClick={() => setChallenge({ ...challenge, live_wall_aktif: !challenge.live_wall_aktif })}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                    challenge.live_wall_aktif ? 'bg-emerald-500' : 'bg-slate-700'
+                  }`}
+                >
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    challenge.live_wall_aktif ? 'translate-x-6' : 'translate-x-0'
+                  }`} />
+                </button>
+              </div>
+
+              {/* Toggle Form Upload */}
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-xl px-4 py-3">
+                <div>
+                  <span className="text-xs font-medium text-slate-300">Form Upload Aktif</span>
+                  <p className="text-[10px] text-slate-500">Buka/tutup form upload peserta (tutup setelah event selesai)</p>
+                </div>
+                <button
+                  onClick={() => setChallenge({ ...challenge, form_upload_aktif: !challenge.form_upload_aktif })}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                    challenge.form_upload_aktif ? 'bg-emerald-500' : 'bg-slate-700'
+                  }`}
+                >
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    challenge.form_upload_aktif ? 'translate-x-6' : 'translate-x-0'
+                  }`} />
+                </button>
+              </div>
+            </div>
+
+            <InputGroup
+              id="ch_lw_judul"
+              label="Judul Banner Live Wall"
+              value={challenge.live_wall_judul}
+              onChange={(v: string) => setChallenge({ ...challenge, live_wall_judul: v })}
+              placeholder="Live Showcase Wall"
+            />
+            <div className="mt-4">
+              <TextareaGroup
+                id="ch_lw_desc"
+                label="Deskripsi Banner Live Wall"
+                value={challenge.live_wall_deskripsi}
+                onChange={(v: string) => setChallenge({ ...challenge, live_wall_deskripsi: v })}
+                placeholder="Karya peserta ditampilkan secara realtime..."
+                rows={2}
+              />
+            </div>
+            <div className="mt-4">
+              <InputGroup
+                id="ch_kode_akses"
+                label="🔑 Kode Akses Event (diumumkan lisan ke peserta saat briefing)"
+                value={challenge.kode_akses_event}
+                onChange={(v: string) => setChallenge({ ...challenge, kode_akses_event: v })}
+                placeholder="TAWSEC2026"
+              />
+              <p className="text-[10px] text-slate-500 mt-1">Ganti kode ini sebelum setiap event baru. Peserta memasukkan kode ini sebelum upload.</p>
+            </div>
           </div>
         </div>
       </AccordionSection>

@@ -38,6 +38,7 @@ import {
 } from 'lucide-react';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 import { getSiteSettings } from '@/lib/supabase/settings';
+import LiveWall from '@/components/challenge/LiveWall';
 
 export const metadata: Metadata = {
   title: "Challenge Digitalisasi & Branding — Pilar 3 TAWSEC",
@@ -818,28 +819,14 @@ export default async function ChallengePage() {
         </div>
       </section>
 
-      {/* ================ BOTTOM: HASIL KARYA ================ */}
-      <section className="py-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <FadeIn>
-            <div className="bg-gradient-to-r from-slate-100 to-slate-200 rounded-3xl p-8 sm:p-10 text-center border border-slate-300 shadow-md">
-              <h4 className="font-serif font-black text-navy-950 text-xl sm:text-2xl mb-2">
-                Dokumentasi &amp; Hasil Karya Peserta
-              </h4>
-              <p className="text-slate-600 mb-6 text-sm sm:text-base">
-                Ingin melihat publikasi kegiatan &amp; galeri hasil karya peserta challenge sebelumnya?
-              </p>
-              <Link 
-                href="/update"
-                className="inline-flex items-center gap-2.5 text-sky-700 font-extrabold hover:text-sky-800 transition-colors text-sm sm:text-base bg-white px-6 py-3.5 rounded-2xl border border-sky-200 shadow-md hover:shadow-lg"
-              >
-                Lihat di Halaman Update &amp; Berita
-                <ChevronRight className="w-5 h-5 text-sky-600" />
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
+      {/* ================ LIVE SHOWCASE WALL ================ */}
+      {challenge.live_wall_aktif !== false && (
+        <LiveWall
+          judul={challenge.live_wall_judul || "Live Showcase Wall"}
+          deskripsi={challenge.live_wall_deskripsi || "Karya peserta Challenge Digitalisasi & Branding ditampilkan secara realtime."}
+          formAktif={challenge.form_upload_aktif !== false}
+        />
+      )}
     </div>
   );
 }

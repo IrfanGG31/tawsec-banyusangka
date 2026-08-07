@@ -62,6 +62,12 @@ export interface ChallengeSettings {
   link_materi_tutor: string;
   ref_brand_image: string;
   ref_video_image: string;
+  // Live Wall settings
+  live_wall_aktif: boolean;
+  live_wall_judul: string;
+  live_wall_deskripsi: string;
+  kode_akses_event: string;
+  form_upload_aktif: boolean;
 }
 
 export interface VarianItem {
@@ -150,6 +156,11 @@ export const defaultSettings: AllSettings = {
     link_materi_tutor: "https://canva.link/de2smsdgdgkp0so",
     ref_brand_image: "/images/challenge/brand-makeover-ref.jpg",
     ref_video_image: "/images/challenge/video-promosi-ref.jpg",
+    live_wall_aktif: true,
+    live_wall_judul: "Live Showcase Wall",
+    live_wall_deskripsi: "Karya peserta Challenge Digitalisasi & Branding ditampilkan secara realtime. Upload bukti karya kamu dan lihat hasilnya langsung di sini!",
+    kode_akses_event: "TAWSEC2026",
+    form_upload_aktif: true,
   },
   produk: produkDefault as ProdukItem[],
 };
