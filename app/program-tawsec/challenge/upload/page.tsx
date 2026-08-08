@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
-  Upload, ChevronRight, Lock, CheckCircle2, ArrowRight, 
+  Upload, ChevronRight, CheckCircle2, ArrowRight, 
   Image as ImageIcon, ExternalLink, X 
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -143,61 +143,7 @@ export default function UploadChallengePage() {
     setIsSuccess(false);
   };
 
-  if (!isVerified) {
-    return (
-      <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-900"></div>
-        
-        <div className="relative z-10 max-w-md w-full mx-auto bg-white rounded-3xl shadow-2xl p-8 border border-white/20 backdrop-blur-sm">
-          <div className="w-16 h-16 bg-sky-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-            <Lock className="w-8 h-8 text-sky-600" />
-          </div>
-          
-          <h2 className="text-3xl font-serif font-black text-slate-900 text-center mb-2">
-            Akses Challenge
-          </h2>
-          <p className="text-slate-500 text-center mb-8">
-            Masukkan kode akses event untuk melanjutkan ke halaman upload karya.
-          </p>
-          
-          <form onSubmit={handleVerifyCode} className="space-y-6">
-            <div>
-              <label htmlFor="kode" className="block text-sm font-semibold text-slate-700 mb-2">
-                Kode Akses Event
-              </label>
-              <input
-                id="kode"
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 uppercase tracking-widest text-center text-lg font-bold transition-all"
-                placeholder="XXXXXX"
-                required
-              />
-            </div>
-            
-            {verifyError && (
-              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100">
-                {verifyError}
-              </div>
-            )}
-            
-            <button
-              type="submit"
-              disabled={isVerifying}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold hover:from-sky-400 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all disabled:opacity-70"
-            >
-              {isVerifying ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>Verifikasi Kode <ArrowRight className="w-5 h-5" /></>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
