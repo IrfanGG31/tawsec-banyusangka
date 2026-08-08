@@ -164,15 +164,18 @@ export default function AdminDashboardPage() {
     if (dampRes.data) setDampakList(dampRes.data);
     if (dokRes.data) setDokumentasiList(dokRes.data);
 
-    if (subRes.data && !subRes.error && subRes.data.length > 0) {
-      setSubmissionsList(subRes.data);
-    } else {
-      // Fallback: load from site_settings (key: 'challenge_submissions_list')
+    // Fetch submissions via Admin API (which handles dual-storage & service role override)
+    try {
+      const subApiRes = await fetch("/api/challenge/admin");
+      const subApiData = await subApiRes.json();
+      if (subApiData?.items) {
+        setSubmissionsList(subApiData.items);
+      }
+    } catch {
+      // Fallback: load from site_settings
       const { data: setRes } = await supabase.from("site_settings").select("value").eq("key", "challenge_submissions_list").single();
       if (setRes?.value && Array.isArray(setRes.value)) {
         setSubmissionsList(setRes.value as SubmissionItem[]);
-      } else if (subRes.data) {
-        setSubmissionsList(subRes.data);
       }
     }
   };
@@ -517,26 +520,19 @@ export default function AdminDashboardPage() {
         created_at: (formData.created_at as string) || new Date().toISOString(),
       };
 
-      if (editingId) {
-        await supabase.from("challenge_submissions").update(itemToSave).eq("id", editingId);
-      } else {
-        await supabase.from("challenge_submissions").insert([itemToSave]);
-      }
-
-      setSubmissionsList(prev => {
-        let updatedList: SubmissionItem[];
-        if (editingId) {
-          updatedList = prev.map(s => s.id === editingId ? (itemToSave as SubmissionItem) : s);
-        } else {
-          updatedList = [itemToSave as SubmissionItem, ...prev];
+      try {
+        const res = await fetch("/api/challenge/admin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "save", item: itemToSave }),
+        });
+        const resData = await res.json();
+        if (resData?.items) {
+          setSubmissionsList(resData.items);
         }
-        supabase.from("site_settings").upsert({
-          key: "challenge_submissions_list",
-          value: updatedList,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: "key" });
-        return updatedList;
-      });
+      } catch {
+        alert("Gagal menyimpan submission ke database.");
+      }
 
       setIsModalOpen(false);
       return;
@@ -1013,11 +1009,11 @@ export default function AdminDashboardPage() {
                 <button
                   onClick={async () => {
                     setSubmissionsLoading(true);
-                    const supabase = createClient();
-                    if (supabase) {
-                      const { data } = await supabase.from("challenge_submissions").select("*").order("created_at", { ascending: false });
-                      if (data) setSubmissionsList(data);
-                    }
+                    try {
+                      const res = await fetch("/api/challenge/admin");
+                      const data = await res.json();
+                      if (data?.items) setSubmissionsList(data.items);
+                    } catch {}
                     setSubmissionsLoading(false);
                   }}
                   className="p-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 text-xs font-semibold transition-all border border-slate-700"
@@ -1104,17 +1100,19 @@ export default function AdminDashboardPage() {
                             </button>
                             <button
                               onClick={async () => {
-                                const supabase = createClient();
-                                if (!supabase) return;
                                 const newStatus = sub.status === 'tampil' ? 'disembunyikan' : 'tampil';
-                                const { error } = await supabase.from('challenge_submissions').update({ status: newStatus }).eq('id', sub.id);
-                                
-                                // Always update local state & fallback to site_settings
-                                setSubmissionsList(prev => {
-                                  const updated = prev.map(s => s.id === sub.id ? { ...s, status: newStatus as "tampil" | "disembunyikan" } : s);
-                                  supabase.from('site_settings').upsert({ key: 'challenge_submissions_list', value: updated, updated_at: new Date().toISOString() }, { onConflict: 'key' });
-                                  return updated;
-                                });
+                                // Optimistic UI update
+                                setSubmissionsList(prev => prev.map(s => s.id === sub.id ? { ...s, status: newStatus as "tampil" | "disembunyikan" } : s));
+
+                                try {
+                                  const res = await fetch("/api/challenge/admin", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ action: "toggle", id: sub.id, status: newStatus }),
+                                  });
+                                  const resData = await res.json();
+                                  if (resData?.items) setSubmissionsList(resData.items);
+                                } catch {}
                               }}
                               className={`p-1.5 rounded-lg transition-all ${
                                 sub.status === 'tampil'
@@ -1128,15 +1126,18 @@ export default function AdminDashboardPage() {
                             <button
                               onClick={async () => {
                                 if (!confirm(`Hapus permanen submission dari "${sub.nama_tim}"?`)) return;
-                                const supabase = createClient();
-                                if (!supabase) return;
-                                await supabase.from('challenge_submissions').delete().eq('id', sub.id);
-                                
-                                setSubmissionsList(prev => {
-                                  const updated = prev.filter(s => s.id !== sub.id);
-                                  supabase.from('site_settings').upsert({ key: 'challenge_submissions_list', value: updated, updated_at: new Date().toISOString() }, { onConflict: 'key' });
-                                  return updated;
-                                });
+                                // Optimistic UI update
+                                setSubmissionsList(prev => prev.filter(s => s.id !== sub.id));
+
+                                try {
+                                  const res = await fetch("/api/challenge/admin", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ action: "delete", id: sub.id }),
+                                  });
+                                  const resData = await res.json();
+                                  if (resData?.items) setSubmissionsList(resData.items);
+                                } catch {}
                               }}
                               className="p-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 transition-all"
                               title="Hapus Permanen"
