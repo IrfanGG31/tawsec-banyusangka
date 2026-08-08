@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { 
   Upload, ExternalLink, Trophy, Sparkles, Image as ImageIcon, 
-  Palette, Video, Play, Film, Layers 
+  Palette, Video, Play, Film, Layers, Volume2, VolumeX, Maximize2 
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -36,6 +36,7 @@ export default function LiveWall({
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<'semua' | 'brand' | 'video'>('semua');
+  const [unmutedVideos, setUnmutedVideos] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const supabase = createClient();
@@ -224,14 +225,51 @@ export default function LiveWall({
                   {/* Image/Video Thumbnail Showcase */}
                   <div className={`relative w-full ${isVideoCategory || isVideoFile ? 'aspect-[9/16]' : 'aspect-[4/5]'} overflow-hidden bg-slate-950`}>
                     {isVideoFile ? (
-                      <video
-                        src={sub.foto_bukti_url}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
+                      <>
+                        <video
+                          id={`video-${sub.id}`}
+                          src={sub.foto_bukti_url}
+                          autoPlay
+                          loop
+                          muted={!unmutedVideos[sub.id]}
+                          playsInline
+                          controlsList="nodownload"
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                        {/* Interactive Sound Toggle Button */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const isUnmuted = !!unmutedVideos[sub.id];
+                            const videoEl = document.getElementById(`video-${sub.id}`) as HTMLVideoElement | null;
+                            if (videoEl) {
+                              videoEl.muted = isUnmuted;
+                              if (!isUnmuted) {
+                                videoEl.play().catch(() => {});
+                              }
+                            }
+                            setUnmutedVideos(prev => ({ ...prev, [sub.id]: !isUnmuted }));
+                          }}
+                          className={`absolute bottom-16 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-xl backdrop-blur-md ${
+                            unmutedVideos[sub.id]
+                              ? 'bg-emerald-500 text-white border border-emerald-300 animate-pulse'
+                              : 'bg-black/70 hover:bg-black/90 text-amber-300 border border-amber-400/40'
+                          }`}
+                        >
+                          {unmutedVideos[sub.id] ? (
+                            <>
+                              <Volume2 className="w-3.5 h-3.5 text-white" />
+                              <span>Suara Aktif</span>
+                            </>
+                          ) : (
+                            <>
+                              <VolumeX className="w-3.5 h-3.5 text-amber-400" />
+                              <span>🔊 Nyalakan Suara</span>
+                            </>
+                          )}
+                        </button>
+                      </>
                     ) : (
                       <Image 
                         src={sub.foto_bukti_url} 
