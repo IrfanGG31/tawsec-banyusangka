@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Upload, ExternalLink, Trophy, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { 
+  Upload, ExternalLink, Trophy, Sparkles, Image as ImageIcon, 
+  Palette, Video, Play, Film, Layers 
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 type Submission = {
@@ -25,9 +28,14 @@ interface LiveWallProps {
   formAktif?: boolean;
 }
 
-export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Karya peserta Challenge Digitalisasi & Branding ditampilkan secara realtime.", formAktif = true }: LiveWallProps) {
+export default function LiveWall({ 
+  judul = "Live Showcase Wall", 
+  deskripsi = "Karya peserta Challenge Digitalisasi & Branding ditampilkan secara realtime.", 
+  formAktif = true 
+}: LiveWallProps) {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<'semua' | 'brand' | 'video'>('semua');
 
   useEffect(() => {
     const supabase = createClient();
@@ -84,6 +92,15 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
     };
   }, []);
 
+  const brandSubmissions = submissions.filter(s => s.challenge_type === 'Brand Make Over');
+  const videoSubmissions = submissions.filter(s => s.challenge_type === 'Video Promosi');
+
+  const filteredSubmissions = activeCategory === 'brand' 
+    ? brandSubmissions 
+    : activeCategory === 'video' 
+    ? videoSubmissions 
+    : submissions;
+
   if (loading) {
     return (
       <div id="live-wall" className="py-20 flex justify-center items-center">
@@ -102,13 +119,21 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
       `}</style>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-slate-900 to-indigo-900 rounded-3xl p-8 sm:p-12 mb-12 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
+        {/* Banner Section */}
+        <div className="bg-gradient-to-r from-slate-950 via-navy-950 to-indigo-950 rounded-3xl p-8 sm:p-12 mb-10 text-center relative overflow-hidden shadow-2xl border border-indigo-900/40">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          
           <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 border border-amber-400/40 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-4">
+              <Trophy className="w-4 h-4 text-amber-400" />
+              Live Showcase Wall Karya Peserta
+            </div>
+            
             <h2 className="text-3xl sm:text-5xl font-serif font-black text-white mb-4">
               {judul}
             </h2>
-            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
               {deskripsi}
             </p>
             
@@ -116,14 +141,14 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
               {formAktif && (
                 <Link 
                   href="/program-tawsec/challenge/upload"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-sky-500/30 transition-all transform hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-extrabold py-3.5 px-8 rounded-2xl shadow-xl hover:shadow-sky-500/30 transition-all transform hover:-translate-y-0.5 active:scale-95 text-sm sm:text-base border border-sky-400/40"
                 >
                   <Upload className="w-5 h-5" />
-                  Upload Hasil Karya Kamu
+                  Upload Hasil Karya Kamu ↗
                 </Link>
               )}
               
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium py-3 px-6 rounded-full">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold py-3.5 px-6 rounded-2xl text-xs sm:text-sm">
                 <Trophy className="w-5 h-5 text-amber-400" />
                 <span>🎉 {submissions.length} karya sudah diupload!</span>
               </div>
@@ -131,75 +156,146 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
           </div>
         </div>
 
-        {submissions.length === 0 ? (
-          <div className="bg-white rounded-3xl p-12 text-center shadow-lg border border-slate-200">
-            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        {/* 2 Main Showcase Sections Selector / Category Filter */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+          <button
+            onClick={() => setActiveCategory('semua')}
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all border ${
+              activeCategory === 'semua'
+                ? 'bg-navy-900 text-white border-navy-800 shadow-lg scale-105'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+          >
+            <Layers className="w-4 h-4 text-sky-500" />
+            <span>Semua Karya ({submissions.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('brand')}
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all border ${
+              activeCategory === 'brand'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-lg scale-105'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+          >
+            <Palette className="w-4 h-4 text-sky-400" />
+            <span>🎨 Section 1: Brand Make Over ({brandSubmissions.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('video')}
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all border ${
+              activeCategory === 'video'
+                ? 'bg-amber-600 text-white border-amber-500 shadow-lg scale-105'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+          >
+            <Video className="w-4 h-4 text-amber-400" />
+            <span>🎬 Section 2: Video Promosi &amp; Reels ({videoSubmissions.length})</span>
+          </button>
+        </div>
+
+        {/* Submissions Grid */}
+        {filteredSubmissions.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center shadow-md border border-slate-200">
+            <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <ImageIcon className="w-10 h-10 text-slate-400" />
             </div>
-            <h3 className="text-2xl font-serif font-bold text-slate-900 mb-2">Belum Ada Karya</h3>
-            <p className="text-slate-500 max-w-md mx-auto">
-              Jadilah yang pertama untuk mengunggah hasil karya terbaik tim kamu di sini!
+            <h3 className="text-2xl font-serif font-black text-slate-900 mb-2">Belum Ada Karya di Kategori Ini</h3>
+            <p className="text-slate-500 max-w-md mx-auto text-sm sm:text-base">
+              Jadilah tim pertama yang mengunggah karya terbaik kamu di kategori ini!
             </p>
           </div>
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-            {submissions.map((sub) => (
-              <div 
-                key={sub.id} 
-                className="break-inside-avoid bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all border border-slate-100 group"
-                style={sub.isNew ? { animation: 'fadeInUp 0.6s ease-out' } : undefined}
-              >
-                <div className="relative aspect-[4/5] w-full">
-                  <Image 
-                    src={sub.foto_bukti_url} 
-                    alt={`Karya dari ${sub.nama_tim}`}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute top-4 left-4 z-10 flex gap-2">
-                    <span className={`px-3 py-1 text-xs font-bold rounded-full text-white shadow-md ${
-                      sub.challenge_type === 'Brand Make Over' 
-                        ? 'bg-sky-500' 
-                        : 'bg-amber-500'
-                    }`}>
-                      {sub.challenge_type}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-slate-900 mb-1">{sub.nama_tim}</h3>
-                  <div className="flex items-center gap-1 text-sm font-medium text-slate-500 mb-4">
-                    <Sparkles className="w-4 h-4 text-amber-500" />
-                    Produk: <span className="text-slate-700">{sub.nama_produk}</span>
-                  </div>
-                  
-                  {sub.caption_singkat && (
-                    <p className="text-slate-600 text-sm mb-6 italic border-l-4 border-slate-200 pl-3">
-                      "{sub.caption_singkat}"
-                    </p>
-                  )}
-                  
-                  {sub.link_instagram ? (
-                    <a 
-                      href={sub.link_instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center w-full gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-colors border border-slate-200"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Lihat di Instagram
-                    </a>
-                  ) : (
-                    <div className="inline-flex items-center justify-center w-full gap-2 bg-sky-50 text-sky-700 font-semibold py-2 px-4 rounded-xl border border-sky-150 text-xs">
-                      <Sparkles className="w-3.5 h-3.5 text-sky-500" />
-                      Hasil Karya Peserta TAWSEC
+            {filteredSubmissions.map((sub) => {
+              const isVideo = sub.challenge_type === 'Video Promosi';
+              return (
+                <div 
+                  key={sub.id} 
+                  className={`break-inside-avoid bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border ${
+                    isVideo ? 'border-amber-200 hover:border-amber-400' : 'border-sky-200 hover:border-sky-400'
+                  } group relative`}
+                  style={sub.isNew ? { animation: 'fadeInUp 0.6s ease-out' } : undefined}
+                >
+                  {/* Image/Video Thumbnail Showcase */}
+                  <div className={`relative w-full ${isVideo ? 'aspect-[9/16]' : 'aspect-[4/5]'} overflow-hidden bg-slate-950`}>
+                    <Image 
+                      src={sub.foto_bukti_url} 
+                      alt={`Karya dari ${sub.nama_tim}`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                    {/* Reels Video Overlay Icon for Challenge 2 */}
+                    {isVideo && (
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="w-16 h-16 rounded-full bg-amber-500/90 text-white flex items-center justify-center shadow-2xl border-2 border-white/80 group-hover:scale-110 transition-transform">
+                          <Play className="w-8 h-8 fill-current translate-x-0.5" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Top Header Badges */}
+                    <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between gap-2">
+                      <span className={`px-3.5 py-1.5 text-xs font-black rounded-full text-white shadow-md flex items-center gap-1.5 border ${
+                        isVideo 
+                          ? 'bg-gradient-to-r from-amber-500 to-orange-600 border-amber-300/40' 
+                          : 'bg-gradient-to-r from-sky-500 to-blue-600 border-sky-300/40'
+                      }`}>
+                        {isVideo ? <Film className="w-3.5 h-3.5" /> : <Palette className="w-3.5 h-3.5" />}
+                        {sub.challenge_type}
+                      </span>
+
+                      {isVideo && (
+                        <span className="px-2.5 py-1 text-[10px] font-extrabold rounded-full bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/40">
+                          🎥 Reels 15-30s
+                        </span>
+                      )}
                     </div>
-                  )}
+
+                    {/* Bottom Title Overlay on Image */}
+                    <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 mb-1">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        <span>Studi Kasus: <strong>{sub.nama_produk}</strong></span>
+                      </div>
+                      <h3 className="text-xl font-serif font-black text-white leading-snug drop-shadow-md">
+                        {sub.nama_tim}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  {/* Card Content & Details */}
+                  <div className="p-6 space-y-4">
+                    {sub.caption_singkat && (
+                      <p className="text-slate-600 text-sm italic font-medium bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 leading-relaxed">
+                        &ldquo;{sub.caption_singkat}&rdquo;
+                      </p>
+                    )}
+                    
+                    {sub.link_instagram ? (
+                      <a 
+                        href={sub.link_instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center w-full gap-2 bg-gradient-to-r from-slate-900 to-indigo-950 hover:from-slate-800 hover:to-indigo-900 text-white font-extrabold py-3 px-4 rounded-2xl transition-all shadow-md active:scale-95 text-xs sm:text-sm"
+                      >
+                        <ExternalLink className="w-4 h-4 text-sky-400" />
+                        Lihat Postingan / Video Reels ↗
+                      </a>
+                    ) : (
+                      <div className="inline-flex items-center justify-center w-full gap-2 bg-slate-100 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs">
+                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        Karya Resmi Peserta TAWSEC
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
