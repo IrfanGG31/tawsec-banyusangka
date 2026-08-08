@@ -209,28 +209,42 @@ export default function LiveWall({
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {filteredSubmissions.map((sub) => {
-              const isVideo = sub.challenge_type === 'Video Promosi';
+              const isVideoCategory = sub.challenge_type === 'Video Promosi';
+              const lowerUrl = (sub.foto_bukti_url || '').toLowerCase();
+              const isVideoFile = lowerUrl.endsWith('.mp4') || lowerUrl.endsWith('.mov') || lowerUrl.endsWith('.webm') || lowerUrl.endsWith('.m4v') || lowerUrl.includes('/video/');
+
               return (
                 <div 
                   key={sub.id} 
                   className={`break-inside-avoid bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border ${
-                    isVideo ? 'border-amber-200 hover:border-amber-400' : 'border-sky-200 hover:border-sky-400'
+                    isVideoCategory ? 'border-amber-200 hover:border-amber-400' : 'border-sky-200 hover:border-sky-400'
                   } group relative`}
                   style={sub.isNew ? { animation: 'fadeInUp 0.6s ease-out' } : undefined}
                 >
                   {/* Image/Video Thumbnail Showcase */}
-                  <div className={`relative w-full ${isVideo ? 'aspect-[9/16]' : 'aspect-[4/5]'} overflow-hidden bg-slate-950`}>
-                    <Image 
-                      src={sub.foto_bukti_url} 
-                      alt={`Karya dari ${sub.nama_tim}`}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className={`relative w-full ${isVideoCategory || isVideoFile ? 'aspect-[9/16]' : 'aspect-[4/5]'} overflow-hidden bg-slate-950`}>
+                    {isVideoFile ? (
+                      <video
+                        src={sub.foto_bukti_url}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Image 
+                        src={sub.foto_bukti_url} 
+                        alt={`Karya dari ${sub.nama_tim}`}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-                    {/* Reels Video Overlay Icon for Challenge 2 */}
-                    {isVideo && (
+                    {/* Reels Video Overlay Icon if image is used for Video Promosi */}
+                    {isVideoCategory && !isVideoFile && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="w-16 h-16 rounded-full bg-amber-500/90 text-white flex items-center justify-center shadow-2xl border-2 border-white/80 group-hover:scale-110 transition-transform">
                           <Play className="w-8 h-8 fill-current translate-x-0.5" />
@@ -241,15 +255,15 @@ export default function LiveWall({
                     {/* Top Header Badges */}
                     <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between gap-2">
                       <span className={`px-3.5 py-1.5 text-xs font-black rounded-full text-white shadow-md flex items-center gap-1.5 border ${
-                        isVideo 
+                        isVideoCategory 
                           ? 'bg-gradient-to-r from-amber-500 to-orange-600 border-amber-300/40' 
                           : 'bg-gradient-to-r from-sky-500 to-blue-600 border-sky-300/40'
                       }`}>
-                        {isVideo ? <Film className="w-3.5 h-3.5" /> : <Palette className="w-3.5 h-3.5" />}
+                        {isVideoCategory ? <Film className="w-3.5 h-3.5" /> : <Palette className="w-3.5 h-3.5" />}
                         {sub.challenge_type}
                       </span>
 
-                      {isVideo && (
+                      {isVideoCategory && (
                         <span className="px-2.5 py-1 text-[10px] font-extrabold rounded-full bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/40">
                           🎥 Reels 15-30s
                         </span>

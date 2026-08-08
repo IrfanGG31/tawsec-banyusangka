@@ -28,13 +28,13 @@ export default function UploadChallengePage() {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       
-      if (selectedFile.size > 5 * 1024 * 1024) {
-        setSubmitError('Ukuran file maksimal 5MB');
+      if (selectedFile.size > 50 * 1024 * 1024) {
+        setSubmitError('Ukuran file maksimal 50MB');
         return;
       }
       
-      if (!selectedFile.type.startsWith('image/')) {
-        setSubmitError('Hanya file gambar yang diperbolehkan');
+      if (!selectedFile.type.startsWith('image/') && !selectedFile.type.startsWith('video/')) {
+        setSubmitError('Hanya file Foto (JPG, PNG) atau Video (MP4, MOV, WEBM) yang diperbolehkan');
         return;
       }
 
@@ -275,16 +275,20 @@ export default function UploadChallengePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Upload Screenshot Bukti *</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Upload Foto Karya / Video Reels (MP4, MOV) *</label>
                   <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-sky-400 hover:bg-sky-50/50 transition-all group">
                     <div className="space-y-2 text-center w-full">
                       {previewUrl ? (
-                        <div className="relative w-full aspect-video sm:aspect-[4/3] max-h-64 rounded-lg overflow-hidden bg-slate-100">
-                          <Image src={previewUrl} alt="Preview" fill className="object-contain" />
+                        <div className="relative w-full aspect-video sm:aspect-[4/3] max-h-64 rounded-lg overflow-hidden bg-slate-950">
+                          {file?.type.startsWith('video/') ? (
+                            <video src={previewUrl} controls autoPlay loop muted className="w-full h-full object-contain" />
+                          ) : (
+                            <Image src={previewUrl} alt="Preview" fill className="object-contain" />
+                          )}
                           <button
                             type="button"
                             onClick={clearFile}
-                            className="absolute top-2 right-2 p-1.5 bg-black/50 text-white rounded-full hover:bg-black/70 backdrop-blur-sm transition-colors"
+                            className="absolute top-2 right-2 p-1.5 bg-black/70 text-white rounded-full hover:bg-black/90 backdrop-blur-sm transition-colors z-20"
                           >
                             <X className="w-5 h-5" />
                           </button>
@@ -296,12 +300,12 @@ export default function UploadChallengePage() {
                           </div>
                           <div className="flex text-sm text-slate-600">
                             <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-bold text-sky-600 hover:text-sky-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500">
-                              <span>Upload file</span>
-                              <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} required />
+                              <span>Upload file Foto / Video</span>
+                              <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*,video/*,.mp4,.mov,.webm,.m4v" onChange={handleFileChange} required />
                             </label>
                             <p className="pl-1">atau drag and drop</p>
                           </div>
-                          <p className="text-xs text-slate-500 mt-2">PNG, JPG, GIF maksimal 5MB</p>
+                          <p className="text-xs text-slate-500 mt-2">PNG, JPG, MP4, MOV, WEBM maksimal 50MB</p>
                         </div>
                       )}
                     </div>
