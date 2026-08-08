@@ -163,7 +163,18 @@ export default function AdminDashboardPage() {
     if (updRes.data) setUpdatesList(updRes.data);
     if (dampRes.data) setDampakList(dampRes.data);
     if (dokRes.data) setDokumentasiList(dokRes.data);
-    if (subRes.data) setSubmissionsList(subRes.data);
+
+    if (subRes.data && !subRes.error && subRes.data.length > 0) {
+      setSubmissionsList(subRes.data);
+    } else {
+      // Fallback: load from site_settings (key: 'challenge_submissions_list')
+      const { data: setRes } = await supabase.from("site_settings").select("value").eq("key", "challenge_submissions_list").single();
+      if (setRes?.value && Array.isArray(setRes.value)) {
+        setSubmissionsList(setRes.value as SubmissionItem[]);
+      } else if (subRes.data) {
+        setSubmissionsList(subRes.data);
+      }
+    }
   };
 
   const loadLocalFallbacks = async () => {
@@ -1007,9 +1018,13 @@ export default function AdminDashboardPage() {
                         </td>
                         <td className="px-4 py-3 text-slate-300">{sub.nama_produk}</td>
                         <td className="px-4 py-3">
-                          <a href={sub.link_instagram} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 inline-flex items-center gap-1">
-                            <ExternalLink className="w-3 h-3" /> Buka
-                          </a>
+                          {sub.link_instagram ? (
+                            <a href={sub.link_instagram} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 inline-flex items-center gap-1">
+                              <ExternalLink className="w-3 h-3" /> Buka
+                            </a>
+                          ) : (
+                            <span className="text-slate-500">-</span>
+                          )}
                         </td>
                         <td className="px-4 py-3">
                           <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold ${
@@ -1031,9 +1046,13 @@ export default function AdminDashboardPage() {
                                 if (!supabase) return;
                                 const newStatus = sub.status === 'tampil' ? 'disembunyikan' : 'tampil';
                                 const { error } = await supabase.from('challenge_submissions').update({ status: newStatus }).eq('id', sub.id);
-                                if (!error) {
-                                  setSubmissionsList(prev => prev.map(s => s.id === sub.id ? { ...s, status: newStatus } : s));
-                                }
+                                
+                                // Always update local state & fallback to site_settings
+                                setSubmissionsList(prev => {
+                                  const updated = prev.map(s => s.id === sub.id ? { ...s, status: newStatus as "tampil" | "disembunyikan" } : s);
+                                  supabase.from('site_settings').upsert({ key: 'challenge_submissions_list', value: updated, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+                                  return updated;
+                                });
                               }}
                               className={`p-1.5 rounded-lg transition-all ${
                                 sub.status === 'tampil'
@@ -1049,10 +1068,13 @@ export default function AdminDashboardPage() {
                                 if (!confirm(`Hapus permanen submission dari "${sub.nama_tim}"?`)) return;
                                 const supabase = createClient();
                                 if (!supabase) return;
-                                const { error } = await supabase.from('challenge_submissions').delete().eq('id', sub.id);
-                                if (!error) {
-                                  setSubmissionsList(prev => prev.filter(s => s.id !== sub.id));
-                                }
+                                await supabase.from('challenge_submissions').delete().eq('id', sub.id);
+                                
+                                setSubmissionsList(prev => {
+                                  const updated = prev.filter(s => s.id !== sub.id);
+                                  supabase.from('site_settings').upsert({ key: 'challenge_submissions_list', value: updated, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+                                  return updated;
+                                });
                               }}
                               className="p-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 transition-all"
                               title="Hapus Permanen"

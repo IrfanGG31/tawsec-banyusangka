@@ -10,15 +10,10 @@ import {
 import { createClient } from '@/lib/supabase/client';
 
 export default function UploadChallengePage() {
-  const [isVerified, setIsVerified] = useState(false);
-  const [code, setCode] = useState('');
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verifyError, setVerifyError] = useState('');
-
   const [formData, setFormData] = useState({
     nama_tim: '',
-    challenge_type: '',
-    nama_produk: '',
+    challenge_type: 'Brand Make Over',
+    nama_produk: 'Abon Ikan',
     link_instagram: '',
     caption_singkat: ''
   });
@@ -28,40 +23,6 @@ export default function UploadChallengePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    const verified = sessionStorage.getItem('challenge_verified');
-    if (verified === 'true') {
-      setIsVerified(true);
-    }
-  }, []);
-
-  const handleVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsVerifying(true);
-    setVerifyError('');
-
-    try {
-      const res = await fetch('/api/challenge/verify-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kode: code })
-      });
-      
-      const data = await res.json();
-      
-      if (data.valid) {
-        sessionStorage.setItem('challenge_verified', 'true');
-        setIsVerified(true);
-      } else {
-        setVerifyError(data.message || 'Kode akses salah.');
-      }
-    } catch (err) {
-      setVerifyError('Terjadi kesalahan. Silakan coba lagi.');
-    } finally {
-      setIsVerifying(false);
-    }
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -102,18 +63,18 @@ export default function UploadChallengePage() {
     setIsSubmitting(true);
 
     try {
-      if (!formData.link_instagram.includes('instagram.com')) {
-        throw new Error('Link Instagram tidak valid');
+      if (!formData.nama_tim.trim()) {
+        throw new Error('Nama Tim wajib diisi');
       }
 
       if (!file) {
-        throw new Error('Silakan upload screenshot bukti');
+        throw new Error('Silakan upload gambar/foto hasil karya');
       }
 
       const supabase = createClient();
-      if (!supabase) throw new Error('Database connection failed');
+      if (!supabase) throw new Error('Koneksi database gagal');
 
-      // 1. Upload Image (Try 'challenge-uploads' first, fallback to 'galeri' bucket if not found)
+      // 1. Upload Image (Try 'challenge-uploads' first, fallback to 'galeri' bucket)
       const extension = file.name.split('.').pop() || 'jpg';
       const filename = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${extension}`;
       
@@ -124,7 +85,7 @@ export default function UploadChallengePage() {
         .from(targetBucket)
         .upload(filePath, file, { cacheControl: '3600', upsert: true });
 
-      // Fallback to 'galeri' bucket if 'challenge-uploads' bucket is missing/not found
+      // Fallback to 'galeri' bucket if 'challenge-uploads' is missing
       if (uploadError && (uploadError.message.toLowerCase().includes('not found') || uploadError.message.toLowerCase().includes('bucket'))) {
         targetBucket = 'galeri';
         filePath = `challenge/${filename}`;
@@ -143,20 +104,46 @@ export default function UploadChallengePage() {
 
       const publicUrl = urlData.publicUrl;
 
-      // 3. Insert Row
-      const { error: insertError } = await supabase
-        .from('challenge_submissions')
-        .insert({
-          nama_tim: formData.nama_tim,
-          challenge_type: formData.challenge_type,
-          nama_produk: formData.nama_produk,
-          link_instagram: formData.link_instagram,
-          caption_singkat: formData.caption_singkat,
-          foto_bukti_url: publicUrl,
-          status: 'tampil' // Default status
-        });
+      const newSubmission = {
+        id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        nama_tim: formData.nama_tim,
+        challenge_type: formData.challenge_type || 'Brand Make Over',
+        nama_produk: formData.nama_produk || 'Abon Ikan',
+        link_instagram: formData.link_instagram || '',
+        caption_singkat: formData.caption_singkat || '',
+        foto_bukti_url: publicUrl,
+        status: 'tampil',
+        created_at: new Date().toISOString()
+      };
 
-      if (insertError) throw new Error('Gagal menyimpan data: ' + insertError.message);
+      // 3. Try Insert to 'challenge_submissions' table
+      let { error: insertError } = await supabase
+        .from('challenge_submissions')
+        .insert(newSubmission);
+
+      // Fallback to 'site_settings' table if 'challenge_submissions' table is missing
+      if (insertError) {
+        const { data: existingSettings } = await supabase
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'challenge_submissions_list')
+          .single();
+
+        const currentList = Array.isArray(existingSettings?.value) ? existingSettings.value : [];
+        const updatedList = [newSubmission, ...currentList];
+
+        const { error: settingsError } = await supabase
+          .from('site_settings')
+          .upsert({
+            key: 'challenge_submissions_list',
+            value: updatedList,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'key' });
+
+        if (settingsError) {
+          throw new Error('Gagal menyimpan data: ' + insertError.message);
+        }
+      }
 
       setIsSuccess(true);
     } catch (err: any) {
@@ -346,7 +333,7 @@ export default function UploadChallengePage() {
                 </div>
 
                 <div>
-                  <label htmlFor="link_instagram" className="block text-sm font-bold text-slate-700 mb-2">Link Instagram Post *</label>
+                  <label htmlFor="link_instagram" className="block text-sm font-bold text-slate-700 mb-2">Link Instagram / Medsos (Opsional)</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <ExternalLink className="h-5 w-5 text-slate-400" />
@@ -357,9 +344,8 @@ export default function UploadChallengePage() {
                       name="link_instagram"
                       value={formData.link_instagram}
                       onChange={handleInputChange}
-                      required
-                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all bg-slate-50 focus:bg-white"
-                      placeholder="https://instagram.com/p/..."
+                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all bg-slate-50 focus:bg-white"
+                      placeholder="https://instagram.com/p/... (opsional)"
                     />
                   </div>
                 </div>

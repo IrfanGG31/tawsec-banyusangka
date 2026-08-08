@@ -38,14 +38,31 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
     }
 
     const fetchSubmissions = async () => {
-      const { data, error } = await supabase
+      // 1. Try fetching from 'challenge_submissions' table
+      const { data: tableData, error: tableError } = await supabase
         .from('challenge_submissions')
         .select('*')
         .eq('status', 'tampil')
         .order('created_at', { ascending: false });
 
-      if (data && !error) {
-        setSubmissions(data as Submission[]);
+      if (tableData && !tableError && tableData.length > 0) {
+        setSubmissions(tableData as Submission[]);
+        setLoading(false);
+        return;
+      }
+
+      // 2. Fallback: Fetch from 'site_settings' (key: 'challenge_submissions_list')
+      const { data: settingsData } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'challenge_submissions_list')
+        .single();
+
+      if (settingsData?.value && Array.isArray(settingsData.value)) {
+        const list = (settingsData.value as Submission[]).filter(s => s.status !== 'disembunyikan');
+        setSubmissions(list);
+      } else if (tableData && !tableError) {
+        setSubmissions(tableData as Submission[]);
       }
       setLoading(false);
     };
@@ -164,15 +181,22 @@ export default function LiveWall({ judul = "Live Showcase Wall", deskripsi = "Ka
                     </p>
                   )}
                   
-                  <a 
-                    href={sub.link_instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-full gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-colors border border-slate-200"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Lihat di Instagram
-                  </a>
+                  {sub.link_instagram ? (
+                    <a 
+                      href={sub.link_instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-full gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-colors border border-slate-200"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Lihat di Instagram
+                    </a>
+                  ) : (
+                    <div className="inline-flex items-center justify-center w-full gap-2 bg-sky-50 text-sky-700 font-semibold py-2 px-4 rounded-xl border border-sky-150 text-xs">
+                      <Sparkles className="w-3.5 h-3.5 text-sky-500" />
+                      Hasil Karya Peserta TAWSEC
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
