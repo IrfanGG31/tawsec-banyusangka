@@ -104,45 +104,23 @@ export default function UploadChallengePage() {
 
       const publicUrl = urlData.publicUrl;
 
-      const newSubmission = {
-        id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-        nama_tim: formData.nama_tim,
-        challenge_type: formData.challenge_type || 'Brand Make Over',
-        nama_produk: formData.nama_produk || 'Abon Ikan',
-        link_instagram: formData.link_instagram || '',
-        caption_singkat: formData.caption_singkat || '',
-        foto_bukti_url: publicUrl,
-        status: 'tampil',
-        created_at: new Date().toISOString()
-      };
+      // 3. Insert via Server API Handler (bypasses RLS & handles table fallbacks)
+      const res = await fetch('/api/challenge/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nama_tim: formData.nama_tim,
+          challenge_type: formData.challenge_type || 'Brand Make Over',
+          nama_produk: formData.nama_produk || 'Abon Ikan',
+          link_instagram: formData.link_instagram || '',
+          caption_singkat: formData.caption_singkat || '',
+          foto_bukti_url: publicUrl
+        })
+      });
 
-      // 3. Try Insert to 'challenge_submissions' table
-      let { error: insertError } = await supabase
-        .from('challenge_submissions')
-        .insert(newSubmission);
-
-      // Fallback to 'site_settings' table if 'challenge_submissions' table is missing
-      if (insertError) {
-        const { data: existingSettings } = await supabase
-          .from('site_settings')
-          .select('value')
-          .eq('key', 'challenge_submissions_list')
-          .single();
-
-        const currentList = Array.isArray(existingSettings?.value) ? existingSettings.value : [];
-        const updatedList = [newSubmission, ...currentList];
-
-        const { error: settingsError } = await supabase
-          .from('site_settings')
-          .upsert({
-            key: 'challenge_submissions_list',
-            value: updatedList,
-            updated_at: new Date().toISOString()
-          }, { onConflict: 'key' });
-
-        if (settingsError) {
-          throw new Error('Gagal menyimpan data: ' + insertError.message);
-        }
+      const submitRes = await res.json();
+      if (!submitRes.success) {
+        throw new Error(submitRes.message || 'Gagal menyimpan data ke database');
       }
 
       setIsSuccess(true);
