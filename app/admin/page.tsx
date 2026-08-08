@@ -254,6 +254,16 @@ export default function AdminDashboardPage() {
         deskripsi: "",
         link_gdrive: "",
       });
+    } else if (activeTab === "submissions") {
+      setFormData({
+        nama_tim: "",
+        challenge_type: "Brand Make Over",
+        nama_produk: "Abon Ikan",
+        link_instagram: "",
+        foto_bukti_url: "/images/challenge/brand-makeover-ref.jpg",
+        caption_singkat: "",
+        status: "tampil",
+      });
     }
     setIsModalOpen(true);
   };
@@ -492,7 +502,45 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    if (activeTab === "setup" || activeTab === "submissions") return;
+    if (activeTab === "setup") return;
+
+    if (activeTab === "submissions") {
+      const itemToSave = {
+        id: editingId || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`),
+        nama_tim: ((formData.nama_tim as string) || "Tim Peserta").trim(),
+        challenge_type: (formData.challenge_type as string) || "Brand Make Over",
+        nama_produk: (formData.nama_produk as string) || "Abon Ikan",
+        link_instagram: (formData.link_instagram as string) || "",
+        foto_bukti_url: (formData.foto_bukti_url as string) || (formData.foto as string) || "/images/challenge/brand-makeover-ref.jpg",
+        caption_singkat: (formData.caption_singkat as string) || "",
+        status: (formData.status as string) || "tampil",
+        created_at: (formData.created_at as string) || new Date().toISOString(),
+      };
+
+      if (editingId) {
+        await supabase.from("challenge_submissions").update(itemToSave).eq("id", editingId);
+      } else {
+        await supabase.from("challenge_submissions").insert([itemToSave]);
+      }
+
+      setSubmissionsList(prev => {
+        let updatedList: SubmissionItem[];
+        if (editingId) {
+          updatedList = prev.map(s => s.id === editingId ? (itemToSave as SubmissionItem) : s);
+        } else {
+          updatedList = [itemToSave as SubmissionItem, ...prev];
+        }
+        supabase.from("site_settings").upsert({
+          key: "challenge_submissions_list",
+          value: updatedList,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "key" });
+        return updatedList;
+      });
+
+      setIsModalOpen(false);
+      return;
+    }
 
     const tableMap: Record<Exclude<TabType, "setup" | "submissions">, string> = {
       progress: "progress_indicators",
@@ -956,6 +1004,13 @@ export default function AdminDashboardPage() {
                   {submissionsList.length} total submission
                 </span>
                 <button
+                  onClick={handleOpenAdd}
+                  className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-md transition-all active:scale-95"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Tambah Manual
+                </button>
+                <button
                   onClick={async () => {
                     setSubmissionsLoading(true);
                     const supabase = createClient();
@@ -1040,6 +1095,13 @@ export default function AdminDashboardPage() {
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => handleOpenEdit(sub as unknown as Record<string, unknown>)}
+                              className="p-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 transition-all"
+                              title="Edit Data Submission"
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                            </button>
                             <button
                               onClick={async () => {
                                 const supabase = createClient();
@@ -1764,6 +1826,127 @@ export default function AdminDashboardPage() {
                     />
                   </div>
                 </>
+              )}
+
+              {activeTab === "submissions" && (
+                <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">
+                      Nama Tim Peserta <span className="text-rose-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={(formData.nama_tim as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, nama_tim: e.target.value })}
+                      required
+                      placeholder="Contoh: Tim Bu Faiza"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1">Pilih Challenge</label>
+                      <select
+                        value={(formData.challenge_type as string) || "Brand Make Over"}
+                        onChange={(e) => setFormData({ ...formData, challenge_type: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                      >
+                        <option value="Brand Make Over">Brand Make Over</option>
+                        <option value="Video Promosi">Video Promosi</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1">Nama Produk</label>
+                      <select
+                        value={(formData.nama_produk as string) || "Abon Ikan"}
+                        onChange={(e) => setFormData({ ...formData, nama_produk: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                      >
+                        <option value="Abon Ikan">Abon Ikan</option>
+                        <option value="Amplang">Amplang</option>
+                        <option value="Tepung Tulang Ikan">Tepung Tulang Ikan</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1">Status Visibilitas</label>
+                      <select
+                        value={(formData.status as string) || "tampil"}
+                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                      >
+                        <option value="tampil">✓ Tampil di Live Wall</option>
+                        <option value="disembunyikan">✕ Sembunyikan</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1">Link Instagram (Opsional)</label>
+                      <input
+                        type="text"
+                        value={(formData.link_instagram as string) || ""}
+                        onChange={(e) => setFormData({ ...formData, link_instagram: e.target.value })}
+                        placeholder="https://instagram.com/..."
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Caption / Catatan Singkat</label>
+                    <textarea
+                      rows={2}
+                      value={(formData.caption_singkat as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, caption_singkat: e.target.value })}
+                      placeholder="Catatan karya peserta..."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Foto Bukti / Karya URL <span className="text-rose-400">*</span></label>
+                    {(formData.foto_bukti_url as string) && (
+                      <div className="mb-2 relative w-full h-32 rounded-xl overflow-hidden bg-slate-950 border border-slate-800">
+                        <img
+                          src={formData.foto_bukti_url as string}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            processFilesAndUpload(e.target.files);
+                          }
+                        }}
+                        id="submission-file-input"
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor="submission-file-input"
+                        className="flex flex-col items-center justify-center gap-1 p-3 rounded-xl border border-dashed text-xs font-bold cursor-pointer bg-sky-600/20 hover:bg-sky-600/40 text-sky-200 border-sky-500/40 shadow-sm"
+                      >
+                        <div className="flex items-center gap-2 text-xs font-extrabold text-white">
+                          <Upload className="w-3.5 h-3.5 text-sky-400" />
+                          Ganti / Upload Foto Karya dari Komputer
+                        </div>
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      value={(formData.foto_bukti_url as string) || ""}
+                      onChange={(e) => setFormData({ ...formData, foto_bukti_url: e.target.value, foto_url: e.target.value })}
+                      placeholder="https://... atau path gambar"
+                      className="w-full px-3 py-1 mt-2 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-300 font-mono"
+                    />
+                  </div>
+                </div>
               )}
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
