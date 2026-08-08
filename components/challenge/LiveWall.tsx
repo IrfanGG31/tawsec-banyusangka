@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { 
   Upload, ExternalLink, Trophy, Sparkles, Image as ImageIcon, 
-  Palette, Video, Play, Film, Layers, Volume2, VolumeX, Maximize2 
+  Palette, Video, Play, Film, Layers, Volume2, VolumeX, Maximize2, Download 
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -92,6 +92,26 @@ export default function LiveWall({
       supabase.removeChannel(channel);
     };
   }, []);
+
+  const handleDownloadMedia = (url: string, filename: string) => {
+    if (!url) return;
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        const ext = url.split('.').pop()?.split('?')[0] || 'file';
+        a.download = `${filename}.${ext}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(blobUrl);
+      })
+      .catch(() => {
+        window.open(url, '_blank');
+      });
+  };
 
   const brandSubmissions = submissions.filter(s => s.challenge_type === 'Brand Make Over');
   const videoSubmissions = submissions.filter(s => s.challenge_type === 'Video Promosi');
@@ -328,22 +348,29 @@ export default function LiveWall({
                       </p>
                     )}
                     
-                    {sub.link_instagram ? (
-                      <a 
-                        href={sub.link_instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center w-full gap-2 bg-gradient-to-r from-slate-900 to-indigo-950 hover:from-slate-800 hover:to-indigo-900 text-white font-extrabold py-3 px-4 rounded-2xl transition-all shadow-md active:scale-95 text-xs sm:text-sm"
+                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadMedia(sub.foto_bukti_url, `Karya_${sub.nama_tim.replace(/\s+/g, '_')}_${sub.nama_produk}`)}
+                        className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-4 rounded-2xl transition-all shadow-md active:scale-95 text-xs sm:text-sm"
                       >
-                        <ExternalLink className="w-4 h-4 text-sky-400" />
-                        Lihat Postingan / Video Reels ↗
-                      </a>
-                    ) : (
-                      <div className="inline-flex items-center justify-center w-full gap-2 bg-slate-100 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs">
-                        <Sparkles className="w-4 h-4 text-amber-500" />
-                        Karya Resmi Peserta TAWSEC
-                      </div>
-                    )}
+                        <Download className="w-4 h-4 text-emerald-200" />
+                        Download File Karya ⬇️
+                      </button>
+                      
+                      {sub.link_instagram && (
+                        <a 
+                          href={sub.link_instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full sm:w-auto flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-2xl transition-all text-xs shrink-0"
+                          title="Buka Link Instagram / Medsos"
+                        >
+                          <ExternalLink className="w-4 h-4 text-sky-400" />
+                          <span className="sm:hidden">Buka Link Medsos</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               );

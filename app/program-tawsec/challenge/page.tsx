@@ -34,7 +34,8 @@ import {
   Bot,
   Copy,
   Layers,
-  ArrowUpRight
+  ArrowUpRight,
+  Download
 } from 'lucide-react';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 import { getSiteSettings } from '@/lib/supabase/settings';
@@ -264,6 +265,16 @@ export default async function ChallengePage() {
                   </a>
 
                   <a
+                    href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-3.5 rounded-2xl text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all active:scale-95 border border-emerald-400/40 shrink-0"
+                  >
+                    <Download className="w-4.5 h-4.5 text-emerald-200" />
+                    Download Modul &amp; Panduan ⬇️
+                  </a>
+
+                  <a
                     href="https://gemini.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -314,10 +325,20 @@ export default async function ChallengePage() {
                       href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-extrabold py-3.5 rounded-2xl text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all border border-amber-300/40 active:scale-95"
+                      className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-extrabold py-3.5 px-4 rounded-2xl text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all border border-amber-300/40 active:scale-95"
                     >
                       <BookOpen className="w-4.5 h-4.5" />
                       Buka Slide Materi Tutor (Canva) ↗
+                    </a>
+
+                    <a
+                      href={challenge.link_materi_tutor || "https://canva.link/de2smsdgdgkp0so"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm shadow-md transition-all border border-emerald-400/30 active:scale-95"
+                    >
+                      <Download className="w-4.5 h-4.5 text-emerald-200" />
+                      Download Modul Materi &amp; Panduan ⬇️
                     </a>
                   </div>
                 </div>
